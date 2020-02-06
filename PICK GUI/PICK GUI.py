@@ -1452,7 +1452,7 @@ class Ui_MainWindow(QMainWindow):
         self.EventNamelabel_2.setText(_translate("MainWindow", "TimeLine Orientation"))
         self.pushButton_3.setText(_translate("MainWindow", "Zoom In"))
         self.TimeLine.setItemText(0, _translate("MainWindow", "Option1"))
-        self.label_7.setText(_translate("MainWindow", "<html><head/><body><p><img src=\"graph.png\"/></p></body></html>"))
+        self.label_7.setText(_translate("MainWindow", "<html><head/><body><p><img src=\"PICK GUI\graph.png\"/></p></body></html>"))
         self.TimeLine.setItemText(1, _translate("MainWindow", "Option 2"))
         self.EventNamelabel_3.setText(_translate("MainWindow", "Interval Units"))
         self.pushButton_4.setText(_translate("MainWindow", "Zoom Out"))
@@ -1523,7 +1523,7 @@ class Ui_MainWindow(QMainWindow):
         self.tableWidget_5.setSortingEnabled(__sortingEnabled)
         self.Tabs.setTabText(self.Tabs.indexOf(self.tab_8), _translate("MainWindow", "Table View"))
         self.EventNamelabel_8.setText(_translate("MainWindow", "Vector"))
-        self.label_8.setText(_translate("MainWindow", "<html><head/><body><p><img src=\"graph.png\"/></p></body></html>"))
+        self.label_8.setText(_translate("MainWindow", "<html><head/><body><p><img src=\"PICK GUI\graph.png\"/></p></body></html>"))
         self.pushButton_15.setText(_translate("MainWindow", "Zoom In"))
         self.TimeLine_5.setItemText(0, _translate("MainWindow", "Option1"))
         self.TimeLine_5.setItemText(1, _translate("MainWindow", "Option 2"))
@@ -1780,7 +1780,87 @@ class filterPopup(QDialog):
         buttonBox.rejected.connect(self.reject)
 
 
+class TeamConfig(QMainWindow):
+    switch_window = QtCore.pyqtSignal(str)
+    
+    def __init__(self, parent=None):
+        super().__init__()
+        self.title = 'Team configuration'
+        self.left = 10              #starting position from the left of the screen to the app
+        self.top = 50               #start position from the top of the screen to the app
+        self.width = 1250            #size
+        self.height = 800           #size
+        self.connectButton = QtWidgets.QPushButton('Connect',self)
+        self.initUI()
+    
+    def initUI(self):
+ 
 
+
+        #Title
+        WindowTitle = QtWidgets.QLabel("Team Configuration",self)
+        #WindowTitle.setText("Event Configuration                        ")
+        WindowTitle.move(((self.width/2)-108),50) 
+        WindowTitle.setMinimumSize(350,45)           #Is going to have 280 width of text
+        WindowTitle.setFont(QtGui.QFont("Roboto",20, QtGui.QFont.Bold))
+
+        #Checkbox if Lead
+        LeadCheck = QtWidgets.QCheckBox("Lead",self)
+        LeadCheck.move(((self.width/2)+155),150)         #pixes below the name so it looks like being in the same margin
+
+        #Lead IP Address Label
+        LeadLabel = QtWidgets.QLabel(self)
+        LeadLabel.setText("Lead IP Address")
+        LeadLabel.setMinimumSize(350,0)           #Is going to have 280 width of text
+        LeadLabel.move(((self.width/2)-180),145)
+        LeadLabel.setFont(QtGui.QFont("Roboto",12, QtGui.QFont.Helvetica))
+
+        #Lead IP address text
+        LeadIPAdd = QtWidgets.QLineEdit(self)
+        LeadIPAdd.move(((self.width/2)-28),150)         #pixes below the name so it looks like being in the same margin
+        LeadIPAdd.resize(140,28)
+        LeadIPAdd.setFont(QtGui.QFont("Roboto",11, QtGui.QFont.Helvetica))
+
+        #Label of established Connections
+        estabIP = QtWidgets.QLabel(self)
+        estabIP.setText("No. of established connections to the lead's IP address:")
+        estabIP.setMinimumSize(370,0)
+        estabIP.move(((self.width/2)-155),200)         #pixes below the name so it looks like being in the same margin
+        estabIP.setFont(QtGui.QFont("Roboto",11, QtGui.QFont.Helvetica))
+
+        #Number of Established connections
+        numConnected = QtWidgets.QLabel(self)
+        numConnected.setText("0")
+        numConnected.move(((self.width/2)+20),225)
+        numConnected.setFont(QtGui.QFont("Roboto",11, QtGui.QFont.Helvetica))
+
+        #button with the connections
+        #connectButton = QtWidgets.QPushButton('Connect',self)
+        self.connectButton.move(((self.width/2)-20),370)
+        
+        self.connectButton.clicked.connect(self.changeWindow)
+       
+        hbox = QHBoxLayout()
+        hbox.addStretch(4)
+        hbox.addWidget(numConnected)      
+        hbox.addWidget(estabIP)       
+        hbox.addWidget(LeadIPAdd)  
+        hbox.addWidget(LeadCheck)
+        hbox.addWidget(LeadLabel)
+        hbox.addWidget(WindowTitle)
+
+        vbox = QVBoxLayout()
+        vbox.addStretch(1)
+        vbox.addLayout(hbox)
+        self.setLayout(vbox)
+
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
+        self.show()
+        
+    def changeWindow(self):
+        self.close()
+       
 
 if __name__ == "__main__":
     import sys
@@ -1789,4 +1869,5 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
+    ex = TeamConfig()
     sys.exit(app.exec_())
