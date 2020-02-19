@@ -71,3 +71,13 @@ class Ui_Form(object):
         self.EventEndlabel.setText(_translate("Form", "Event End timestamp"))
         self.SaveEventBut.setText(_translate("Form", "Save Event"))
 
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_Form()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
+
+    
