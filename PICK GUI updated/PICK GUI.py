@@ -14,6 +14,7 @@ from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroup
         QVBoxLayout, QWidget, QStyle, QDialogButtonBox)
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
+import Event
 
 class Ui_MainWindow(QMainWindow):
     def setupUi(self, MainWindow):
@@ -1502,6 +1503,9 @@ class Ui_MainWindow(QMainWindow):
         exPopup = IconConfigDialog(self)
         exPopup.show()
 
+    def showEventConfig(self):
+        exPopup = Event.eventConfiguration(self)
+        exPopup.show()
 
 class IconDialog(QDialog):
    def __init__(self, parent):
