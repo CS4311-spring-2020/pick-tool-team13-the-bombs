@@ -14,6 +14,7 @@ from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroup
         QVBoxLayout, QWidget, QStyle, QDialogButtonBox)
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
+import Event
 
 class Ui_MainWindow(QMainWindow):
     def setupUi(self, MainWindow):
@@ -1492,6 +1493,7 @@ class Ui_MainWindow(QMainWindow):
         self.actionCommit.setText(_translate("MainWindow", "Commit"))
         self.actionChange_list.setText(_translate("MainWindow", "Change list"))
         self.actionEvent_Configuration.setText(_translate("MainWindow", "Event Configuration"))
+        self.actionEvent_Configuration.triggered.connect(self.showEventConfig)
 
     #Function called by pressing filter button
     def showFilter(self):
@@ -1502,6 +1504,9 @@ class Ui_MainWindow(QMainWindow):
         exPopup = IconConfigDialog(self)
         exPopup.show()
 
+    def showEventConfig(self):
+        exPopup = Event.eventConfiguration(self)
+        exPopup.show()
 
 class IconDialog(QDialog):
    def __init__(self, parent):
@@ -1673,4 +1678,6 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
+    event = Event.eventConfiguration(MainWindow)
+    event.show()
     sys.exit(app.exec_())
