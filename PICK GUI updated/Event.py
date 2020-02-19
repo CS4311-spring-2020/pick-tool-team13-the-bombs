@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QDialog
+import Diretory
 
 class eventConfiguration(QDialog):
     def __init__(self, parent=None):
@@ -59,6 +60,7 @@ class eventConfiguration(QDialog):
         self.SaveEventBut = QtWidgets.QPushButton(self)
         self.SaveEventBut.setGeometry(QtCore.QRect(650, 570, 483, 28))
         self.SaveEventBut.setObjectName("SaveEventBut")
+        self.SaveEventBut.clicked.connect(self.showDirConfig)
 
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
@@ -73,3 +75,7 @@ class eventConfiguration(QDialog):
         self.EventEndlabel.setText(_translate("self", "Event End timestamp"))
         self.SaveEventBut.setText(_translate("self", "Save Event"))
 
+    def showDirConfig(self):
+        exPopup = Diretory.directoryConfig(self)
+        exPopup.show()
+        self.close()

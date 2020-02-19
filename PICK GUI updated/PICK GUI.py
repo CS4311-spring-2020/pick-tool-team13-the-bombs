@@ -1678,4 +1678,6 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
+    event = Event.eventConfiguration(MainWindow)
+    event.show()
     sys.exit(app.exec_())
