@@ -7,8 +7,15 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroupBox, QWidget,QLineEdit,QDialogButtonBox, QLabel, QMainWindow, QAction, qApp, QPushButton, QDialog,QApplication, QCheckBox, QComboBox, QDateTimeEdit,
+        QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
+        QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
+        QSlider, QSpinBox, QStyleFactory, QTableWidget, QTabWidget, QTextEdit,
+        QVBoxLayout, QWidget, QStyle, QDialogButtonBox)
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import pyqtSlot
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QMainWindow):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1490, 961)
@@ -1153,6 +1160,7 @@ class Ui_MainWindow(object):
         self.Tabs.setTabText(self.Tabs.indexOf(self.LogFileConfiguration), _translate("MainWindow", "Log File Config"))
         self.LogEntryLabel.setText(_translate("MainWindow", "Log Entry Configuration"))
         self.LogEntryFilterBut.setText(_translate("MainWindow", "Filter"))
+        self.LogEntryFilterBut.clicked.connect(self.showFilter)
         self.LogEntryTable.setSortingEnabled(True)
         item = self.LogEntryTable.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "List Number"))
@@ -1337,6 +1345,7 @@ class Ui_MainWindow(object):
         self.GraphViewDeleteNodeBut.setText(_translate("MainWindow", "Delete Node"))
         self.GraphViewRemRelationshipBut.setText(_translate("MainWindow", "Remove Relationship"))
         self.GraphViewIconConfigBut.setText(_translate("MainWindow", "Icon Config"))
+        self.GraphViewIconConfigBut.clicked.connect(self.showIconConfig)
         self.GraphViewIntervalOptions.setItemText(0, _translate("MainWindow", "Option1"))
         self.GraphViewIntervalOptions.setItemText(1, _translate("MainWindow", "Option 2"))
         self.GraphViewTimelineLabel.setText(_translate("MainWindow", "TimeLine Orientation"))
@@ -1408,6 +1417,7 @@ class Ui_MainWindow(object):
         self.DoubleViewDescriptionLabel.setText(_translate("MainWindow", "Description"))
         self.DoubleViewAddRelationshipBut.setText(_translate("MainWindow", "Add Relationship"))
         self.DoubleViewIconConfigBut.setText(_translate("MainWindow", "Icon Config"))
+        self.GraphViewIconConfigBut.clicked.connect(self.showIconConfig)
         self.DoubleViewTable.setSortingEnabled(True)
         item = self.DoubleViewTable.verticalHeaderItem(0)
         item.setText(_translate("MainWindow", "New Row"))
@@ -1482,6 +1492,179 @@ class Ui_MainWindow(object):
         self.actionCommit.setText(_translate("MainWindow", "Commit"))
         self.actionChange_list.setText(_translate("MainWindow", "Change list"))
         self.actionEvent_Configuration.setText(_translate("MainWindow", "Event Configuration"))
+
+    #Function called by pressing filter button
+    def showFilter(self):
+        exPopup = filterPopup(self)
+        exPopup.show()
+
+    def showIconConfig(self):
+        exPopup = IconConfigDialog(self)
+        exPopup.show()
+
+
+class IconDialog(QDialog):
+   def __init__(self, parent):
+        super(IconDialog, self).__init__(parent)
+        self.setWindowTitle("HELLO!")
+
+        QBtn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+
+        self.buttonBox = QDialogButtonBox(QBtn)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+
+        self.layout = QVBoxLayout()
+        self.layout.addWidget(self.buttonBox)
+        self.setLayout(self.layout)
+
+#Icon Configuration Dialog Class
+class IconConfigDialog(QDialog):
+
+    def clickMethodGrid(self):
+        dialog = IconDialog(self)
+        dialog.show()
+        print(self.sender().text())
+
+    def __init__(self, parent=None):
+        super(IconConfigDialog, self).__init__(parent)
+
+        self.originalPalette = QApplication.palette()
+
+        AddButton = QPushButton("Add")
+        AddButton.clicked.connect(self.clickMethodGrid)
+        self.createTopLeftGroupBox()
+
+        topLayout = QHBoxLayout()
+        topLayout.addWidget(AddButton)
+        topLayout.addStretch(1)
+
+        mainLayout = QGridLayout()
+        mainLayout.addLayout(topLayout, 0, 0, 1, 2)
+        mainLayout.addWidget(self.topLeftGroupBox, 1, 0, 1, 2)
+        mainLayout.setRowStretch(1, 1)
+        mainLayout.setRowStretch(2, 1)
+        mainLayout.setColumnStretch(0, 1)
+        mainLayout.setColumnStretch(1, 1)
+        self.setLayout(mainLayout)
+
+        self.setWindowTitle("Icon Configuration")
+
+    def createTopLeftGroupBox(self):
+        self.topLeftGroupBox = QGroupBox("")
+
+        icons = [
+            'SP_ArrowBack',
+            'SP_ArrowDown',
+            'SP_ArrowForward',
+            'SP_ArrowLeft',
+            'SP_ArrowRight',
+            'SP_ArrowUp',
+            'SP_BrowserReload',
+            'SP_BrowserStop',
+            'SP_CommandLink',
+            'SP_ComputerIcon',
+            'SP_CustomBase',
+            'SP_DesktopIcon',
+            'SP_DialogApplyButton',
+            'SP_DialogCancelButton',
+            'SP_DialogCloseButton',
+            'SP_DialogDiscardButton',
+            'SP_DialogHelpButton',
+            'SP_DialogNoButton',
+            'SP_DialogOkButton',
+            'SP_DialogOpenButton',
+            'SP_DialogResetButton',
+            'SP_DialogSaveButton',
+            'SP_DialogYesButton',
+            'SP_DirClosedIcon',
+            'SP_DirHomeIcon',
+            'SP_DirIcon',
+            'SP_DirLinkIcon',
+            'SP_DirOpenIcon',
+            'SP_DockWidgetCloseButton',
+            'SP_DriveCDIcon',
+            'SP_DriveDVDIcon',
+            'SP_DriveFDIcon',
+            'SP_DriveHDIcon',
+            'SP_DriveNetIcon',
+            'SP_FileDialogBack',
+            'SP_FileDialogContentsView',
+            'SP_FileDialogDetailedView',
+            'SP_FileDialogEnd',
+            'SP_FileDialogInfoView',
+            'SP_FileDialogListView',
+            'SP_FileDialogNewFolder',
+            'SP_FileDialogStart',
+            'SP_FileDialogToParent',
+            ]
+        layout1 = QVBoxLayout()
+        layout2 = QGridLayout()
+        layout1.addLayout(layout2)
+
+        colSize = 4
+        count = 0
+        for i in icons:
+            btn = QPushButton(i)
+            btn.setFlat(True)
+            self.x = count
+            btn.clicked.connect(self.clickMethodGrid)
+            btn.setIcon(self.style().standardIcon(getattr(QStyle, i)))
+
+            layout2.addWidget(btn, count / colSize, count % colSize)
+            count += 1
+
+        self.setLayout(layout1)
+
+        self.topLeftGroupBox.setLayout(layout1)
+
+
+#Class for filter Popup
+class filterPopup(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.filterConfiguration = QLabel("Filter Configuration",self)
+        self.filterConfiguration.setFont(QtGui.QFont("Roboto",12, QtGui.QFont.Bold))
+
+        self.creatorLabel = QLabel("Creator", self)
+        self.creatorLabel.setFont(QtGui.QFont("Roboto",12, QtGui.QFont.Bold))
+
+        self.eventType = QLabel("Event Type", self)
+        self.eventType.setFont(QtGui.QFont("Roboto",12, QtGui.QFont.Bold))
+
+        self.keyWordSearch = QLineEdit(self) #Key Word text
+        self.redBox = QCheckBox(self)     #Red Check Box
+        self.blueBox = QCheckBox(self)    #Blue Check Box
+        self.whiteBox = QCheckBox(self)   #White Check Box
+        self.redBox2 = QCheckBox(self)     #Red Check Box
+        self.blueBox2 = QCheckBox(self)    #Blue Check Box
+        self.whiteBox2 = QCheckBox(self)   #White Check Box
+        self.startTime = QLineEdit(self)  #Start time text
+        self.endTime = QLineEdit(self)    #End Time text
+        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, self)
+
+        self.formGroupBox = QGroupBox("ihjnrsdijn")
+        layout = QFormLayout(self)
+        layout.addRow(self.filterConfiguration)
+        layout.addRow("Keyword Search:", self.keyWordSearch)
+        layout.addRow(self.creatorLabel)
+        layout.addRow("Red", self.redBox)
+        layout.addRow("Blue", self.blueBox)
+        layout.addRow("White", self.whiteBox)
+        layout.addRow(self.eventType)
+        layout.addRow("Red", self.redBox2)
+        layout.addRow("Blue", self.blueBox2)
+        layout.addRow("White", self.whiteBox2)
+        layout.addRow("Start TimeStamp:", self.startTime)
+        layout.addRow("End TimeStamp:", self.endTime)
+        layout.addWidget(buttonBox)
+
+        buttonBox.accepted.connect(self.accept)
+        buttonBox.rejected.connect(self.reject)
+
+
+
+
 
 if __name__ == "__main__":
     import sys
