@@ -79,3 +79,4 @@ class eventConfiguration(QDialog):
         exPopup = Diretory.directoryConfig(self)
         exPopup.show()
         self.close()
+
