@@ -1493,6 +1493,7 @@ class Ui_MainWindow(QMainWindow):
         self.actionCommit.setText(_translate("MainWindow", "Commit"))
         self.actionChange_list.setText(_translate("MainWindow", "Change list"))
         self.actionEvent_Configuration.setText(_translate("MainWindow", "Event Configuration"))
+        self.actionEvent_Configuration.triggered.connect(self.showEventConfig)
 
     #Function called by pressing filter button
     def showFilter(self):
