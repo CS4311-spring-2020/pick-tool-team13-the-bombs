@@ -1169,11 +1169,15 @@ class Ui_MainWindow(QMainWindow):
         item.setText(_translate("MainWindow", "Log Entry Event"))
         item = self.LogEntryTable.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Vector"))
+
+        self.addLogEntry() #Add row to log entry for demo
+
         self.Tabs.setTabText(self.Tabs.indexOf(self.LogEntryConfiguration), _translate("MainWindow", "Log Entry Config"))
         self.VectorConfigLabel.setText(_translate("MainWindow", "Vector Configuration"))
         self.VectorConfigAddVectorBut.setText(_translate("MainWindow", "Add Vector"))
         self.VectorConfigAddVectorBut.clicked.connect(self.addVectorRow)
         self.VectorConfigDeleteVectorBut.setText(_translate("MainWindow", "Delete Vector"))
+        self.VectorConfigDeleteVectorBut.clicked.connect(self.deleteVectorRow)
         self.VectorConfigEditVectorBut.setText(_translate("MainWindow", "Edit Vector"))
         self.VectorConfigTable.setSortingEnabled(True)
         item = self.VectorConfigTable.horizontalHeaderItem(0)
@@ -1494,6 +1498,14 @@ class Ui_MainWindow(QMainWindow):
         self.actionEvent_Configuration.setText(_translate("MainWindow", "Event Configuration"))
         self.actionEvent_Configuration.triggered.connect(self.showEventConfig)
 
+    #Function to add row to log entry for demo
+    def addLogEntry(self):
+        rowPosition = self.LogEntryTable.rowCount()
+        self.LogEntryTable.insertRow(rowPosition)
+        self.LogEntryTable.setItem(rowPosition , 0, QTableWidgetItem("1"))
+        self.LogEntryTable.setItem(rowPosition , 1, QTableWidgetItem("1:53:54 UTC"))
+        self.LogEntryTable.setItem(rowPosition , 2, QTableWidgetItem("Event 1"))
+        self.LogEntryTable.setItem(rowPosition , 3, QTableWidgetItem("Vector 1"))
 
     #Function to add row for log file demo
     def addLogFile(self):
@@ -1518,6 +1530,7 @@ class Ui_MainWindow(QMainWindow):
         exPopup = Event.eventConfiguration(self)
         exPopup.show()
 
+    #Function called to add log file to validate
     def addLogFileToValidate(self):
         rowPosition = self.LogFileTable.rowCount()
         self.LogFileTable.insertRow(rowPosition)
