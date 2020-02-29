@@ -12,6 +12,7 @@ from PICKGUI import Ui_MainWindow
 from filter import filterPopup
 from icons import IconConfigDialog
 from Event import Ui_EventConfig
+from Directory import Ui_DirectoryConfig
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, obj=None, **kwargs):
@@ -28,7 +29,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.eventConfigButt = self.findChild(QtWidgets.QAction,'actionEvent_Configuration_2')
         self.eventConfigButt.triggered.connect(self.showEventConfig)
-        
+        self.showDirectoryConfig()
 
     #Method to show filter popup
     def showFilter(self):
@@ -43,9 +44,29 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.EventConfig = QtWidgets.QWidget()
         ui = Ui_EventConfig()
         ui.setupUi(self.EventConfig)
+        self.eventConfigLogic()
         self.EventConfig.show()
 
+    def eventConfigLogic(self):
+        self.EventConfig.findChild(QtWidgets.QPushButton, 'saveEventButt').clicked.connect(self.saveEventConfig)
+
+    def saveEventConfig(self):
+        self.EventConfig.close()
+
+
+    def directConfigLogic(self):
+        self.DirecConfig.findChild(QtWidgets.QPushButton, 'SaveEventBut').clicked.connect(self.saveDirectConfig)
     
+    def saveDirectConfig(self):
+        self.showEventConfig()
+        self.DirecConfig.close()
+
+    def showDirectoryConfig(self):
+        self.DirecConfig = QtWidgets.QWidget()
+        ui = Ui_DirectoryConfig()
+        ui.setupUi(self.DirecConfig)
+        self.directConfigLogic()
+        self.DirecConfig.show()
 
 
 
