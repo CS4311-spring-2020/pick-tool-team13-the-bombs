@@ -25,7 +25,7 @@
      <widget class="QLabel" name="label">
       <property name="font">
        <font>
-        <pointsize>14</pointsize>
+        <pointsize>11</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -47,7 +47,7 @@
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;dvfas&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="LogFileConfiguration">
        <attribute name="title">
@@ -2482,8 +2482,22 @@
      <property name="title">
       <string>Export</string>
      </property>
-     <addaction name="actionJPEG"/>
-     <addaction name="actionPNG"/>
+     <widget class="QMenu" name="ExportGraph">
+      <property name="title">
+       <string>Graph</string>
+      </property>
+      <addaction name="ExportGraphJPEG"/>
+      <addaction name="ExportGraphPNG"/>
+     </widget>
+     <widget class="QMenu" name="ExportTable">
+      <property name="title">
+       <string>Table</string>
+      </property>
+      <addaction name="ExportTableJPEG"/>
+      <addaction name="ExportTablePNG"/>
+     </widget>
+     <addaction name="ExportGraph"/>
+     <addaction name="ExportTable"/>
     </widget>
     <addaction name="Save"/>
     <addaction name="Export"/>
@@ -2564,6 +2578,41 @@
   <action name="actionEvent_Configuration">
    <property name="text">
     <string>Event Configuration</string>
+   </property>
+  </action>
+  <action name="actionJPEG_2">
+   <property name="text">
+    <string>JPEG</string>
+   </property>
+  </action>
+  <action name="ExportGraphJPEG">
+   <property name="text">
+    <string>JPEG</string>
+   </property>
+  </action>
+  <action name="ExportGraphPNG">
+   <property name="text">
+    <string>PNG</string>
+   </property>
+  </action>
+  <action name="actionJPEG_4">
+   <property name="text">
+    <string>JPEG</string>
+   </property>
+  </action>
+  <action name="actionPNG_3">
+   <property name="text">
+    <string>PNG</string>
+   </property>
+  </action>
+  <action name="ExportTableJPEG">
+   <property name="text">
+    <string>JPEG</string>
+   </property>
+  </action>
+  <action name="ExportTablePNG">
+   <property name="text">
+    <string>PNG</string>
    </property>
   </action>
  </widget>

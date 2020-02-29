@@ -7,16 +7,8 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroupBox, QWidget,QLineEdit,QDialogButtonBox, QLabel, QMainWindow, QAction, qApp, QPushButton, QDialog,QApplication, QCheckBox, QComboBox, QDateTimeEdit,
-        QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
-        QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
-        QSlider, QSpinBox, QStyleFactory, QTableWidget, QTabWidget, QTextEdit,
-        QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem)
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot
-import Event
 
-class Ui_MainWindow(QMainWindow):
+class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1490, 961)
@@ -1144,11 +1136,11 @@ class Ui_MainWindow(QMainWindow):
         self.menubar.addAction(self.menuView.menuAction())
         self.menubar.addAction(self.menuConfiguration.menuAction())
 
-        self.appLabels(MainWindow)
-        self.Tabs.setCurrentIndex(1)
+        self.retranslateUi(MainWindow)
+        self.Tabs.setCurrentIndex(7)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def appLabels(self, MainWindow):
+    def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "Status:"))
@@ -1180,37 +1172,6 @@ class Ui_MainWindow(QMainWindow):
         item.setText(_translate("MainWindow", "Validation Status"))
         item = self.LogFileSelectedTable.horizontalHeaderItem(6)
         item.setText(_translate("MainWindow", "Ingestion Status"))
-
-        self.addLogFile() #Add rows to log file for demo
-
-        self.Tabs.setTabText(self.Tabs.indexOf(self.LogFileConfiguration), _translate("MainWindow", "Log File Config"))
-        self.LogEntryLabel.setText(_translate("MainWindow", "Log Entry Configuration"))
-        self.LogEntryFilterBut.setText(_translate("MainWindow", "Filter"))
-        self.LogEntryFilterBut.clicked.connect(self.showFilter)
-        self.LogEntryTable.setSortingEnabled(True)
-        item = self.LogEntryTable.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "List Number"))
-        item = self.LogEntryTable.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Log Entry Timestamp"))
-        item = self.LogEntryTable.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Log Entry Event"))
-        item = self.LogEntryTable.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "Vector"))
-        self.Tabs.setTabText(self.Tabs.indexOf(self.LogEntryConfiguration), _translate("MainWindow", "Log Entry Config"))
-        self.VectorConfigLabel.setText(_translate("MainWindow", "Vector Configuration"))
-        self.VectorConfigAddVectorBut.setText(_translate("MainWindow", "Add Vector"))
-        self.VectorConfigAddVectorBut.clicked.connect(self.addVectorRow)
-        self.VectorConfigDeleteVectorBut.setText(_translate("MainWindow", "Delete Vector"))
-        self.VectorConfigEditVectorBut.setText(_translate("MainWindow", "Edit Vector"))
-        self.VectorConfigTable.setSortingEnabled(True)
-        item = self.VectorConfigTable.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "Selected"))
-        item = self.VectorConfigTable.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Vector Name"))
-        item = self.VectorConfigTable.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Vector Description"))
-        self.Tabs.setTabText(self.Tabs.indexOf(self.VectorConfiguration), _translate("MainWindow", "Vector Config"))
-        self.VectoDBPullBut.setText(_translate("MainWindow", "Pull"))
         
         self.Tabs.setTabText(self.Tabs.indexOf(self.LogFileConfiguration), _translate("MainWindow", "Log File Config"))
         self.LogEntryLabel.setText(_translate("MainWindow", "Log Entry Configuration"))
@@ -1553,217 +1514,3 @@ class Ui_MainWindow(QMainWindow):
         self.ExportTableJPEG.setText(_translate("MainWindow", "JPEG"))
         self.ExportTablePNG.setText(_translate("MainWindow", "PNG"))
 
-
-    #Function to add row for log file demo
-    def addLogFile(self):
-        rowPosition = self.LogFileSelectedTable.rowCount()
-        self.LogFileSelectedTable.insertRow(rowPosition)
-        self.LogFileSelectedTable.setItem(rowPosition , 0, QTableWidgetItem("File Number Two"))
-        self.LogFileSelectedTable.setItem(rowPosition , 1, QTableWidgetItem("Line 4"))
-        self.LogFileSelectedTable.setItem(rowPosition , 2, QTableWidgetItem("Cleansed"))
-        self.LogFileSelectedTable.setItem(rowPosition , 3, QTableWidgetItem("Non Validated"))
-        self.LogFileSelectedTable.setItem(rowPosition , 4, QTableWidgetItem("Non Ingested"))
-
-    #Function called by pressing filter button
-    def showFilter(self):
-        exPopup = filterPopup(self)
-        exPopup.show()
-    #Function called by pressing icon config
-    def showIconConfig(self):
-        exPopup = IconConfigDialog(self)
-        exPopup.show()
-    #Function called by event
-    def showEventConfig(self):
-        exPopup = Event.eventConfiguration(self)
-        exPopup.show()
-
-    def addLogFileToValidate(self):
-        rowPosition = self.LogFileTable.rowCount()
-        self.LogFileTable.insertRow(rowPosition)
-        self.LogFileTable.setItem(rowPosition , 0, QTableWidgetItem("File Number Two"))
-        self.LogFileTable.setItem(rowPosition , 1, QTableWidgetItem("Line 4"))
-        self.LogFileTable.setItem(rowPosition , 2, QTableWidgetItem("Space found"))
-
-    #Function called to add row to vector 
-    def addVectorRow(self):
-        rowPosition = self.VectorConfigTable.rowCount()
-        self.VectorConfigTable.insertRow(rowPosition)
-
-    #Function called to delete row
-    def deleteVectorRow(self):
-        rowPosition = self.VectorConfigTable.rowCount()
-        self.VectorConfigTable.removeRow(rowPosition)
-
-class IconDialog(QDialog):
-   def __init__(self, parent):
-        super(IconDialog, self).__init__(parent)
-        self.setWindowTitle("HELLO!")
-
-        QBtn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
-
-        self.buttonBox = QDialogButtonBox(QBtn)
-        self.buttonBox.accepted.connect(self.accept)
-        self.buttonBox.rejected.connect(self.reject)
-
-        self.layout = QVBoxLayout()
-        self.layout.addWidget(self.buttonBox)
-        self.setLayout(self.layout)
-
-#Icon Configuration Dialog Class
-class IconConfigDialog(QDialog):
-
-    def clickMethodGrid(self):
-        dialog = IconDialog(self)
-        dialog.show()
-        print(self.sender().text())
-
-    def __init__(self, parent=None):
-        super(IconConfigDialog, self).__init__(parent)
-
-        self.originalPalette = QApplication.palette()
-
-        AddButton = QPushButton("Add")
-        AddButton.clicked.connect(self.clickMethodGrid)
-        self.createTopLeftGroupBox()
-
-        topLayout = QHBoxLayout()
-        topLayout.addWidget(AddButton)
-        topLayout.addStretch(1)
-
-        mainLayout = QGridLayout()
-        mainLayout.addLayout(topLayout, 0, 0, 1, 2)
-        mainLayout.addWidget(self.topLeftGroupBox, 1, 0, 1, 2)
-        mainLayout.setRowStretch(1, 1)
-        mainLayout.setRowStretch(2, 1)
-        mainLayout.setColumnStretch(0, 1)
-        mainLayout.setColumnStretch(1, 1)
-        self.setLayout(mainLayout)
-
-        self.setWindowTitle("Icon Configuration")
-
-    def createTopLeftGroupBox(self):
-        self.topLeftGroupBox = QGroupBox("")
-
-        icons = [
-            'SP_ArrowBack',
-            'SP_ArrowDown',
-            'SP_ArrowForward',
-            'SP_ArrowLeft',
-            'SP_ArrowRight',
-            'SP_ArrowUp',
-            'SP_BrowserReload',
-            'SP_BrowserStop',
-            'SP_CommandLink',
-            'SP_ComputerIcon',
-            'SP_CustomBase',
-            'SP_DesktopIcon',
-            'SP_DialogApplyButton',
-            'SP_DialogCancelButton',
-            'SP_DialogCloseButton',
-            'SP_DialogDiscardButton',
-            'SP_DialogHelpButton',
-            'SP_DialogNoButton',
-            'SP_DialogOkButton',
-            'SP_DialogOpenButton',
-            'SP_DialogResetButton',
-            'SP_DialogSaveButton',
-            'SP_DialogYesButton',
-            'SP_DirClosedIcon',
-            'SP_DirHomeIcon',
-            'SP_DirIcon',
-            'SP_DirLinkIcon',
-            'SP_DirOpenIcon',
-            'SP_DockWidgetCloseButton',
-            'SP_DriveCDIcon',
-            'SP_DriveDVDIcon',
-            'SP_DriveFDIcon',
-            'SP_DriveHDIcon',
-            'SP_DriveNetIcon',
-            'SP_FileDialogBack',
-            'SP_FileDialogContentsView',
-            'SP_FileDialogDetailedView',
-            'SP_FileDialogEnd',
-            'SP_FileDialogInfoView',
-            'SP_FileDialogListView',
-            'SP_FileDialogNewFolder',
-            'SP_FileDialogStart',
-            'SP_FileDialogToParent',
-            ]
-        layout1 = QVBoxLayout()
-        layout2 = QGridLayout()
-        layout1.addLayout(layout2)
-
-        colSize = 4
-        count = 0
-        for i in icons:
-            btn = QPushButton(i)
-            btn.setFlat(True)
-            self.x = count
-            btn.clicked.connect(self.clickMethodGrid)
-            btn.setIcon(self.style().standardIcon(getattr(QStyle, i)))
-
-            layout2.addWidget(btn, count / colSize, count % colSize)
-            count += 1
-
-        self.setLayout(layout1)
-
-        self.topLeftGroupBox.setLayout(layout1)
-
-
-#Class for filter Popup
-class filterPopup(QDialog):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.filterConfiguration = QLabel("Filter Configuration",self)
-        self.filterConfiguration.setFont(QtGui.QFont("Roboto",12, QtGui.QFont.Bold))
-
-        self.creatorLabel = QLabel("Creator", self)
-        self.creatorLabel.setFont(QtGui.QFont("Roboto",12, QtGui.QFont.Bold))
-
-        self.eventType = QLabel("Event Type", self)
-        self.eventType.setFont(QtGui.QFont("Roboto",12, QtGui.QFont.Bold))
-
-        self.keyWordSearch = QLineEdit(self) #Key Word text
-        self.redBox = QCheckBox(self)     #Red Check Box
-        self.blueBox = QCheckBox(self)    #Blue Check Box
-        self.whiteBox = QCheckBox(self)   #White Check Box
-        self.redBox2 = QCheckBox(self)     #Red Check Box
-        self.blueBox2 = QCheckBox(self)    #Blue Check Box
-        self.whiteBox2 = QCheckBox(self)   #White Check Box
-        self.startTime = QLineEdit(self)  #Start time text
-        self.endTime = QLineEdit(self)    #End Time text
-        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, self)
-
-        self.formGroupBox = QGroupBox("ihjnrsdijn")
-        layout = QFormLayout(self)
-        layout.addRow(self.filterConfiguration)
-        layout.addRow("Keyword Search:", self.keyWordSearch)
-        layout.addRow(self.creatorLabel)
-        layout.addRow("Red", self.redBox)
-        layout.addRow("Blue", self.blueBox)
-        layout.addRow("White", self.whiteBox)
-        layout.addRow(self.eventType)
-        layout.addRow("Red", self.redBox2)
-        layout.addRow("Blue", self.blueBox2)
-        layout.addRow("White", self.whiteBox2)
-        layout.addRow("Start TimeStamp:", self.startTime)
-        layout.addRow("End TimeStamp:", self.endTime)
-        layout.addWidget(buttonBox)
-
-        buttonBox.accepted.connect(self.accept)
-        buttonBox.rejected.connect(self.reject)
-
-
-
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    event = Event.eventConfiguration(MainWindow)
-    event.show()
-    sys.exit(app.exec_())
