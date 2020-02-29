@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1490</width>
-    <height>961</height>
+    <width>1476</width>
+    <height>784</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,23 +19,28 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_4">
-    <item alignment="Qt::AlignTop">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="1" column="0" alignment="Qt::AlignRight|Qt::AlignBottom">
      <widget class="QLabel" name="label">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16</height>
+       </size>
       </property>
       <property name="text">
-       <string>Status:</string>
+       <string>Status: Connected</string>
       </property>
      </widget>
     </item>
-    <item>
+    <item row="0" column="0">
      <widget class="QTabWidget" name="Tabs">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -47,15 +52,40 @@
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;dvfas&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="LogFileConfiguration">
        <attribute name="title">
         <string>Log File Config</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QLabel" name="LogFileLabel">
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="3" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QPushButton" name="logFileConfigCancelBut">
+            <property name="text">
+             <string>Cancel</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="logFileConfigValidBut">
+            <property name="text">
+             <string>Validate</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="logFileConfigEnforce">
+            <property name="text">
+             <string>View Enforcement Report</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="logFileConfiguration">
           <property name="font">
            <font>
             <pointsize>12</pointsize>
@@ -67,89 +97,21 @@
            <string>Log File Configuration</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignHCenter|Qt::AlignTop</set>
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QScrollArea" name="scrollArea">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>98</width>
-             <height>28</height>
-            </rect>
-           </property>
-           <widget class="QTableWidget" name="LogFileTable">
-            <property name="geometry">
-             <rect>
-              <x>-7</x>
-              <y>0</y>
-              <width>1361</width>
-              <height>381</height>
-             </rect>
-            </property>
-            <column>
-             <property name="text">
-              <string>Selected</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>File name</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Line number</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Error message</string>
-             </property>
-            </column>
-           </widget>
-          </widget>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <property name="topMargin">
-           <number>5</number>
-          </property>
-          <item>
-           <widget class="QPushButton" name="logFileCancelBut">
-            <property name="text">
-             <string>Cancel</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="LogFileValidateBut">
-            <property name="text">
-             <string>Validate</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
+        <item row="2" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QLabel" name="label_4">
+           <widget class="QLabel" name="logFileConfigfileName">
             <property name="text">
-             <string>File Name: </string>
+             <string>File Name:</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_3">
+           <widget class="QLabel" name="logFileConfigName">
             <property name="text">
              <string>Name of Selected Log File</string>
             </property>
@@ -157,66 +119,52 @@
           </item>
          </layout>
         </item>
-        <item>
-         <widget class="QScrollArea" name="scrollArea_2">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents_2">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>98</width>
-             <height>28</height>
-            </rect>
+        <item row="1" column="0">
+         <widget class="QTableWidget" name="logFileErrorsTable">
+          <column>
+           <property name="text">
+            <string>File Name</string>
            </property>
-           <widget class="QTableWidget" name="LogFileSelectedTable">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>1351</width>
-              <height>381</height>
-             </rect>
-            </property>
-            <column>
-             <property name="text">
-              <string>File Name</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Source</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>New Column</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Cleansing Status</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Cleansing Status</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Validation Status</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Ingestion Status</string>
-             </property>
-            </column>
-           </widget>
-          </widget>
+          </column>
+          <column>
+           <property name="text">
+            <string>Line Number</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Error Message</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QTableWidget" name="logFileTable">
+          <column>
+           <property name="text">
+            <string>File Name</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Source</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Cleansing Status</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Validation Status</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Ingestion Status</string>
+           </property>
+          </column>
          </widget>
         </item>
        </layout>
@@ -269,11 +217,11 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
-          <attribute name="horizontalHeaderDefaultSectionSize">
-           <number>150</number>
-          </attribute>
           <attribute name="horizontalHeaderMinimumSectionSize">
            <number>40</number>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>150</number>
           </attribute>
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>false</bool>
@@ -281,11 +229,11 @@
           <attribute name="verticalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
-          <attribute name="verticalHeaderDefaultSectionSize">
-           <number>50</number>
-          </attribute>
           <attribute name="verticalHeaderMinimumSectionSize">
            <number>40</number>
+          </attribute>
+          <attribute name="verticalHeaderDefaultSectionSize">
+           <number>50</number>
           </attribute>
           <column>
            <property name="text">
@@ -390,11 +338,11 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
-          <attribute name="horizontalHeaderDefaultSectionSize">
-           <number>150</number>
-          </attribute>
           <attribute name="horizontalHeaderMinimumSectionSize">
            <number>50</number>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>150</number>
           </attribute>
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
@@ -424,7 +372,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="VectorDB">
        <attribute name="title">
         <string>Vector DB</string>
        </attribute>
@@ -482,14 +430,14 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>25</number>
+          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>150</number>
           </attribute>
           <attribute name="horizontalHeaderHighlightSections">
            <bool>false</bool>
-          </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>25</number>
           </attribute>
           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
            <bool>true</bool>
@@ -748,14 +696,14 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>25</number>
+          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>150</number>
           </attribute>
           <attribute name="horizontalHeaderHighlightSections">
            <bool>false</bool>
-          </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>25</number>
           </attribute>
           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
            <bool>true</bool>
@@ -1020,14 +968,14 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>25</number>
+          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>150</number>
           </attribute>
           <attribute name="horizontalHeaderHighlightSections">
            <bool>false</bool>
-          </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>25</number>
           </attribute>
           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
            <bool>true</bool>
@@ -1222,7 +1170,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="RelConfig">
        <attribute name="title">
         <string>Relation Config</string>
        </attribute>
@@ -1293,14 +1241,14 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>25</number>
+          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>250</number>
           </attribute>
           <attribute name="horizontalHeaderHighlightSections">
            <bool>false</bool>
-          </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>25</number>
           </attribute>
           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
            <bool>true</bool>
@@ -1316,6 +1264,9 @@
           </attribute>
           <attribute name="verticalHeaderHighlightSections">
            <bool>false</bool>
+          </attribute>
+          <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+           <bool>true</bool>
           </attribute>
           <row>
            <property name="text">
@@ -1486,7 +1437,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_7">
+      <widget class="QWidget" name="GraphView">
        <attribute name="title">
         <string>Graph View</string>
        </attribute>
@@ -1692,7 +1643,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_8">
+      <widget class="QWidget" name="TableView">
        <attribute name="title">
         <string>Table View</string>
        </attribute>
@@ -1757,14 +1708,14 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>25</number>
+          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>150</number>
           </attribute>
           <attribute name="horizontalHeaderHighlightSections">
            <bool>false</bool>
-          </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>25</number>
           </attribute>
           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
            <bool>true</bool>
@@ -1980,7 +1931,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_9">
+      <widget class="QWidget" name="DoubleView">
        <attribute name="title">
         <string>Double View</string>
        </attribute>
@@ -2144,14 +2095,14 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>25</number>
+          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>150</number>
           </attribute>
           <attribute name="horizontalHeaderHighlightSections">
            <bool>false</bool>
-          </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>25</number>
           </attribute>
           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
            <bool>true</bool>
@@ -2470,7 +2421,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1490</width>
+     <width>1476</width>
      <height>26</height>
     </rect>
    </property>
@@ -2482,8 +2433,23 @@
      <property name="title">
       <string>Export</string>
      </property>
-     <addaction name="actionJPEG"/>
-     <addaction name="actionPNG"/>
+     <widget class="QMenu" name="menuGraph_Export_Options">
+      <property name="title">
+       <string>Graph Export Options</string>
+      </property>
+      <addaction name="actionPNG_2"/>
+      <addaction name="actionJPEG_2"/>
+     </widget>
+     <widget class="QMenu" name="menuTable_Export_Options">
+      <property name="title">
+       <string>Table Export Options</string>
+      </property>
+      <addaction name="actionCSV"/>
+      <addaction name="actionExcel"/>
+      <addaction name="actionPDF"/>
+     </widget>
+     <addaction name="menuGraph_Export_Options"/>
+     <addaction name="menuTable_Export_Options"/>
     </widget>
     <addaction name="Save"/>
     <addaction name="Export"/>
@@ -2496,6 +2462,7 @@
     <addaction name="actionRedo"/>
     <addaction name="actionCommit"/>
     <addaction name="actionChange_list"/>
+    <addaction name="actionEvent_Configuration_2"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -2504,18 +2471,10 @@
     <addaction name="actionView_Vector"/>
     <addaction name="actionView_Table"/>
    </widget>
-   <widget class="QMenu" name="menuConfiguration">
-    <property name="title">
-     <string>Configuration</string>
-    </property>
-    <addaction name="actionEvent_Configuration"/>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuView"/>
-   <addaction name="menuConfiguration"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="Save">
    <property name="text">
     <string>Save</string>
@@ -2564,6 +2523,36 @@
   <action name="actionEvent_Configuration">
    <property name="text">
     <string>Event Configuration</string>
+   </property>
+  </action>
+  <action name="actionEvent_Configuration_2">
+   <property name="text">
+    <string>Event Configuration</string>
+   </property>
+  </action>
+  <action name="actionPNG_2">
+   <property name="text">
+    <string>PNG</string>
+   </property>
+  </action>
+  <action name="actionJPEG_2">
+   <property name="text">
+    <string>JPEG</string>
+   </property>
+  </action>
+  <action name="actionCSV">
+   <property name="text">
+    <string>CSV</string>
+   </property>
+  </action>
+  <action name="actionExcel">
+   <property name="text">
+    <string>Excel</string>
+   </property>
+  </action>
+  <action name="actionPDF">
+   <property name="text">
+    <string>PDF</string>
    </property>
   </action>
  </widget>
