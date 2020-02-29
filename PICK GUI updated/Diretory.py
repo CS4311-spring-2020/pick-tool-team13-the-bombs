@@ -87,3 +87,7 @@ class directoryConfig(QDialog):
         self.WhiteTeamLabel.setText(_translate("self", "White Team Folder"))
         self.WhitedirectBut.setText(_translate("self", "...."))
         self.SaveEventBut_2.setText(_translate("self", "Start Data Ingestion"))
+        self.SaveEventBut_2.clicked.connect(self.startDataIngestion)
+
+    def startDataIngestion(self):
+        self.close()
