@@ -26,6 +26,7 @@
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="1" column="0" alignment="Qt::AlignRight|Qt::AlignBottom">
      <widget class="QLabel" name="label">
+<<<<<<< HEAD:PICK GUI/UI/PICK GUI.ui
       <property name="enabled">
        <bool>true</bool>
       </property>
@@ -34,6 +35,14 @@
         <width>200</width>
         <height>16</height>
        </size>
+=======
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+>>>>>>> aec7f0046c49a8874d717a169aca27c0484c0f49:PICK GUI updated/PICK GUI.ui
       </property>
       <property name="text">
        <string>Status: Connected</string>
@@ -52,7 +61,11 @@
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;dvfas&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="currentIndex">
+<<<<<<< HEAD:PICK GUI/UI/PICK GUI.ui
        <number>0</number>
+=======
+       <number>7</number>
+>>>>>>> aec7f0046c49a8874d717a169aca27c0484c0f49:PICK GUI updated/PICK GUI.ui
       </property>
       <widget class="QWidget" name="LogFileConfiguration">
        <attribute name="title">
@@ -2433,6 +2446,7 @@
      <property name="title">
       <string>Export</string>
      </property>
+<<<<<<< HEAD:PICK GUI/UI/PICK GUI.ui
      <widget class="QMenu" name="menuGraph_Export_Options">
       <property name="title">
        <string>Graph Export Options</string>
@@ -2450,6 +2464,24 @@
      </widget>
      <addaction name="menuGraph_Export_Options"/>
      <addaction name="menuTable_Export_Options"/>
+=======
+     <widget class="QMenu" name="ExportGraph">
+      <property name="title">
+       <string>Graph</string>
+      </property>
+      <addaction name="ExportGraphJPEG"/>
+      <addaction name="ExportGraphPNG"/>
+     </widget>
+     <widget class="QMenu" name="ExportTable">
+      <property name="title">
+       <string>Table</string>
+      </property>
+      <addaction name="ExportTableJPEG"/>
+      <addaction name="ExportTablePNG"/>
+     </widget>
+     <addaction name="ExportGraph"/>
+     <addaction name="ExportTable"/>
+>>>>>>> aec7f0046c49a8874d717a169aca27c0484c0f49:PICK GUI updated/PICK GUI.ui
     </widget>
     <addaction name="Save"/>
     <addaction name="Export"/>
@@ -2525,21 +2557,40 @@
     <string>Event Configuration</string>
    </property>
   </action>
+<<<<<<< HEAD:PICK GUI/UI/PICK GUI.ui
   <action name="actionEvent_Configuration_2">
    <property name="text">
     <string>Event Configuration</string>
    </property>
   </action>
   <action name="actionPNG_2">
-   <property name="text">
-    <string>PNG</string>
-   </property>
-  </action>
+=======
   <action name="actionJPEG_2">
    <property name="text">
     <string>JPEG</string>
    </property>
   </action>
+  <action name="ExportGraphJPEG">
+   <property name="text">
+    <string>JPEG</string>
+   </property>
+  </action>
+  <action name="ExportGraphPNG">
+>>>>>>> aec7f0046c49a8874d717a169aca27c0484c0f49:PICK GUI updated/PICK GUI.ui
+   <property name="text">
+    <string>PNG</string>
+   </property>
+  </action>
+<<<<<<< HEAD:PICK GUI/UI/PICK GUI.ui
+  <action name="actionJPEG_2">
+=======
+  <action name="actionJPEG_4">
+>>>>>>> aec7f0046c49a8874d717a169aca27c0484c0f49:PICK GUI updated/PICK GUI.ui
+   <property name="text">
+    <string>JPEG</string>
+   </property>
+  </action>
+<<<<<<< HEAD:PICK GUI/UI/PICK GUI.ui
   <action name="actionCSV">
    <property name="text">
     <string>CSV</string>
@@ -2553,6 +2604,21 @@
   <action name="actionPDF">
    <property name="text">
     <string>PDF</string>
+=======
+  <action name="actionPNG_3">
+   <property name="text">
+    <string>PNG</string>
+   </property>
+  </action>
+  <action name="ExportTableJPEG">
+   <property name="text">
+    <string>JPEG</string>
+   </property>
+  </action>
+  <action name="ExportTablePNG">
+   <property name="text">
+    <string>PNG</string>
+>>>>>>> aec7f0046c49a8874d717a169aca27c0484c0f49:PICK GUI updated/PICK GUI.ui
    </property>
   </action>
  </widget>

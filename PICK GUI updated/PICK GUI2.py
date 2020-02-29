@@ -7,16 +7,8 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroupBox, QWidget,QLineEdit,QDialogButtonBox, QLabel, QMainWindow, QAction, qApp, QPushButton, QDialog,QApplication, QCheckBox, QComboBox, QDateTimeEdit,
-        QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
-        QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
-        QSlider, QSpinBox, QStyleFactory, QTableWidget, QTabWidget, QTextEdit,
-        QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem)
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot
-import Event
 
-class Ui_MainWindow(QMainWindow):
+class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1490, 961)
@@ -1144,11 +1136,11 @@ class Ui_MainWindow(QMainWindow):
         self.menubar.addAction(self.menuView.menuAction())
         self.menubar.addAction(self.menuConfiguration.menuAction())
 
-        self.appLabels(MainWindow)
-        self.Tabs.setCurrentIndex(1)
+        self.retranslateUi(MainWindow)
+        self.Tabs.setCurrentIndex(7)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def appLabels(self, MainWindow):
+    def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "Status:"))
@@ -1180,41 +1172,6 @@ class Ui_MainWindow(QMainWindow):
         item.setText(_translate("MainWindow", "Validation Status"))
         item = self.LogFileSelectedTable.horizontalHeaderItem(6)
         item.setText(_translate("MainWindow", "Ingestion Status"))
-
-        self.addLogFile() #Add rows to log file for demo
-
-        self.Tabs.setTabText(self.Tabs.indexOf(self.LogFileConfiguration), _translate("MainWindow", "Log File Config"))
-        self.LogEntryLabel.setText(_translate("MainWindow", "Log Entry Configuration"))
-        self.LogEntryFilterBut.setText(_translate("MainWindow", "Filter"))
-        self.LogEntryFilterBut.clicked.connect(self.showFilter)
-        self.LogEntryTable.setSortingEnabled(True)
-        item = self.LogEntryTable.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "List Number"))
-        item = self.LogEntryTable.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Log Entry Timestamp"))
-        item = self.LogEntryTable.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Log Entry Event"))
-        item = self.LogEntryTable.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "Vector"))
-
-        self.addLogEntry() #Add row to log entry for demo
-
-        self.Tabs.setTabText(self.Tabs.indexOf(self.LogEntryConfiguration), _translate("MainWindow", "Log Entry Config"))
-        self.VectorConfigLabel.setText(_translate("MainWindow", "Vector Configuration"))
-        self.VectorConfigAddVectorBut.setText(_translate("MainWindow", "Add Vector"))
-        self.VectorConfigAddVectorBut.clicked.connect(self.addVectorRow)
-        self.VectorConfigDeleteVectorBut.setText(_translate("MainWindow", "Delete Vector"))
-        self.VectorConfigDeleteVectorBut.clicked.connect(self.deleteVectorRow)
-        self.VectorConfigEditVectorBut.setText(_translate("MainWindow", "Edit Vector"))
-        self.VectorConfigTable.setSortingEnabled(True)
-        item = self.VectorConfigTable.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "Selected"))
-        item = self.VectorConfigTable.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Vector Name"))
-        item = self.VectorConfigTable.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Vector Description"))
-        self.Tabs.setTabText(self.Tabs.indexOf(self.VectorConfiguration), _translate("MainWindow", "Vector Config"))
-        self.VectoDBPullBut.setText(_translate("MainWindow", "Pull"))
         
         self.Tabs.setTabText(self.Tabs.indexOf(self.LogFileConfiguration), _translate("MainWindow", "Log File Config"))
         self.LogEntryLabel.setText(_translate("MainWindow", "Log Entry Configuration"))
@@ -1389,7 +1346,7 @@ class Ui_MainWindow(QMainWindow):
         self.RelationConfigTable.setSortingEnabled(False)
         self.RelationConfigTable.setSortingEnabled(__sortingEnabled)
         self.Tabs.setTabText(self.Tabs.indexOf(self.tab), _translate("MainWindow", "Relation Config"))
-        self.label_7.setText(_translate("MainWindow", "<html><head/><body><p><img src=\"PICK GUI updated\graph.png\"/></p></body></html>"))
+        self.label_7.setText(_translate("MainWindow", "<html><head/><body><p><img src=\":/graph/graph.png\"/></p></body></html>"))
         self.GraphViewNodesLabel.setText(_translate("MainWindow", "Nodes configuration in graphical format"))
         self.GraphViewTimeLineOption.setItemText(0, _translate("MainWindow", "Option1"))
         self.GraphViewTimeLineOption.setItemText(1, _translate("MainWindow", "Option 2"))
@@ -1463,7 +1420,7 @@ class Ui_MainWindow(QMainWindow):
         self.TableViewTable.setSortingEnabled(__sortingEnabled)
         self.Tabs.setTabText(self.Tabs.indexOf(self.tab_8), _translate("MainWindow", "Table View"))
         self.DoubleViewVectorLabel.setText(_translate("MainWindow", "Vector"))
-        self.label_8.setText(_translate("MainWindow", "<html><head/><body><p><img src=\"PICK GUI updated\graph.png\"/></p></body></html>"))
+        self.label_8.setText(_translate("MainWindow", "<html><head/><body><p><img src=\":/graph/graph.png\"/></p></body></html>"))
         self.DoubleViewZoomInBut.setText(_translate("MainWindow", "Zoom In"))
         self.DoubleViewIntervalOptions.setItemText(0, _translate("MainWindow", "Option1"))
         self.DoubleViewIntervalOptions.setItemText(1, _translate("MainWindow", "Option 2"))
@@ -1557,65 +1514,3 @@ class Ui_MainWindow(QMainWindow):
         self.ExportTableJPEG.setText(_translate("MainWindow", "JPEG"))
         self.ExportTablePNG.setText(_translate("MainWindow", "PNG"))
 
-    #Function to add row to log entry for demo
-    def addLogEntry(self):
-        rowPosition = self.LogEntryTable.rowCount()
-        self.LogEntryTable.insertRow(rowPosition)
-        self.LogEntryTable.setItem(rowPosition , 0, QTableWidgetItem("1"))
-        self.LogEntryTable.setItem(rowPosition , 1, QTableWidgetItem("1:53:54 UTC"))
-        self.LogEntryTable.setItem(rowPosition , 2, QTableWidgetItem("Event 1"))
-        self.LogEntryTable.setItem(rowPosition , 3, QTableWidgetItem("Vector 1"))
-
-    #Function to add row for log file demo
-    def addLogFile(self):
-        rowPosition = self.LogFileSelectedTable.rowCount()
-        self.LogFileSelectedTable.insertRow(rowPosition)
-        self.LogFileSelectedTable.setItem(rowPosition , 0, QTableWidgetItem("File Number Two"))
-        self.LogFileSelectedTable.setItem(rowPosition , 1, QTableWidgetItem("Line 4"))
-        self.LogFileSelectedTable.setItem(rowPosition , 2, QTableWidgetItem("Cleansed"))
-        self.LogFileSelectedTable.setItem(rowPosition , 3, QTableWidgetItem("Non Validated"))
-        self.LogFileSelectedTable.setItem(rowPosition , 4, QTableWidgetItem("Non Ingested"))
-
-    #Function called by pressing filter button
-    def showFilter(self):
-        exPopup = filterPopup(self)
-        exPopup.show()
-    #Function called by pressing icon config
-    def showIconConfig(self):
-        exPopup = IconConfigDialog(self)
-        exPopup.show()
-    #Function called by event
-    def showEventConfig(self):
-        exPopup = Event.eventConfiguration(self)
-        exPopup.show()
-
-    #Function called to add log file to validate
-    def addLogFileToValidate(self):
-        rowPosition = self.LogFileTable.rowCount()
-        self.LogFileTable.insertRow(rowPosition)
-        self.LogFileTable.setItem(rowPosition , 0, QTableWidgetItem("File Number Two"))
-        self.LogFileTable.setItem(rowPosition , 1, QTableWidgetItem("Line 4"))
-        self.LogFileTable.setItem(rowPosition , 2, QTableWidgetItem("Space found"))
-
-    #Function called to add row to vector 
-    def addVectorRow(self):
-        rowPosition = self.VectorConfigTable.rowCount()
-        self.VectorConfigTable.insertRow(rowPosition)
-
-    #Function called to delete row
-    def deleteVectorRow(self):
-        rowPosition = self.VectorConfigTable.rowCount()
-        self.VectorConfigTable.removeRow(rowPosition)
-
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    event = Event.eventConfiguration(MainWindow)
-    event.show()
-    sys.exit(app.exec_())
