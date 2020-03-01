@@ -10,7 +10,7 @@ from PyQt5.QtCore import pyqtSlot
 
 from PICKGUI import Ui_MainWindow
 from filter import filterPopup
-from icons import IconConfigDialog
+from icons import IconConfigDialog 
 from Event import Ui_EventConfig
 from Directory import Ui_DirectoryConfig
 
@@ -29,6 +29,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.eventConfigButt = self.findChild(QtWidgets.QAction,'actionEvent_Configuration_2')
         self.eventConfigButt.triggered.connect(self.showEventConfig)
+
+
         self.showDirectoryConfig()
 
     #Method to show filter popup
@@ -53,13 +55,26 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def saveEventConfig(self):
         self.EventConfig.close()
 
-
     def directConfigLogic(self):
+        self.DirecConfig.findChild(QtWidgets.QPushButton,'RootdirectBut').clicked.connect(self.setRootDirect)
         self.DirecConfig.findChild(QtWidgets.QPushButton, 'SaveEventBut').clicked.connect(self.saveDirectConfig)
-    
+
     def saveDirectConfig(self):
         self.showEventConfig()
         self.DirecConfig.close()
+
+    def setRootDirect(self):
+        self.logFTable = self.centWid.findChild(QtWidgets.QTableWidget,'logFileTable')
+        rowPosition = self.logFTable.rowCount()
+        self.logFTable.insertRow(rowPosition)
+        fileName, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Single File', QtCore.QDir.rootPath() , '*.txt')
+        file = open(fileName,'r')
+        with file:
+            text = file.read()
+            self.logFTable.setItem(rowPosition , 0, QtWidgets.QTableWidgetItem(fileName))
+            self.logFTable.setItem(rowPosition , 1, QtWidgets.QTableWidgetItem(text))
+
+
 
     def showDirectoryConfig(self):
         self.DirecConfig = QtWidgets.QWidget()
@@ -72,7 +87,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
 app = QtWidgets.QApplication(sys.argv)
-
 window = MainWindow()
 window.show()
 app.exec()
