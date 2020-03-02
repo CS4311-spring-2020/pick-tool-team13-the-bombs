@@ -4,9 +4,9 @@ from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroup
         QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
         QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTabWidget, QTextEdit,
-        QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem)
+        QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem, QMessageBox)
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, QFileInfo
 
 from PICKGUI import Ui_MainWindow
 from filter import filterPopup
@@ -63,16 +63,26 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.DirecConfig.findChild(QtWidgets.QPushButton,'WhitedirectBut').clicked.connect(self.setWhiteDirect)
         self.DirecConfig.findChild(QtWidgets.QPushButton, 'SaveEventBut').clicked.connect(self.saveDirectConfig)
 
-    #Action when button to save directory config is clicked
+    #Action when button to save directory config is clicked, check if folders are set, if not throw error
     def saveDirectConfig(self):
-        self.showEventConfig()
-        self.DirecConfig.close()
+        try: self.rootFolder
+        except AttributeError: 
+            QMessageBox.about(self, "Error", "Root Folder not Defined")
+        try: self.whiteFolder
+        except AttributeError: 
+            QMessageBox.about(self, "Error", "White Team Folder not Defined")
+        try: self.blueFolder
+        except AttributeError: 
+            QMessageBox.about(self, "Error", "Blue Team Folder not Defined")
+        try: self.redFolder
+        except AttributeError: 
+            QMessageBox.about(self, "Error", "Red Team Folder not Defined")
+        else: 
+            self.showEventConfig()
+            self.DirecConfig.close()
 
     #Set root directory and ingest a file
     def setRootDirect(self):
-        self.logFTable = self.centWid.findChild(QtWidgets.QTableWidget,'logFileTable')
-        rowPosition = self.logFTable.rowCount()
-        self.logFTable.insertRow(rowPosition)
         self.rootFolder = QtWidgets.QFileDialog.getExistingDirectory(self,'Select Directory')
 
     #Set white team directory 
@@ -96,8 +106,49 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.directConfigLogic()
         self.DirecConfig.show()
 
+    #Method to read files and put them into log file in the table
+    def readLogFiles(self):
+        #We will read one file from each directory for the demo purposes
+        #We get log file table and log entry table
+        self.logFTable = self.centWid.findChild(QtWidgets.QTableWidget,'logFileTable')
+        self.logETable = self.centWid.findChild(QtWidgets.QTableWidget,'LogEntryTable')
 
+        #Read from White Folder
+        whiteFile = open(self.whiteFolder+"/testWhite.txt")
+        whiteContent = whiteFile.read()
+        #Read from Red Folder
+        redFile = open(self.redFolder+"/redTest.txt")
+        redContent = redFile.read()
+        #Read from Blue Folder
+        blueFile = open(self.blueFolder+"/blueTest.txt")
+        blueContent = blueFile.read()
 
+        #Insert White File in File Table
+        rowPosition = self.logFTable.rowCount()
+        self.logFTable.insertRow(rowPosition)
+        self.logFTable.setItem(rowPosition , 0, QtGui.QTableWidgetItem(QFileInfo(whiteFile).fileName()))
+        self.logFTable.setItem(rowPosition , 1, QtGui.QTableWidgetItem(self.whiteFolder))
+        self.logFTable.setItem(rowPosition , 2, QtGui.QTableWidgetItem("Non Cleansed"))
+        self.logFTable.setItem(rowPosition , 3, QtGui.QTableWidgetItem("Non Validated"))
+        self.logFTable.setItem(rowPosition , 4, QtGui.QTableWidgetItem("Non Ingested"))
+
+        #Insert Blue File in File Table
+        rowPosition = self.logFTable.rowCount()
+        self.logFTable.insertRow(rowPosition)
+        self.logFTable.setItem(rowPosition , 0, QtGui.QTableWidgetItem(QFileInfo(blueFile).fileName()))
+        self.logFTable.setItem(rowPosition , 1, QtGui.QTableWidgetItem(self.blueFolder))
+        self.logFTable.setItem(rowPosition , 2, QtGui.QTableWidgetItem("Non Cleansed"))
+        self.logFTable.setItem(rowPosition , 3, QtGui.QTableWidgetItem("Non Validated"))
+        self.logFTable.setItem(rowPosition , 4, QtGui.QTableWidgetItem("Non Ingested"))
+
+        #Insert Red File in File Table
+        rowPosition = self.logFTable.rowCount()
+        self.logFTable.insertRow(rowPosition)
+        self.logFTable.setItem(rowPosition , 0, QtGui.QTableWidgetItem(QFileInfo(redFile).fileName()))
+        self.logFTable.setItem(rowPosition , 1, QtGui.QTableWidgetItem(self.redFolder))
+        self.logFTable.setItem(rowPosition , 2, QtGui.QTableWidgetItem("Non Cleansed"))
+        self.logFTable.setItem(rowPosition , 3, QtGui.QTableWidgetItem("Non Validated"))
+        self.logFTable.setItem(rowPosition , 4, QtGui.QTableWidgetItem("Non Ingested"))
 
 app = QtWidgets.QApplication(sys.argv)
 window = MainWindow()
