@@ -55,27 +55,40 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def saveEventConfig(self):
         self.EventConfig.close()
 
+    #Sets button's logic in directory configuration
     def directConfigLogic(self):
+        self.DirecConfig.findChild(QtWidgets.QPushButton,'ReddirectBut').clicked.connect(self.setRedDirect)
+        self.DirecConfig.findChild(QtWidgets.QPushButton,'BluedirectBut').clicked.connect(self.setBlueDirect)
         self.DirecConfig.findChild(QtWidgets.QPushButton,'RootdirectBut').clicked.connect(self.setRootDirect)
+        self.DirecConfig.findChild(QtWidgets.QPushButton,'WhitedirectBut').clicked.connect(self.setWhiteDirect)
         self.DirecConfig.findChild(QtWidgets.QPushButton, 'SaveEventBut').clicked.connect(self.saveDirectConfig)
 
+    #Action when button to save directory config is clicked
     def saveDirectConfig(self):
         self.showEventConfig()
         self.DirecConfig.close()
 
+    #Set root directory and ingest a file
     def setRootDirect(self):
         self.logFTable = self.centWid.findChild(QtWidgets.QTableWidget,'logFileTable')
         rowPosition = self.logFTable.rowCount()
         self.logFTable.insertRow(rowPosition)
-        fileName, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Single File', QtCore.QDir.rootPath() , '*.txt')
-        file = open(fileName,'r')
-        with file:
-            text = file.read()
-            self.logFTable.setItem(rowPosition , 0, QtWidgets.QTableWidgetItem(fileName))
-            self.logFTable.setItem(rowPosition , 1, QtWidgets.QTableWidgetItem(text))
+        self.rootFolder = QtWidgets.QFileDialog.getExistingDirectory(self,'Select Directory')
+
+    #Set white team directory 
+    def setWhiteDirect(self):
+        self.whiteFolder = QtWidgets.QFileDialog.getExistingDirectory(self,'Select Directory')
+
+    #Set red team directory 
+    def setRedDirect(self):
+        self.redFolder = QtWidgets.QFileDialog.getExistingDirectory(self,'Select Directory')
 
 
+    #Set blue team directory
+    def setBlueDirect(self):
+        self.blueFolder = QtWidgets.QFileDialog.getExistingDirectory(self,'Select Directory')
 
+    #Show directory configuration window
     def showDirectoryConfig(self):
         self.DirecConfig = QtWidgets.QWidget()
         ui = Ui_DirectoryConfig()
