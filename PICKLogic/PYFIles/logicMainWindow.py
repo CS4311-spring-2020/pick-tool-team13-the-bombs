@@ -1,4 +1,5 @@
 import sys
+sys.path.insert(1,'../')
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroupBox, QWidget,QLineEdit,QDialogButtonBox, QLabel, QMainWindow, QAction, qApp, QPushButton, QDialog,QApplication, QCheckBox, QComboBox, QDateTimeEdit,
         QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
@@ -7,12 +8,14 @@ from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroup
         QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem, QMessageBox)
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, QFileInfo
+from pathlib import Path
 
 from PICKGUI import Ui_MainWindow
 from filter import filterPopup
 from icons import IconConfigDialog 
 from Event import Ui_EventConfig
 from Directory import Ui_DirectoryConfig
+from Splunk.SplunkUploader import SplunkUploader
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, obj=None, **kwargs):
@@ -29,7 +32,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.eventConfigButt = self.findChild(QtWidgets.QAction,'actionEvent_Configuration_2')
         self.eventConfigButt.triggered.connect(self.showEventConfig)
-
+        self.validateBut = self.centWid.findChild(QtWidgets.QPushButton,'logFileConfigValidBut')
+        self.validateBut.clicked.connect(self.splunkDemo)
+        self.enforceViewBut = self.centWid.findChild(QtWidgets.QPushButton,'logFileConfigEnforce')
+        self.enforceViewBut.clicked.connect(self.viewEnforcementReport)
 
         self.showDirectoryConfig()
 
@@ -112,7 +118,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #We will read one file from each directory for the demo purposes
         #We get log file table and log entry table
         self.logFTable = self.centWid.findChild(QtWidgets.QTableWidget,'logFileTable')
-        self.logETable = self.centWid.findChild(QtWidgets.QTableWidget,'LogEntryTable')
+
 
         #Read from White Folder
         whiteFile = open(self.whiteFolder+"/testWhite.txt")
@@ -127,7 +133,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #Insert White File in File Table
         rowPosition = self.logFTable.rowCount()
         self.logFTable.insertRow(rowPosition)
-        self.logFTable.setItem(rowPosition , 0, QTableWidgetItem(QFileInfo(whiteFile).fileName()))
+        self.logFTable.setItem(rowPosition , 0, QTableWidgetItem("testWhite.txt"))
         self.logFTable.setItem(rowPosition , 1, QTableWidgetItem(self.whiteFolder))
         self.logFTable.setItem(rowPosition , 2, QTableWidgetItem("Non Cleansed"))
         self.logFTable.setItem(rowPosition , 3, QTableWidgetItem("Non Validated"))
@@ -136,7 +142,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #Insert Blue File in File Table
         rowPosition = self.logFTable.rowCount()
         self.logFTable.insertRow(rowPosition)
-        self.logFTable.setItem(rowPosition , 0, QTableWidgetItem(QFileInfo(blueFile).fileName()))
+        self.logFTable.setItem(rowPosition , 0, QTableWidgetItem("testBlue.txt"))
         self.logFTable.setItem(rowPosition , 1, QTableWidgetItem(self.blueFolder))
         self.logFTable.setItem(rowPosition , 2, QTableWidgetItem("Non Cleansed"))
         self.logFTable.setItem(rowPosition , 3, QTableWidgetItem("Non Validated"))
@@ -145,31 +151,39 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #Insert Red File in File Table
         rowPosition = self.logFTable.rowCount()
         self.logFTable.insertRow(rowPosition)
-        self.logFTable.setItem(rowPosition , 0, QTableWidgetItem(QFileInfo(redFile).fileName()))
+        self.logFTable.setItem(rowPosition , 0, QTableWidgetItem("testRed.txt"))
         self.logFTable.setItem(rowPosition , 1, QTableWidgetItem(self.redFolder))
         self.logFTable.setItem(rowPosition , 2, QTableWidgetItem("Non Cleansed"))
         self.logFTable.setItem(rowPosition , 3, QTableWidgetItem("Non Validated"))
         self.logFTable.setItem(rowPosition , 4, QTableWidgetItem("Non Ingested"))
 
-        #Insert Files into Entry Table
-        rowPosition = self.logETable.rowCount()
-        self.logETable.insertRow(rowPosition)
-        self.logFTable.setItem(rowPosition , 0, QTableWidgetItem("1"))
-        self.logFTable.setItem(rowPosition , 1, QTableWidgetItem("Time: 19:00"))
-        self.logFTable.setItem(rowPosition , 2, QTableWidgetItem("Event 1"))
-        self.logFTable.setItem(rowPosition , 3, QTableWidgetItem("Vector 1"))
-        rowPosition = self.logETable.rowCount()
-        self.logETable.insertRow(rowPosition)
-        self.logFTable.setItem(rowPosition , 0, QTableWidgetItem("2"))
-        self.logFTable.setItem(rowPosition , 1, QTableWidgetItem("Time: 19:00"))
-        self.logFTable.setItem(rowPosition , 2, QTableWidgetItem("Event 1"))
-        self.logFTable.setItem(rowPosition , 3, QTableWidgetItem("Vector 1"))
-        rowPosition = self.logETable.rowCount()
-        self.logETable.insertRow(rowPosition)
-        self.logFTable.setItem(rowPosition , 0, QTableWidgetItem("3"))
-        self.logFTable.setItem(rowPosition , 1, QTableWidgetItem("Time: 19:00"))
-        self.logFTable.setItem(rowPosition , 2, QTableWidgetItem("Event 1"))
-        self.logFTable.setItem(rowPosition , 3, QTableWidgetItem("Vector 1"))
+
+    #Method that demoes the splunk behavior
+    def splunkDemo(self):
+        self.logETable = self.centWid.findChild(QtWidgets.QTableWidget,'LogEntryTable')
+        #Upload files to splunk
+        self.splunker = SplunkUploader()
+        self.splunker.uploadFiles(self.whiteFolder,"test_index")
+        
+        #Read files from splunk
+        self.logEntries = self.splunker.readEntries("test_index")
+
+        #Show files obtained from Splunk
+        for log in self.logEntries:
+            rowPosition = self.logETable.rowCount()
+            self.logETable.insertRow(rowPosition)
+            self.logETable.setItem(rowPosition,0,QTableWidgetItem(log[0]))
+            self.logETable.setItem(rowPosition,1,QTableWidgetItem(log[2]))
+            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1]))
+            self.logETable.setItem(rowPosition,4,QTableWidgetItem("Vector 1"))
+
+    def viewEnforcementReport(self):
+        self.enforceTab = self.centWid.findChild(QtWidgets.QTableWidget,'logFileErrorsTable')
+        rowPosition = self.enforceTab.rowCount()
+        self.enforceTab.insertRow(rowPosition)
+        self.enforceTab.setItem(rowPosition,0,QTableWidgetItem("testBlue.txt"))
+        self.enforceTab.setItem(rowPosition,1,QTableWidgetItem("Line 4"))
+        self.enforceTab.setItem(rowPosition,2,QTableWidgetItem("Invalid Character Found"))
 
 app = QtWidgets.QApplication(sys.argv)
 window = MainWindow()

@@ -1,0 +1,1 @@
+Thu Mar 05 2020 00:15:06 mailsv1 sshd[60445]: pam_unix(sshd:session): the white team observed a session opening for user attacker by red team
