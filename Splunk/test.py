@@ -29,7 +29,7 @@ def setServer():
 	kwargs_oneshot = {"earliest_time": "2020-03-02T12:00:00.000-07:00",
 					"latest_time": "2020-03-04T12:00:00.000-07:00"}
 	#Search query gets all elements in Splunk
-	searchquery_oneshot = "search * | head 1"
+	searchquery_oneshot = "search * index=\"test_index\" | head 1"
 	#Perform a search
 	oneshotsearch_results = service.jobs.oneshot(searchquery_oneshot)
 	# Get the results and display them using the ResultsReader
