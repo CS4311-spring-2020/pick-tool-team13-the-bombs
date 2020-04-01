@@ -10,9 +10,9 @@ class SplunkUploader():
     def __init__(self):
         HOST = 'localhost'
         PORT = 8089
-        USERNAME = 'victorvargas'
-        PASSWORD = 'Isusko13-25-04'
-        self.service = client.connect(host=HOST,port=PORT,username=USERNAME,password=PASSWORD)
+        USERNAME = 'admin'
+        PASSWORD = ''
+        self.service = client.connect(host=HOST,port=PORT,username=USERNAME)
 
 
     #Function that uploads files from a folder to splunk
@@ -31,17 +31,17 @@ class SplunkUploader():
             # Upload and index the file
             myindex.upload(uploadme)
 
-    def readEntries(self,folderType):
+    def readEntries(self,folderType,filters):
         # Run a one-shot search and display the results using the results reader
         # Set the parameters for the search:
         # - Search everything in a 24-hour time range starting June 19, 12:00pm
         # - Display the first 10 results
-        kwargs_oneshot = {"earliest_time": "2020-03-02T12:00:00.000-07:00",
-                        "latest_time": "2020-03-04T12:00:00.000-07:00"}
+        kwargs_oneshot = {"earliest_time": "\""+filters['startTime']+"\"",
+                        "latest_time": "\""+filters['endTime']+"\""}
         #Search query gets all elements in Splunk
-        searchquery_oneshot = "search * index=\""+folderType+"\" | head 3"
+        searchquery_oneshot = "search * index=\""+folderType+"\" timeformat=%FT%T"
         #Perform a search
-        oneshotsearch_results = self.service.jobs.oneshot(searchquery_oneshot)
+        oneshotsearch_results = self.service.jobs.oneshot(searchquery_oneshot, **kwargs_oneshot)
         # Get the results and display them using the ResultsReader
         reader = results.ResultsReader(oneshotsearch_results)
 
@@ -53,3 +53,6 @@ class SplunkUploader():
             log_entries.append([item['_serial'],item['_raw'],item['_time'],item['source']])
 
         return log_entries
+
+splunk = SplunkUploader()
+splunk.uploadFiles("C:\\Users\\vcone\\Desktop\\Cosas\\CS\\Software2\\GUI test\\pick-tool-team13-the-bombs\\Root\\White Team","white_team")
