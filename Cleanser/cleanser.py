@@ -50,3 +50,5 @@ def file_cleanse(filename, outputFilename, bad_quotes=True, bad_unicode=True, ba
         return
     for str in lines:
         file2.write(cleanse(str, bad_quotes,bad_unicode,bad_ascii,bad_extra_spaces))
+
+file_cleanse("C:\\Users\\vcone\\Desktop\\Cosas\\CS\\Software2\\GUI test\\pick-tool-team13-the-bombs\\Cleanser\\test2.txt","test2out")
