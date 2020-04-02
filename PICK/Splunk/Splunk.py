@@ -7,7 +7,7 @@ import splunklib.results as results
 from datetime import datetime
 
 
-class Splunk():
+class Splunk_Class():
     def __init__(self):
         HOST = 'localhost'
         PORT = 8089
@@ -20,7 +20,7 @@ class Splunk():
     def uploadFiles(self,dir,folderType):
         paths = []
         for filename in os.listdir(dir):
-            paths.append(dir+"\\"+filename)
+            paths.append(dir+"/"+filename)
         directory = paths
 
         for path in directory:
