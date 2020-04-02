@@ -69,11 +69,11 @@ class SplunkUploader():
         return log_entries
 
 splunk = SplunkUploader()
-#splunk.uploadFiles("C:\\Users\\vcone\\Desktop\\Cosas\\CS\\Software2\\GUI test\\pick-tool-team13-the-bombs\\Root\\White Team","white_team")
+# splunk.uploadFiles("C:\\Users\\vcone\\Desktop\\Cosas\\CS\\Software2\\GUI test\\pick-tool-team13-the-bombs\\Root\\Red Team","red_team")
 
 filters ={
     "startTime":"",
     "endTime":"2020-03-31 22:00:00",
-    "keywords":"password"
+    "keywords":""
 }
-print(splunk.search("white_team",filters))
+print(splunk.search("red_team",filters))
