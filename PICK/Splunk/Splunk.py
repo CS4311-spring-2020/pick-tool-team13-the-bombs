@@ -7,7 +7,7 @@ import splunklib.results as results
 from datetime import datetime
 
 
-class SplunkUploader():
+class Splunk():
     def __init__(self):
         HOST = 'localhost'
         PORT = 8089
