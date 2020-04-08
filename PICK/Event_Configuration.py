@@ -4,9 +4,9 @@ from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroup
         QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
         QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTabWidget, QTextEdit,
-        QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem)
+        QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem, QMessageBox)
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, QDateTime
 
 from GUI_Subsystem.Event_GUI import Ui_EventConfig
 from Directory_Configuration import Directory_config
@@ -27,5 +27,15 @@ class Event_config(object):
 
     def saveEventConfig(self):
         #Save event Stuff in a file for now
-        self.dirConfig.showDirectoryConfig()
-        self.EventConfig.close()
+        if(self.checkDates()):
+            self.dirConfig.showDirectoryConfig()
+            self.EventConfig.close()
+        else:
+            QMessageBox.about(self.EventConfig, "Error", "Start Date is bigger than end date")
+
+    def checkDates(self):
+        self.startDate = self.EventConfig.findChild(QtWidgets.QDateTimeEdit,'EventConfigStartDate').dateTime()
+        self.endDate = self.EventConfig.findChild(QtWidgets.QDateTimeEdit,'EventConfigEndDate').dateTime()
+        if (self.startDate > self.endDate):
+            return False
+        return True
