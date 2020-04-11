@@ -12,14 +12,15 @@ from GUI_Subsystem.Team_Configuration_GUI import Ui_TeamConfiguration
 from Event_Configuration import Event_config
 
 class Team_config(object):
-    def __init__(self, *args, obj=None, **kwargs):
-        self.eventConfir = Event_config()
-
-    def showTeamConfig(self):
+    def __init__(self,econfig, *args, obj=None, **kwargs):
+        self.eventConfir = econfig
         self.TeamConfiguration = QtWidgets.QWidget()
         ui = Ui_TeamConfiguration()
         ui.setupUi(self.TeamConfiguration)
         self.teamConfigLogic()
+
+    def showTeamConfig(self):
+
         self.TeamConfiguration.show()
 
     def teamConfigLogic(self):

@@ -12,14 +12,14 @@ from GUI_Subsystem.Event_GUI import Ui_EventConfig
 from Directory_Configuration import Directory_config
 
 class Event_config(object):
-    def __init__(self, *args, obj=None, **kwargs):
-        self.dirConfig = Directory_config()
-
-    def showEventConfig(self):
+    def __init__(self,dconfig, *args, obj=None, **kwargs):
+        self.dirConfig = dconfig
         self.EventConfig = QtWidgets.QWidget()
         ui = Ui_EventConfig()
         ui.setupUi(self.EventConfig)
         self.eventConfigLogic()
+
+    def showEventConfig(self):
         self.EventConfig.show()
 
     def eventConfigLogic(self):

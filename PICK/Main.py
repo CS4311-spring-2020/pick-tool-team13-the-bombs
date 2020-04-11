@@ -23,9 +23,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         
         #Declare config classes variables
-        self.eventConfig = Event_config()
         self.dirConfig = Directory_config()
-        self.teamConfig = Team_config()
+        self.eventConfig = Event_config(self.dirConfig)
+        self.teamConfig = Team_config(self.eventConfig)
 
         #Configure Main Buttons
         self.centWid = self.findChild(QtWidgets.QWidget,'centralwidget')
@@ -46,9 +46,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.cancelBut = self.centWid.findChild(QtWidgets.QPushButton,'logFileConfigCancelBut')
         self.cancelBut.clicked.connect(self.readLogFiles)
 
+        #COnnect Directory Ingestion with button here
+        self.dirConfig.DirecConfig.findChild(QtWidgets.QPushButton, 'SaveEventBut').clicked.connect(self.startIngestion)
+
         #Initialize Views
         self.teamConfig.showTeamConfig()
 
+    def startIngestion(self):
+        self.dirConfig.DirecConfig.close()
+        self.show()
+        self.readLogFiles()
 
     #Method to show filter popup
     def showFilter(self):
@@ -62,18 +69,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 #Method to read files and put them into log file in the table
     def readLogFiles(self):
-        configFilesPath = 'C:\\Users\\vcone\\Desktop\\Cosas\\CS\\Software2\\GUI test\\pick-tool-team13-the-bombs\\PICK\\Project_Configuration'
-        #Wait until folder paths are received
-        while(len(os.listdir(configFilesPath) ) == 0):
-            #wait
-            continue
-        #We need to extract the folders from the previous path
-        dirsFile = open(configFilesPath+'\\directories.txt','r')
-        self.rootFolder = dirsFile.readline().rstrip("\n")
-        self.redFolder = dirsFile.readline().rstrip("\n")
-        self.blueFolder = dirsFile.readline().rstrip("\n")
-        self.whiteFolder = dirsFile.readline().rstrip("\n")
-        #We will read one file from each directory for the demo purposes
         #We get log file table and log entry table
         self.logFTable = self.centWid.findChild(QtWidgets.QTableWidget,'logFileTable')
 
@@ -81,7 +76,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         rowPosition = self.logFTable.rowCount()
         self.logFTable.insertRow(rowPosition)
         self.logFTable.setItem(rowPosition , 0, QTableWidgetItem("testWhite.txt"))
-        self.logFTable.setItem(rowPosition , 1, QTableWidgetItem(self.whiteFolder))
+        self.logFTable.setItem(rowPosition , 1, QTableWidgetItem(self.dirConfig.whiteFolder))
         self.logFTable.setItem(rowPosition , 2, QTableWidgetItem("Non Cleansed"))
         self.logFTable.setItem(rowPosition , 3, QTableWidgetItem("Non Validated"))
         self.logFTable.setItem(rowPosition , 4, QTableWidgetItem("Non Ingested"))
@@ -90,7 +85,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         rowPosition = self.logFTable.rowCount()
         self.logFTable.insertRow(rowPosition)
         self.logFTable.setItem(rowPosition , 0, QTableWidgetItem("blueTest.txt"))
-        self.logFTable.setItem(rowPosition , 1, QTableWidgetItem(self.blueFolder))
+        self.logFTable.setItem(rowPosition , 1, QTableWidgetItem(self.dirConfig.blueFolder))
         self.logFTable.setItem(rowPosition , 2, QTableWidgetItem("Non Cleansed"))
         self.logFTable.setItem(rowPosition , 3, QTableWidgetItem("Non Validated"))
         self.logFTable.setItem(rowPosition , 4, QTableWidgetItem("Non Ingested"))
@@ -99,7 +94,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         rowPosition = self.logFTable.rowCount()
         self.logFTable.insertRow(rowPosition)
         self.logFTable.setItem(rowPosition , 0, QTableWidgetItem("redTest.txt"))
-        self.logFTable.setItem(rowPosition , 1, QTableWidgetItem(self.redFolder))
+        self.logFTable.setItem(rowPosition , 1, QTableWidgetItem(self.dirConfig.redFolder))
         self.logFTable.setItem(rowPosition , 2, QTableWidgetItem("Non Cleansed"))
         self.logFTable.setItem(rowPosition , 3, QTableWidgetItem("Non Validated"))
         self.logFTable.setItem(rowPosition , 4, QTableWidgetItem("Non Ingested"))
@@ -111,7 +106,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.logETable = self.centWid.findChild(QtWidgets.QTableWidget,'LogEntryTable')
         #Upload files to splunk
         self.splunker = Splunk_Class()
-        self.splunker.uploadFiles(self.whiteFolder,"white_team")
+        self.splunker.uploadFiles(self.dirConfig.whiteFolder,"white_team")
         
         #Read files from splunk
         filters = {
@@ -142,5 +137,4 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 app = QtWidgets.QApplication(sys.argv)
 
 window = MainWindow()
-window.show()
 app.exec()

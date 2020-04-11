@@ -15,7 +15,13 @@ from GUI_Subsystem.Directory_GUI import Ui_DirectoryConfig
 class Directory_config(object):
     def __init__(self, *args, obj=None, **kwargs):
         self.null = 0
-
+        self.blueFolder=""
+        self.whiteFolder=""
+        self.redFolder = ""
+        self.DirecConfig = QtWidgets.QWidget()
+        ui = Ui_DirectoryConfig()
+        ui.setupUi(self.DirecConfig)
+        self.directConfigLogic()
 
     #Sets button's logic in directory configuration
     def directConfigLogic(self):
@@ -23,7 +29,7 @@ class Directory_config(object):
         self.DirecConfig.findChild(QtWidgets.QPushButton,'BluedirectBut').clicked.connect(self.setBlueDirect)
         self.DirecConfig.findChild(QtWidgets.QPushButton,'RootdirectBut').clicked.connect(self.setRootDirect)
         self.DirecConfig.findChild(QtWidgets.QPushButton,'WhitedirectBut').clicked.connect(self.setWhiteDirect)
-        self.DirecConfig.findChild(QtWidgets.QPushButton, 'SaveEventBut').clicked.connect(self.startIngestion)
+        
 
     #Action when button to save directory config is clicked, check if folders are set, if not throw error
     def saveDirectConfig(self):
@@ -42,15 +48,7 @@ class Directory_config(object):
             else:
                 QMessageBox.about(self.DirecConfig, "Error", "Folder naming or structure incorrect")
                 
-    def startIngestion(self):
-            #save directories in a file for now
-            f= open("C:\\Users\\vcone\\Desktop\\Cosas\\CS\\Software2\\GUI test\\pick-tool-team13-the-bombs\\PICK\\Project_Configuration\\directories.txt","w+")
-            f.write(self.rootFolder + "\n")
-            f.write(self.redFolder + "\n")
-            f.write(self.blueFolder + "\n")
-            f.write(self.whiteFolder + "\n")
-            f.close()
-            self.DirecConfig.close()
+
 
 
     #Set root directory and ingest a file
@@ -83,8 +81,4 @@ class Directory_config(object):
         self.blueTextBox.setPlainText(self.blueFolder)
 
     def showDirectoryConfig(self):
-        self.DirecConfig = QtWidgets.QWidget()
-        ui = Ui_DirectoryConfig()
-        ui.setupUi(self.DirecConfig)
-        self.directConfigLogic()
         self.DirecConfig.show()
