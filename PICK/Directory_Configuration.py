@@ -48,7 +48,13 @@ class Directory_config(object):
             else:
                 QMessageBox.about(self.DirecConfig, "Error", "Folder naming or structure incorrect")
                 
-
+    def checkFolders(self):
+        try: self.rootFolder
+        except AttributeError: 
+            QMessageBox.about(self.DirecConfig, "Error", "Root Folder not Defined")
+            return False
+        else:
+            return True
 
 
     #Set root directory and ingest a file

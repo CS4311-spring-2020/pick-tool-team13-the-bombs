@@ -24,12 +24,12 @@ class Event_config(object):
 
     def eventConfigLogic(self):
         self.EventConfig.findChild(QtWidgets.QPushButton, 'saveEventButt').clicked.connect(self.saveEventConfig)
+        self.EventConfig.findChild(QtWidgets.QPushButton, 'goToDirConfigButt').clicked.connect(self.moveToDirectConfig)
 
     def saveEventConfig(self):
         #Save event Stuff in a file for now
         if(self.checkDates()):
-            self.dirConfig.showDirectoryConfig()
-            self.EventConfig.close()
+            QMessageBox.about(self.EventConfig, "Success", "Dates are correct")
         else:
             QMessageBox.about(self.EventConfig, "Error", "Start Date is bigger than end date")
 
@@ -39,3 +39,7 @@ class Event_config(object):
         if (self.startDate > self.endDate):
             return False
         return True
+
+    def moveToDirectConfig(self):
+        self.dirConfig.showDirectoryConfig()
+        self.EventConfig.close()

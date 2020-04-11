@@ -37,6 +37,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.doubViewIconButt.clicked.connect(self.showIcons)
         self.eventConfigButt = self.findChild(QtWidgets.QAction,'actionEvent_Configuration_2')
         self.eventConfigButt.triggered.connect(self.eventConfig.showEventConfig)
+        self.dirConfigButt = self.findChild(QtWidgets.QAction,'actionDir_Configuration')
+        self.dirConfigButt.triggered.connect(self.dirConfig.showDirectoryConfig)
+        self.teamConfigButt = self.findChild(QtWidgets.QAction,'actionTeam_Configuration')
+        self.teamConfigButt.triggered.connect(self.teamConfig.showTeamConfig)
         
         #Buttons for demo
         self.validateBut = self.centWid.findChild(QtWidgets.QPushButton,'logFileConfigValidBut')
@@ -53,9 +57,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.teamConfig.showTeamConfig()
 
     def startIngestion(self):
-        self.dirConfig.DirecConfig.close()
-        self.show()
-        self.readLogFiles()
+        if(self.dirConfig.checkFolders()):
+            self.dirConfig.DirecConfig.close()
+            self.show()
+            self.readLogFiles()
+
 
     #Method to show filter popup
     def showFilter(self):

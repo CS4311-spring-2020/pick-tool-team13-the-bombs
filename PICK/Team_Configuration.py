@@ -20,7 +20,6 @@ class Team_config(object):
         self.teamConfigLogic()
 
     def showTeamConfig(self):
-
         self.TeamConfiguration.show()
 
     def teamConfigLogic(self):

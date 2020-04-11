@@ -91,6 +91,9 @@ class Ui_EventConfig(object):
         self.saveEventButt = QtWidgets.QPushButton(EventConfig)
         self.saveEventButt.setObjectName("saveEventButt")
         self.verticalLayout_2.addWidget(self.saveEventButt)
+        self.goToDirConfigButt = QtWidgets.QPushButton(EventConfig)
+        self.goToDirConfigButt.setObjectName("goToDirConfigButt")
+        self.verticalLayout_2.addWidget(self.goToDirConfigButt)
 
         self.retranslateUi(EventConfig)
         QtCore.QMetaObject.connectSlotsByName(EventConfig)
@@ -104,6 +107,7 @@ class Ui_EventConfig(object):
         self.EventEndlabel.setText(_translate("EventConfig", "Event End timestamp"))
         self.EventNamelabel.setText(_translate("EventConfig", "Event Name"))
         self.saveEventButt.setText(_translate("EventConfig", "Save Event"))
+        self.goToDirConfigButt.setText(_translate("EventConfig", "Go to Directory Configuration"))
 
 
 

@@ -81,6 +81,7 @@ class Ui_DirectoryConfig(object):
         self.SaveEventBut.setSizePolicy(sizePolicy)
         self.SaveEventBut.setObjectName("SaveEventBut")
         self.verticalLayout.addWidget(self.SaveEventBut)
+        
 
         self.retranslateUi(DirectoryConfig)
         QtCore.QMetaObject.connectSlotsByName(DirectoryConfig)
