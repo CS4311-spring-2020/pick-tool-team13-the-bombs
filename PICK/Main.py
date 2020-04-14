@@ -16,6 +16,8 @@ from Directory_Configuration import Directory_config
 from Event_Configuration import Event_config
 from Team_Configuration import Team_config
 from Splunk.Splunk import Splunk_Class
+from Data_Processing.Log_File import Log_File
+from Data_Processing.Enforcement_Action_Report import Enforcement
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, obj=None, **kwargs):
@@ -56,7 +58,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if(self.dirConfig.checkFolders()):
             self.dirConfig.DirecConfig.close()
             self.show()
-            self.readLogFiles()
 
 
     #Method to show filter popup
@@ -70,37 +71,23 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
 #Method to read files and put them into log file in the table
-    def readLogFiles(self):
+    def readLogFiles(self,dir):
         #We get log file table and log entry table
         self.logFTable = self.centWid.findChild(QtWidgets.QTableWidget,'logFileTable')
+        
+        #We create our list of Log Files
+        self.logFiles = []
 
-        #Insert White File in File Table
-        rowPosition = self.logFTable.rowCount()
-        self.logFTable.insertRow(rowPosition)
-        self.logFTable.setItem(rowPosition , 0, QTableWidgetItem("testWhite.txt"))
-        self.logFTable.setItem(rowPosition , 1, QTableWidgetItem(self.dirConfig.whiteFolder))
-        self.logFTable.setItem(rowPosition , 2, QTableWidgetItem("Non Cleansed"))
-        self.logFTable.setItem(rowPosition , 3, QTableWidgetItem("Non Validated"))
-        self.logFTable.setItem(rowPosition , 4, QTableWidgetItem("Non Ingested"))
-
-        #Insert Blue File in File Table
-        rowPosition = self.logFTable.rowCount()
-        self.logFTable.insertRow(rowPosition)
-        self.logFTable.setItem(rowPosition , 0, QTableWidgetItem("blueTest.txt"))
-        self.logFTable.setItem(rowPosition , 1, QTableWidgetItem(self.dirConfig.blueFolder))
-        self.logFTable.setItem(rowPosition , 2, QTableWidgetItem("Non Cleansed"))
-        self.logFTable.setItem(rowPosition , 3, QTableWidgetItem("Non Validated"))
-        self.logFTable.setItem(rowPosition , 4, QTableWidgetItem("Non Ingested"))
-
-        #Insert Red File in File Table
-        rowPosition = self.logFTable.rowCount()
-        self.logFTable.insertRow(rowPosition)
-        self.logFTable.setItem(rowPosition , 0, QTableWidgetItem("redTest.txt"))
-        self.logFTable.setItem(rowPosition , 1, QTableWidgetItem(self.dirConfig.redFolder))
-        self.logFTable.setItem(rowPosition , 2, QTableWidgetItem("Non Cleansed"))
-        self.logFTable.setItem(rowPosition , 3, QTableWidgetItem("Non Validated"))
-        self.logFTable.setItem(rowPosition , 4, QTableWidgetItem("Non Ingested"))
-
+        #Now we populate list of log files here
+        for filename in os.listdir(dir):
+            self.logFiles.append(Log_File(filename))
+        
+        #For each log file we get we attempt to cleanse
+        for file in self.logFiles:
+            file.cleanseFile()
+            if(not file.cleansed):
+                #We send it to enforcement action report
+                self.viewEnforcementReport(file)
 
 
         #Method that demoes the splunk behavior
@@ -130,7 +117,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1]))
             self.logETable.setItem(rowPosition,4,QTableWidgetItem("Vector 1"))
 
-    def viewEnforcementReport(self):
+    def viewEnforcementReport(self,file):
+        self.enforcementReport = Enforcement(file)
         self.enforceTab = self.centWid.findChild(QtWidgets.QTableWidget,'logFileErrorsTable')
         rowPosition = self.enforceTab.rowCount()
         self.enforceTab.insertRow(rowPosition)
