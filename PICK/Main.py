@@ -42,13 +42,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.teamConfigButt = self.findChild(QtWidgets.QAction,'actionTeam_Configuration')
         self.teamConfigButt.triggered.connect(self.teamConfig.showTeamConfig)
         
-        #Buttons for demo
-        self.validateBut = self.centWid.findChild(QtWidgets.QPushButton,'logFileConfigValidBut')
-        self.validateBut.clicked.connect(self.splunkDemo)
-        self.enforceViewBut = self.centWid.findChild(QtWidgets.QPushButton,'logFileConfigEnforce')
-        self.enforceViewBut.clicked.connect(self.viewEnforcementReport)
-        self.cancelBut = self.centWid.findChild(QtWidgets.QPushButton,'logFileConfigCancelBut')
-        self.cancelBut.clicked.connect(self.readLogFiles)
+
+        #Splunk INstance
+        self.splunker = Splunk_Class()
 
         #COnnect Directory Ingestion with button here
         self.dirConfig.DirecConfig.findChild(QtWidgets.QPushButton, 'SaveEventBut').clicked.connect(self.startIngestion)
@@ -108,19 +104,22 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
         #Method that demoes the splunk behavior
-    def splunkDemo(self):
+    def uploadToSplunk(self):
         self.logETable = self.centWid.findChild(QtWidgets.QTableWidget,'LogEntryTable')
         #Upload files to splunk
-        self.splunker = Splunk_Class()
         self.splunker.uploadFiles(self.dirConfig.whiteFolder,"white_team")
-        
+        self.splunker.uploadFiles(self.dirConfig.redFolder,"red_team")
+        self.splunker.uploadFiles(self.dirConfig.blueFolder,"blue_team")
+
+    def searchFromSplunk(self):
         #Read files from splunk
+        index = "white_team"
         filters = {
             "startTime":"",
             "endTime":"2020-03-31 22:00:00",
             "keywords":""
         }
-        self.logEntries = self.splunker.search("white_team",filters)
+        self.logEntries = self.splunker.search(index,filters)
 
         #Show files obtained from Splunk
         for log in self.logEntries:
