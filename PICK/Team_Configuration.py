@@ -26,6 +26,6 @@ class Team_config(object):
         self.TeamConfiguration.findChild(QtWidgets.QPushButton, 'TeamConfigurationButtonConnect').clicked.connect(self.saveTeamConfig)
 
     def saveTeamConfig(self):
-        #Save team configuration in a file
+        self.eventConfir.setTeamConfig(self)
         self.eventConfir.showEventConfig()
         self.TeamConfiguration.close()

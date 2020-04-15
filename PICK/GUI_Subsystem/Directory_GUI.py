@@ -74,6 +74,7 @@ class Ui_DirectoryConfig(object):
         self.gridLayout.addWidget(self.WhiteTeamLabel, 1, 3, 1, 1)
         self.verticalLayout.addLayout(self.gridLayout)
         self.SaveEventBut = QtWidgets.QPushButton(DirectoryConfig)
+        self.goBackToEvent = QtWidgets.QPushButton(DirectoryConfig)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -81,6 +82,10 @@ class Ui_DirectoryConfig(object):
         self.SaveEventBut.setSizePolicy(sizePolicy)
         self.SaveEventBut.setObjectName("SaveEventBut")
         self.verticalLayout.addWidget(self.SaveEventBut)
+        sizePolicy.setHeightForWidth(self.goBackToEvent.sizePolicy().hasHeightForWidth())
+        self.goBackToEvent.setSizePolicy(sizePolicy)
+        self.goBackToEvent.setObjectName("goBackToEvent")
+        self.verticalLayout.addWidget(self.goBackToEvent)
         
 
         self.retranslateUi(DirectoryConfig)
@@ -99,6 +104,7 @@ class Ui_DirectoryConfig(object):
         self.WhitedirectBut.setText(_translate("DirectoryConfig", "...."))
         self.WhiteTeamLabel.setText(_translate("DirectoryConfig", "White Team Folder"))
         self.SaveEventBut.setText(_translate("DirectoryConfig", "Start Data Ingestion"))
+        self.goBackToEvent.setText(_translate("DirectoryConfig", "Go Back to Event Config"))
 
 
 if __name__ == "__main__":

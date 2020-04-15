@@ -11,6 +11,7 @@ from PyQt5.QtCore import pyqtSlot, QDateTime
 from GUI_Subsystem.Event_GUI import Ui_EventConfig
 from Directory_Configuration import Directory_config
 
+
 class Event_config(object):
     def __init__(self,dconfig, *args, obj=None, **kwargs):
         self.dirConfig = dconfig
@@ -19,17 +20,23 @@ class Event_config(object):
         ui.setupUi(self.EventConfig)
         self.eventConfigLogic()
 
+
+    #Set team config to go back
+    def setTeamConfig(self,tConfig):
+        self.tConfig = tConfig
+
     def showEventConfig(self):
         self.EventConfig.show()
 
     def eventConfigLogic(self):
-        self.EventConfig.findChild(QtWidgets.QPushButton, 'saveEventButt').clicked.connect(self.saveEventConfig)
-        self.EventConfig.findChild(QtWidgets.QPushButton, 'goToDirConfigButt').clicked.connect(self.moveToDirectConfig)
+        self.EventConfig.findChild(QtWidgets.QPushButton, 'goBackToTeamConfig').clicked.connect(self.goBackToTeamConfig)
+        self.EventConfig.findChild(QtWidgets.QPushButton, 'goToDirConfigButt').clicked.connect(self.saveEventConfig)
 
     def saveEventConfig(self):
         #Save event Stuff in a file for now
         if(self.checkDates()):
             QMessageBox.about(self.EventConfig, "Success", "Dates are correct")
+            self.moveToDirectConfig()
         else:
             QMessageBox.about(self.EventConfig, "Error", "Start Date is bigger than end date")
 
@@ -41,5 +48,10 @@ class Event_config(object):
         return True
 
     def moveToDirectConfig(self):
+        self.dirConfig.setEventConfig(self)
         self.dirConfig.showDirectoryConfig()
+        self.EventConfig.close()
+
+    def goBackToTeamConfig(self):
+        self.tConfig.showTeamConfig()
         self.EventConfig.close()

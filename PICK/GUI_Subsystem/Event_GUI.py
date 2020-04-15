@@ -88,9 +88,9 @@ class Ui_EventConfig(object):
         self.EventNamelabel.setObjectName("EventNamelabel")
         self.gridLayout.addWidget(self.EventNamelabel, 1, 0, 1, 1)
         self.verticalLayout_2.addLayout(self.gridLayout)
-        self.saveEventButt = QtWidgets.QPushButton(EventConfig)
-        self.saveEventButt.setObjectName("saveEventButt")
-        self.verticalLayout_2.addWidget(self.saveEventButt)
+        self.goBackToTeamConfig = QtWidgets.QPushButton(EventConfig)
+        self.goBackToTeamConfig.setObjectName("goBackToTeamConfig")
+        self.verticalLayout_2.addWidget(self.goBackToTeamConfig)
         self.goToDirConfigButt = QtWidgets.QPushButton(EventConfig)
         self.goToDirConfigButt.setObjectName("goToDirConfigButt")
         self.verticalLayout_2.addWidget(self.goToDirConfigButt)
@@ -106,7 +106,7 @@ class Ui_EventConfig(object):
         self.EventStartlabel.setText(_translate("EventConfig", "Event Start timestamp"))
         self.EventEndlabel.setText(_translate("EventConfig", "Event End timestamp"))
         self.EventNamelabel.setText(_translate("EventConfig", "Event Name"))
-        self.saveEventButt.setText(_translate("EventConfig", "Save Event"))
+        self.goBackToTeamConfig.setText(_translate("EventConfig", "Go back to team configuration"))
         self.goToDirConfigButt.setText(_translate("EventConfig", "Go to Directory Configuration"))
 
 

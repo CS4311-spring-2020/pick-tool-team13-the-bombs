@@ -23,12 +23,17 @@ class Directory_config(object):
         ui.setupUi(self.DirecConfig)
         self.directConfigLogic()
 
+    #Sets event configuration to be able to show it again to go back
+    def setEventConfig(self,eConfig):
+        self.eConfig = eConfig
+
     #Sets button's logic in directory configuration
     def directConfigLogic(self):
         self.DirecConfig.findChild(QtWidgets.QPushButton,'ReddirectBut').clicked.connect(self.setRedDirect)
         self.DirecConfig.findChild(QtWidgets.QPushButton,'BluedirectBut').clicked.connect(self.setBlueDirect)
         self.DirecConfig.findChild(QtWidgets.QPushButton,'RootdirectBut').clicked.connect(self.setRootDirect)
         self.DirecConfig.findChild(QtWidgets.QPushButton,'WhitedirectBut').clicked.connect(self.setWhiteDirect)
+        self.DirecConfig.findChild(QtWidgets.QPushButton, 'goBackToEvent').clicked.connect(self.goBackToEvent)
         
 
     #Action when button to save directory config is clicked, check if folders are set, if not throw error
@@ -88,3 +93,7 @@ class Directory_config(object):
 
     def showDirectoryConfig(self):
         self.DirecConfig.show()
+
+    def goBackToEvent(self):
+        self.eConfig.showEventConfig()
+        self.DirecConfig.close()
