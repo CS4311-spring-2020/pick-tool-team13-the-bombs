@@ -24,6 +24,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
         
+        #Declare filter popup and set buttons
+        self.filters = filterPopup()
+        self.filters.buttonBox.accepted.connect(self.filterEntries)
+        self.filters.buttonBox.rejected.connect(self.closeFilter)
+
         #Declare config classes variables
         self.dirConfig = Directory_config()
         self.eventConfig = Event_config(self.dirConfig)
@@ -44,6 +49,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.teamConfigButt = self.findChild(QtWidgets.QAction,'actionTeam_Configuration')
         self.teamConfigButt.triggered.connect(self.teamConfig.showTeamConfig)
         
+        #Some tables
+        self.logETable = self.centWid.findChild(QtWidgets.QTableWidget,'LogEntryTable')
 
         #Splunk INstance
         self.splunker = Splunk_Class()
@@ -65,8 +72,31 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     #Method to show filter popup
     def showFilter(self):
-        exPopup = filterPopup(self)
-        exPopup.show()
+        self.filters.show()
+    #Method to close filter popup without doing anything
+    def closeFilter(self):
+        self.filters.close()
+
+    #Method to search in splunk with filters from the filter popup
+    def filterEntries(self):
+        index = "*"
+        keywords = str(self.filters.keyWordSearch.text())
+        startTime = self.filters.startTime.dateTime().toString("yyyy-MM-ddThh:mm:ss")
+        endTime = self.filters.endTime.dateTime().toString("yyyy-MM-ddThh:mm:ss")
+        if(self.filters.redBox.isChecked() == True or self.filters.redBox2.isChecked() == True):
+            index = "red_team"
+        elif(self.filters.whiteBox.isChecked() == True or self.filters.whiteBox2.isChecked() == True):
+            index = "white_team"
+        elif(self.filters.blueBox.isChecked() == True or self.filters.blueBox2.isChecked() == True):
+            index = "blue_team"
+
+        filters = {
+            "startTime":startTime,
+            "endTime":endTime,
+            "keywords":keywords
+        }
+        entries = self.splunker.search(index,filters)
+        self.populateEntryTable(entries)
 
     def showIcons(self):
         exPopup = IconConfigDialog(self)
@@ -130,6 +160,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     #Method that populates the log entry table with proper log entries for demo
     #FIXME is for demo
     def populateLogEntryTable(self):
+        
         filters = {
             "startTime":"",
             "endTime":"",
@@ -144,7 +175,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.logETable.insertRow(rowPosition)
             self.logETable.setItem(rowPosition,0,QTableWidgetItem(log[0]))
             self.logETable.setItem(rowPosition,1,QTableWidgetItem(log[2]))
-            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +" "+ log[3] +" "+ log[4]))
+            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +"\n"+ log[3] +"\n"+ log[4]))
             self.logETable.setItem(rowPosition,4,QTableWidgetItem("Vector 1"))
 
         #Show files obtained from Splunk
@@ -153,7 +184,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.logETable.insertRow(rowPosition)
             self.logETable.setItem(rowPosition,0,QTableWidgetItem(log[0]))
             self.logETable.setItem(rowPosition,1,QTableWidgetItem(log[2]))
-            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +" "+ log[3] +" "+ log[4]))
+            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +"\n"+ log[3] +"\n"+ log[4]))
             self.logETable.setItem(rowPosition,4,QTableWidgetItem("Vector 1"))
 
                 #Show files obtained from Splunk
@@ -162,10 +193,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.logETable.insertRow(rowPosition)
             self.logETable.setItem(rowPosition,0,QTableWidgetItem(log[0]))
             self.logETable.setItem(rowPosition,1,QTableWidgetItem(log[2]))
-            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +" "+ log[3] +" "+ log[4]))
+            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +"\n"+ log[3] +"\n"+ log[4]))
             self.logETable.setItem(rowPosition,4,QTableWidgetItem("Vector 1"))
 
-
+    def populateEntryTable(self,entries):
+        for log in entries:
+            rowPosition = self.logETable.rowCount()
+            self.logETable.insertRow(rowPosition)
+            self.logETable.setItem(rowPosition,0,QTableWidgetItem(log[0]))
+            self.logETable.setItem(rowPosition,1,QTableWidgetItem(log[2]))
+            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +"\n"+ log[3] +"\n"+ log[4]))
+            self.logETable.setItem(rowPosition,4,QTableWidgetItem("Vector 1"))
 
 app = QtWidgets.QApplication(sys.argv)
 

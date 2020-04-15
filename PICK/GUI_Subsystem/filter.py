@@ -27,9 +27,9 @@ class filterPopup(QDialog):
         self.redBox2 = QCheckBox(self)     #Red Check Box
         self.blueBox2 = QCheckBox(self)    #Blue Check Box
         self.whiteBox2 = QCheckBox(self)   #White Check Box
-        self.startTime = QLineEdit(self)  #Start time text
-        self.endTime = QLineEdit(self)    #End Time text
-        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, self)
+        self.startTime = QDateTimeEdit(self)  #Start time text
+        self.endTime = QDateTimeEdit(self)    #End Time text
+        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, self)
 
         self.formGroupBox = QGroupBox("ihjnrsdijn")
         layout = QFormLayout(self)
@@ -45,8 +45,6 @@ class filterPopup(QDialog):
         layout.addRow("White", self.whiteBox2)
         layout.addRow("Start TimeStamp:", self.startTime)
         layout.addRow("End TimeStamp:", self.endTime)
-        layout.addWidget(buttonBox)
+        layout.addWidget(self.buttonBox)
 
-        buttonBox.accepted.connect(self.accept)
-        buttonBox.rejected.connect(self.reject)
 

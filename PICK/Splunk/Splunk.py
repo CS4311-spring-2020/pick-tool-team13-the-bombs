@@ -39,12 +39,12 @@ class Splunk_Class():
             filters['startTime'] = "1971-01-01T00:00:00"
         elif(filters['endTime'] == ""):
             #end time is empty so we provide current time
-            filters['endTime'] = datetime.utcnow()
+            filters['endTime'] = datetime.utcnow().strftime("%FT%T")
         elif(filters['startTime'] == "" and filters['endTime'] == ""):
             #Starting time is empty so we provide earliest possible time in Zulu Time
             filters['startTime'] = "1971-01-01T00:00:00"
             #end time is empty so we provide current time
-            filters['endTime'] = datetime.utcnow()
+            filters['endTime'] = datetime.utcnow().strftime("%FT%T")
 
         # Run a one-shot search and display the results using the results reader
         # Set the parameters for the search:
@@ -55,7 +55,7 @@ class Splunk_Class():
         #Search query gets all elements in Splunk
         searchquery_oneshot = "search * index=\""+folderType+"\" timeformat=%F%T " + filters['keywords']
         #Perform a search
-        oneshotsearch_results = self.service.jobs.oneshot(searchquery_oneshot, **kwargs_oneshot)
+        oneshotsearch_results = self.service.jobs.oneshot(searchquery_oneshot,latest_time=filters['endTime'],earliest_time=filters['startTime'])
         # Get the results and display them using the ResultsReader
         reader = results.ResultsReader(oneshotsearch_results)
 
