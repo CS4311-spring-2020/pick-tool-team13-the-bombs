@@ -42,9 +42,9 @@ class Directory_config(object):
             dirlist = [ item for item in os.listdir(root) if os.path.isdir(os.path.join(root, item)) ]
             if(len(dirlist)==3 and ('White Team' in dirlist) and ('Blue Team' in dirlist) and ('Red Team' in dirlist)):
                 #folder structure is correct
-                self.setWhiteDirect(self.rootFolder+'/White Folder')
-                self.setRedDirect(self.rootFolder+'/Red Folder')
-                self.setBlueDirect(self.rootFolder+'/Blue Folder')
+                self.setWhiteDirect(self.rootFolder+'/White Team')
+                self.setRedDirect(self.rootFolder+'/Red Team')
+                self.setBlueDirect(self.rootFolder+'/Blue Team')
             else:
                 QMessageBox.about(self.DirecConfig, "Error", "Folder naming or structure incorrect")
                 

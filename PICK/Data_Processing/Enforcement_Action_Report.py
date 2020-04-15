@@ -1,4 +1,4 @@
-import Log_File
+from Data_Processing.Log_File import Log_File
 
 class Enforcement(object):
     def __init__(self,logFile):

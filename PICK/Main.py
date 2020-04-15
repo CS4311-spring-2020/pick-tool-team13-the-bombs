@@ -58,7 +58,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if(self.dirConfig.checkFolders()):
             self.dirConfig.DirecConfig.close()
             self.show()
-
+            self.readLogFiles(self.dirConfig.whiteFolder)
+            self.readLogFiles(self.dirConfig.blueFolder)
+            self.readLogFiles(self.dirConfig.whiteFolder)
+            self.populateLogEntryTable()
 
     #Method to show filter popup
     def showFilter(self):
@@ -72,7 +75,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 #Method to read files and put them into log file in the table
     def readLogFiles(self,dir):
-        #We get log file table and log entry table
+        #We get log file table to show files with errors
         self.logFTable = self.centWid.findChild(QtWidgets.QTableWidget,'logFileTable')
         
         #We create our list of Log Files
@@ -89,21 +92,28 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 #We send it to enforcement action report
                 self.viewEnforcementReport(file)
 
+        #We upload files that were cleansed
+        #FIXME For now we just upload files in folder
+        self.uploadToSplunk(dir)
 
         #Method that demoes the splunk behavior
-    def uploadToSplunk(self):
-        self.logETable = self.centWid.findChild(QtWidgets.QTableWidget,'LogEntryTable')
+    def uploadToSplunk(self,dir):
+        #We check what the directory is to select proper place to upload
+        if(os.path.basename(dir)=="Blue Team"):
+            index = "blue_team"
+        elif(os.path.basename(dir)=="Red Team"):
+            index = "red_team"
+        elif(os.path.basename(dir)=="White Team"):
+            index = "white_team"
         #Upload files to splunk
-        self.splunker.uploadFiles(self.dirConfig.whiteFolder,"white_team")
-        self.splunker.uploadFiles(self.dirConfig.redFolder,"red_team")
-        self.splunker.uploadFiles(self.dirConfig.blueFolder,"blue_team")
+        self.splunker.uploadFiles(dir,index)
 
-    def searchFromSplunk(self):
+    def searchFromSplunk(self,searchIndex):
         #Read files from splunk
-        index = "white_team"
+        index = searchIndex
         filters = {
             "startTime":"",
-            "endTime":"2020-03-31 22:00:00",
+            "endTime":"",
             "keywords":""
         }
         self.logEntries = self.splunker.search(index,filters)
@@ -114,17 +124,47 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.logETable.insertRow(rowPosition)
             self.logETable.setItem(rowPosition,0,QTableWidgetItem(log[0]))
             self.logETable.setItem(rowPosition,1,QTableWidgetItem(log[2]))
-            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1]))
+            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +" "+ log[3] +" "+ log[4]))
             self.logETable.setItem(rowPosition,4,QTableWidgetItem("Vector 1"))
 
-    def viewEnforcementReport(self,file):
-        self.enforcementReport = Enforcement(file)
-        self.enforceTab = self.centWid.findChild(QtWidgets.QTableWidget,'logFileErrorsTable')
-        rowPosition = self.enforceTab.rowCount()
-        self.enforceTab.insertRow(rowPosition)
-        self.enforceTab.setItem(rowPosition,0,QTableWidgetItem("testBlue.txt"))
-        self.enforceTab.setItem(rowPosition,1,QTableWidgetItem("Line 4"))
-        self.enforceTab.setItem(rowPosition,2,QTableWidgetItem("Invalid Character Found"))
+    #Method that populates the log entry table with proper log entries for demo
+    #FIXME is for demo
+    def populateLogEntryTable(self):
+        filters = {
+            "startTime":"",
+            "endTime":"",
+            "keywords":""
+        }
+        whiteEntries = self.splunker.search("white_team",filters)
+        blueEntries = self.splunker.search("blue_team",filters)
+        redEntries = self.splunker.search("red_team",filters)
+        #Show files obtained from Splunk
+        for log in whiteEntries:
+            rowPosition = self.logETable.rowCount()
+            self.logETable.insertRow(rowPosition)
+            self.logETable.setItem(rowPosition,0,QTableWidgetItem(log[0]))
+            self.logETable.setItem(rowPosition,1,QTableWidgetItem(log[2]))
+            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +" "+ log[3] +" "+ log[4]))
+            self.logETable.setItem(rowPosition,4,QTableWidgetItem("Vector 1"))
+
+        #Show files obtained from Splunk
+        for log in redEntries:
+            rowPosition = self.logETable.rowCount()
+            self.logETable.insertRow(rowPosition)
+            self.logETable.setItem(rowPosition,0,QTableWidgetItem(log[0]))
+            self.logETable.setItem(rowPosition,1,QTableWidgetItem(log[2]))
+            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +" "+ log[3] +" "+ log[4]))
+            self.logETable.setItem(rowPosition,4,QTableWidgetItem("Vector 1"))
+
+                #Show files obtained from Splunk
+        for log in blueEntries:
+            rowPosition = self.logETable.rowCount()
+            self.logETable.insertRow(rowPosition)
+            self.logETable.setItem(rowPosition,0,QTableWidgetItem(log[0]))
+            self.logETable.setItem(rowPosition,1,QTableWidgetItem(log[2]))
+            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +" "+ log[3] +" "+ log[4]))
+            self.logETable.setItem(rowPosition,4,QTableWidgetItem("Vector 1"))
+
 
 
 app = QtWidgets.QApplication(sys.argv)
