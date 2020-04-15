@@ -1310,11 +1310,11 @@ class Ui_MainWindow(object):
         self.RelationConfigTable.setSortingEnabled(False)
         self.RelationConfigTable.setSortingEnabled(__sortingEnabled)
         self.Tabs.setTabText(self.Tabs.indexOf(self.RelConfig), _translate("MainWindow", "Relation Config"))
-<<<<<<< HEAD
+#<<<<<<< HEAD
         #self.label_7.setText(_translate("MainWindow", "<html><head/><body><p><img src=\":/graph/graph.png\"/></p></body></html>"))
-=======
-        self.label_7.setText(_translate("MainWindow", "<html><head/><body><p><img src=\"PICK\GUI_Subsystem\graph.png\"/></p></body></html>"))
->>>>>>> 5d6a33d29f138ded66540b244976a1cf3c9dbe16
+#=======
+#        self.label_7.setText(_translate("MainWindow", "<html><head/><body><p><img src=\"PICK\GUI_Subsystem\graph.png\"/></p></body></html>"))
+#>>>>>>> 5d6a33d29f138ded66540b244976a1cf3c9dbe16
         self.GraphViewNodesLabel.setText(_translate("MainWindow", "Nodes configuration in graphical format"))
         self.GraphViewTimeLineOption.setItemText(0, _translate("MainWindow", "Option1"))
         self.GraphViewTimeLineOption.setItemText(1, _translate("MainWindow", "Option 2"))
@@ -1388,11 +1388,11 @@ class Ui_MainWindow(object):
         self.TableViewTable.setSortingEnabled(__sortingEnabled)
         self.Tabs.setTabText(self.Tabs.indexOf(self.TableView), _translate("MainWindow", "Table View"))
         self.DoubleViewVectorLabel.setText(_translate("MainWindow", "Vector"))
-<<<<<<< HEAD
+#<<<<<<< HEAD
         #self.label_8.setText(_translate("MainWindow", "<html><head/><body><p><img src=\":/graph/graph.png\"/></p></body></html>"))
-=======
-        self.label_8.setText(_translate("MainWindow", "<html><head/><body><p><img src=\"PICK\GUI_Subsystem\graph.png\"/></p></body></html>"))
->>>>>>> 5d6a33d29f138ded66540b244976a1cf3c9dbe16
+#=======
+#        self.label_8.setText(_translate("MainWindow", "<html><head/><body><p><img src=\"PICK\GUI_Subsystem\graph.png\"/></p></body></html>"))
+#>>>>>>> 5d6a33d29f138ded66540b244976a1cf3c9dbe16
         self.DoubleViewZoomInBut.setText(_translate("MainWindow", "Zoom In"))
         self.DoubleViewIntervalOptions.setItemText(0, _translate("MainWindow", "Option1"))
         self.DoubleViewIntervalOptions.setItemText(1, _translate("MainWindow", "Option 2"))
