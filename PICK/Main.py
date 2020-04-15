@@ -79,22 +79,41 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     #Method to search in splunk with filters from the filter popup
     def filterEntries(self):
-        index = "*"
+        index = []
+        index.append("*")
+        index.append("")
+        index.append("")
         keywords = str(self.filters.keyWordSearch.text())
         startTime = self.filters.startTime.dateTime().toString("yyyy-MM-ddThh:mm:ss")
         endTime = self.filters.endTime.dateTime().toString("yyyy-MM-ddThh:mm:ss")
-        if(self.filters.redBox.isChecked() == True or self.filters.redBox2.isChecked() == True):
-            index = "red_team"
+
+        #Check which boxes are checked to search proper folders
+        if((self.filters.blueBox.isChecked() == True or self.filters.blueBox2.isChecked() == True) and (self.filters.redBox.isChecked() == True or self.filters.redBox2.isChecked() == True) and (self.filters.whiteBox.isChecked() == True or self.filters.whiteBox2.isChecked() == True)):
+            index[0] = "blue_team"
+            index[1] ="red_team"
+            index[2] = "white_team"
+        elif((self.filters.redBox.isChecked() == True or self.filters.redBox2.isChecked() == True) and (self.filters.whiteBox.isChecked() == True or self.filters.whiteBox2.isChecked() == True)):
+            index[0] = "red_team"
+            index[1] ="white_team"
+        elif((self.filters.blueBox.isChecked() == True or self.filters.blueBox2.isChecked() == True) and (self.filters.whiteBox.isChecked() == True or self.filters.whiteBox2.isChecked() == True)):
+            index[0] = "blue_team"
+            index[1] = "white_team"
+        elif((self.filters.blueBox.isChecked() == True or self.filters.blueBox2.isChecked() == True) and (self.filters.redBox.isChecked() == True or self.filters.redBox2.isChecked() == True)):
+            index[0] = "blue_team"
+            index[1] ="red_team"
+        elif(self.filters.redBox.isChecked() == True or self.filters.redBox2.isChecked() == True):
+            index[0] ="red_team"
         elif(self.filters.whiteBox.isChecked() == True or self.filters.whiteBox2.isChecked() == True):
-            index = "white_team"
+            index[0] = "white_team"
         elif(self.filters.blueBox.isChecked() == True or self.filters.blueBox2.isChecked() == True):
-            index = "blue_team"
+            index[0] = "blue_team"
 
         filters = {
             "startTime":startTime,
             "endTime":endTime,
             "keywords":keywords
         }
+        print(index)
         entries = self.splunker.search(index,filters)
         self.populateEntryTable(entries)
 
@@ -160,17 +179,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     #Method that populates the log entry table with proper log entries for demo
     #FIXME is for demo
     def populateLogEntryTable(self):
-        
+        index = ["white_team","blue_team","red_team"]
         filters = {
             "startTime":"",
             "endTime":"",
             "keywords":""
         }
-        whiteEntries = self.splunker.search("white_team",filters)
-        blueEntries = self.splunker.search("blue_team",filters)
-        redEntries = self.splunker.search("red_team",filters)
+        entries = self.splunker.search(index,filters)
+
         #Show files obtained from Splunk
-        for log in whiteEntries:
+        for log in entries:
             rowPosition = self.logETable.rowCount()
             self.logETable.insertRow(rowPosition)
             self.logETable.setItem(rowPosition,0,QTableWidgetItem(log[0]))
@@ -178,25 +196,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +"\n"+ log[3] +"\n"+ log[4]))
             self.logETable.setItem(rowPosition,4,QTableWidgetItem("Vector 1"))
 
-        #Show files obtained from Splunk
-        for log in redEntries:
-            rowPosition = self.logETable.rowCount()
-            self.logETable.insertRow(rowPosition)
-            self.logETable.setItem(rowPosition,0,QTableWidgetItem(log[0]))
-            self.logETable.setItem(rowPosition,1,QTableWidgetItem(log[2]))
-            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +"\n"+ log[3] +"\n"+ log[4]))
-            self.logETable.setItem(rowPosition,4,QTableWidgetItem("Vector 1"))
-
-                #Show files obtained from Splunk
-        for log in blueEntries:
-            rowPosition = self.logETable.rowCount()
-            self.logETable.insertRow(rowPosition)
-            self.logETable.setItem(rowPosition,0,QTableWidgetItem(log[0]))
-            self.logETable.setItem(rowPosition,1,QTableWidgetItem(log[2]))
-            self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +"\n"+ log[3] +"\n"+ log[4]))
-            self.logETable.setItem(rowPosition,4,QTableWidgetItem("Vector 1"))
 
     def populateEntryTable(self,entries):
+        self.logETable.setRowCount(0)
         for log in entries:
             rowPosition = self.logETable.rowCount()
             self.logETable.insertRow(rowPosition)

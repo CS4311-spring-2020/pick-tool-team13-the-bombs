@@ -53,7 +53,8 @@ class Splunk_Class():
         kwargs_oneshot = {"starttime": "\""+filters['startTime']+"\"",
                         "endtime": "\""+filters['endTime']+"\""}
         #Search query gets all elements in Splunk
-        searchquery_oneshot = "search * index=\""+folderType+"\" timeformat=%F%T " + filters['keywords']
+        searchquery_oneshot = "search * index=\""+folderType[0]+ "\"" + " OR index=\""+folderType[1]+"\"" + " OR index=\""+folderType[2]+"\" " +"timeformat=%F%T " + filters['keywords'] 
+        print(searchquery_oneshot)
         #Perform a search
         oneshotsearch_results = self.service.jobs.oneshot(searchquery_oneshot,latest_time=filters['endTime'],earliest_time=filters['startTime'])
         # Get the results and display them using the ResultsReader
