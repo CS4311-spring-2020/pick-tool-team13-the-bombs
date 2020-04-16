@@ -18,8 +18,10 @@ from Team_Configuration import Team_config
 from Splunk.Splunk import Splunk_Class
 from Data_Processing.Log_File import Log_File
 from Data_Processing.Enforcement_Action_Report import Enforcement
+from DBManager import DBManager
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+
     def __init__(self, *args, obj=None, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
@@ -33,7 +35,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.dirConfig = Directory_config()
         self.eventConfig = Event_config(self.dirConfig)
         self.teamConfig = Team_config(self.eventConfig)
-
+        
         #Configure Main Buttons
         self.centWid = self.findChild(QtWidgets.QWidget,'centralwidget')
         self.filtButt = self.centWid.findChild(QtWidgets.QPushButton,'LogEntryFilterBut')
@@ -60,7 +62,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         #Initialize Views
         self.teamConfig.showTeamConfig()
-
+        
     def startIngestion(self):
         if(self.dirConfig.checkFolders()):
             self.dirConfig.DirecConfig.close()
@@ -72,6 +74,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     #Method to show filter popup
     def showFilter(self):
+        query = DBManager.get_single_event(self.eventConfig.id)
+        #print(query)
+        self.filters.setDT(startDT = query['StartDate'], endDT = query['EndDate'])
         self.filters.show()
     #Method to close filter popup without doing anything
     def closeFilter(self):

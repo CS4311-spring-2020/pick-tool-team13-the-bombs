@@ -8,11 +8,13 @@ from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroup
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, QDateTime
 
+from DBManager import DBManager
 from GUI_Subsystem.Event_GUI import Ui_EventConfig
 from Directory_Configuration import Directory_config
 
 
 class Event_config(object):
+    id = 0
     def __init__(self,dconfig, *args, obj=None, **kwargs):
         self.dirConfig = dconfig
         self.EventConfig = QtWidgets.QWidget()
@@ -36,6 +38,13 @@ class Event_config(object):
         #Save event Stuff in a file for now
         if(self.checkDates()):
             QMessageBox.about(self.EventConfig, "Success", "Dates are correct")
+            name =  self.EventConfig.findChild(QtWidgets.QTextEdit,'EventEndTextbox').toPlainText()
+            description =  self.EventConfig.findChild(QtWidgets.QTextEdit,'DescriptionTextbox').toPlainText()
+            startDate = self.EventConfig.findChild(QtWidgets.QDateTimeEdit,'EventConfigStartDate').dateTime().toString("yyyy-MM-ddThh:mm:ss")
+            endDate = self.EventConfig.findChild(QtWidgets.QDateTimeEdit,'EventConfigEndDate').dateTime().toString("yyyy-MM-ddThh:mm:ss")
+            list = {"EventName": name, "EventDescription": description, "StartDate": startDate, "EndDate": endDate}
+            self.id = DBManager.insert_event(list)
+            print(endDate)
             self.moveToDirectConfig()
         else:
             QMessageBox.about(self.EventConfig, "Error", "Start Date is bigger than end date")
@@ -43,7 +52,8 @@ class Event_config(object):
     def checkDates(self):
         self.startDate = self.EventConfig.findChild(QtWidgets.QDateTimeEdit,'EventConfigStartDate').dateTime()
         self.endDate = self.EventConfig.findChild(QtWidgets.QDateTimeEdit,'EventConfigEndDate').dateTime()
-        if (self.startDate > self.endDate):
+        
+        if (self.startDate >= self.endDate):
             return False
         return True
 
