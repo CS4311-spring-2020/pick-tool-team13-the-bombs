@@ -11,6 +11,7 @@ from PyQt5.QtCore import pyqtSlot
 
 from GUI_Subsystem.PICK_GUI import Ui_MainWindow
 from GUI_Subsystem.filter import filterPopup
+from GUI_Subsystem.EventOpen_GUI import openEvent
 from GUI_Subsystem.icons import IconConfigDialog
 from Directory_Configuration import Directory_config
 from Event_Configuration import Event_config
@@ -30,16 +31,22 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.filters = filterPopup()
         self.filters.buttonBox.accepted.connect(self.filterEntries)
         self.filters.buttonBox.rejected.connect(self.closeFilter)
+        self.open = openEvent()
 
         #Declare config classes variables
         self.dirConfig = Directory_config()
         self.eventConfig = Event_config(self.dirConfig)
         self.teamConfig = Team_config(self.eventConfig)
+
         
         #Configure Main Buttons
         self.centWid = self.findChild(QtWidgets.QWidget,'centralwidget')
         self.filtButt = self.centWid.findChild(QtWidgets.QPushButton,'LogEntryFilterBut')
         self.filtButt.clicked.connect(self.showFilter)
+        self.newButt = self.findChild(QtWidgets.QAction,'actionNew')
+        self.newButt.triggered.connect(self.eventConfig.showEventConfig)
+        self.openButt = self.findChild(QtWidgets.QAction,'actionOpen')
+        self.openButt.triggered.connect(self.showOpenEvent)
         self.graphViewIconButt = self.centWid.findChild(QtWidgets.QPushButton, 'GraphViewIconConfigBut')
         self.doubViewIconButt = self.centWid.findChild(QtWidgets.QPushButton, 'DoubleViewIconConfigBut')
         self.graphViewIconButt.clicked.connect(self.showIcons)
@@ -81,6 +88,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     #Method to close filter popup without doing anything
     def closeFilter(self):
         self.filters.close()
+
+    def showOpenEvent(self):
+        query = DBManager.get_multiple_events()
+        self.open = openEvent(events= query)
+        self.open.show()
 
     #Method to search in splunk with filters from the filter popup
     def filterEntries(self):
