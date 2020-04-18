@@ -10,10 +10,10 @@ from datetime import datetime
 class Splunk_Class():
     def __init__(self):
         HOST = 'localhost'
-        PORT = 8089
-        USERNAME = 'admin'
-        PASSWORD = ''
-        self.service = client.connect(host=HOST,port=PORT,username=USERNAME)
+        PORT = 8090
+        USERNAME = 'admin' #Change to your own USERNAME
+        PASSWORD = '' #Change to your own PASSWORD
+        self.service = client.connect(host=HOST,port=PORT,username=USERNAME,password=PASSWORD)
 
 
     #Function that uploads files from a folder to splunk

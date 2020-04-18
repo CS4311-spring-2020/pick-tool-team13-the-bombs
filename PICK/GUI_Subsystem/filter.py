@@ -47,4 +47,6 @@ class filterPopup(QDialog):
         layout.addRow("End TimeStamp:", self.endTime)
         layout.addWidget(self.buttonBox)
 
-
+    def setDT(self, startDT = "2000-01-01T00:00:00", endDT = "2000-01-01T00:00:00",):
+        self.startTime.setDateTime(QtCore.QDateTime.fromString(startDT, "yyyy-MM-ddThh:mm:ss"))
+        self.endTime.setDateTime(QtCore.QDateTime.fromString(endDT, "yyyy-MM-ddThh:mm:ss"))

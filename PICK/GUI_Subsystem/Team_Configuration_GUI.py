@@ -63,12 +63,3 @@ class Ui_TeamConfiguration(object):
         self.TeamConfigurationEstablished.setText(_translate("TeamConfiguration", "No. of established connections to the lead\'s IP address:"))
         self.TeamConfigurationLabelNumber.setText(_translate("TeamConfiguration", "0"))
         self.TeamConfigurationButtonConnect.setText(_translate("TeamConfiguration", "Connect"))
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    TeamConfig = QtWidgets.QWidget()
-    ui = Ui_TeamConfiguration()
-    ui.setupUi(TeamConfig)
-    TeamConfig.show()
-    sys.exit(app.exec_())
