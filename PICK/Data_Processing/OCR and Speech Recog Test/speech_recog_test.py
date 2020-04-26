@@ -2,10 +2,10 @@ import speech_recognition as sr
 
 # obtain path to "english.wav" in the same folder as this script
 from os import path
-AUDIO_FILE = path.join(path.dirname(path.realpath(__file__)), "test_audio.wav")
+AUDIO_FILE = "C:\\Users\\vcone\\Desktop\\Cosas\\CS\\Software2\\GUI test\\pick-tool-team13-the-bombs\\Root\\White Team\\test_audio.wav"
 # AUDIO_FILE = path.join(path.dirname(path.realpath(__file__)), "french.aiff")
 # AUDIO_FILE = path.join(path.dirname(path.realpath(__file__)), "chinese.flac")
-
+print(AUDIO_FILE)
 # use the audio file as the audio source
 r = sr.Recognizer()
 with sr.AudioFile(AUDIO_FILE) as source:

@@ -149,7 +149,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         #Now we populate list of log files here
         for filename in os.listdir(dir):
-            self.logFiles.append(Log_File(filename))
+            self.logFiles.append(Log_File(filename,dir))
         
         #For each log file we get we attempt to cleanse
         for file in self.logFiles:
