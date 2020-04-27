@@ -1,2 +1,5 @@
+*.cpython-37.pyc
+__pycache__
 *.pyc
-
+*pyc
+*cpython-37.pyc
