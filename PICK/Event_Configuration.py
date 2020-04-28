@@ -21,6 +21,10 @@ class Event_config(object):
         ui = Ui_EventConfig()
         ui.setupUi(self.EventConfig)
         self.eventConfigLogic()
+        self.name = ""
+        self.description = ""
+        self.startDate = ""
+        self.endDate = ""
 
 
     #Set team config to go back
@@ -38,13 +42,13 @@ class Event_config(object):
         #Save event Stuff in a file for now
         if(self.checkDates()):
             QMessageBox.about(self.EventConfig, "Success", "Dates are correct")
-            name =  self.EventConfig.findChild(QtWidgets.QTextEdit,'EventEndTextbox').toPlainText()
-            description =  self.EventConfig.findChild(QtWidgets.QTextEdit,'DescriptionTextbox').toPlainText()
-            startDate = self.EventConfig.findChild(QtWidgets.QDateTimeEdit,'EventConfigStartDate').dateTime().toString("yyyy-MM-ddThh:mm:ss")
-            endDate = self.EventConfig.findChild(QtWidgets.QDateTimeEdit,'EventConfigEndDate').dateTime().toString("yyyy-MM-ddThh:mm:ss")
-            list = {"EventName": name, "EventDescription": description, "StartDate": startDate, "EndDate": endDate}
+            self.name =  self.EventConfig.findChild(QtWidgets.QTextEdit,'EventEndTextbox').toPlainText()
+            self.description =  self.EventConfig.findChild(QtWidgets.QTextEdit,'DescriptionTextbox').toPlainText()
+            self.startDate = self.EventConfig.findChild(QtWidgets.QDateTimeEdit,'EventConfigStartDate').dateTime().toString("yyyy-MM-ddThh:mm:ss")
+            self.endDate = self.EventConfig.findChild(QtWidgets.QDateTimeEdit,'EventConfigEndDate').dateTime().toString("yyyy-MM-ddThh:mm:ss")
+            list = {"EventName": self.name, "EventDescription": self.description, "StartDate": self.startDate, "EndDate": self.endDate}
             self.id = DBManager.insert_event(list)
-            print(endDate)
+            print(self.endDate)
             self.moveToDirectConfig()
         else:
             QMessageBox.about(self.EventConfig, "Error", "Start Date is bigger than end date")

@@ -77,7 +77,25 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.readLogFiles(self.dirConfig.whiteFolder)
             self.readLogFiles(self.dirConfig.blueFolder)
             self.readLogFiles(self.dirConfig.whiteFolder)
+            self.validateInSplunk()
             self.populateLogEntryTable()
+
+    #Method to validate files in Splunk, it deletes files outside of the event configuration part
+    def validateInSplunk(self):
+        indexes = ["blue_team","red_team","white_team"]
+        filters = {
+            "startTime":"",
+            "endTime": self.eventConfig.startDate,
+            "keywords": "| delete"
+        }
+        self.splunker.search(indexes,filters)
+        print(filters)
+        filters = {
+            "startTime":self.eventConfig.endDate,
+            "endTime": "",
+            "keywords": "| delete"
+        }
+        self.splunker.search(indexes,filters)
 
     #Method to show filter popup
     def showFilter(self):
