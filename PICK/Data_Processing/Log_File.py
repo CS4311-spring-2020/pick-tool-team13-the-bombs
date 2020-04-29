@@ -8,6 +8,7 @@ import os
 import speech_recognition as sr
 import wavio
 from os import path
+from cleanser import file_cleanse
 
 class Log_File(object):
     def __init__(self,name,folder):
@@ -35,13 +36,14 @@ class Log_File(object):
                 print("Sphinx could not understand audio")
             except sr.RequestError as e:
                 print("Sphinx error; {0}".format(e))
-
-        if(os.path.splitext(self.name)[1] == ".png"):
+        elif(os.path.splitext(self.name)[1] == ".png"):
             #here is an image file so we apply ocr
             file = open(self.folder+"/" + os.path.splitext(self.name)[0] + ".txt","w+")
             file.write(pytesseract.image_to_string(Image.open(self.folder+"/" + self.name)))
             file.close()
-            
+        else:   
+            file_cleanse(self.folder + "/" + self.name,self.folder + "/" + self.name)
+        
 
         #If successfully cleansed
         self.cleansed = True
