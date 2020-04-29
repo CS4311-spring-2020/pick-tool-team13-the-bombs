@@ -5,10 +5,11 @@ from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroup
         QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
         QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTabWidget, QTextEdit,
-        QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem)
-from PyQt5.QtGui import QIcon
+        QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem ,QSplashScreen)
+from PyQt5.QtGui import QIcon,QPixmap
 from PyQt5.QtCore import pyqtSlot
 
+from GUI_Subsystem.loading_screen import LoadingScreen
 from GUI_Subsystem.PICK_GUI import Ui_MainWindow
 from GUI_Subsystem.filter import filterPopup
 from GUI_Subsystem.EventOpen_GUI import openEvent
@@ -72,12 +73,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         
     def startIngestion(self):
         if(self.dirConfig.checkFolders()):
+            #Display splash screen
+            self.splash = LoadingScreen()
+            
             self.dirConfig.DirecConfig.close()
-            self.show()
             self.readLogFiles(self.dirConfig.whiteFolder)
             self.readLogFiles(self.dirConfig.blueFolder)
             self.readLogFiles(self.dirConfig.whiteFolder)
             self.validateInSplunk()
+            self.splash.stopLoading()
+            self.show()
             self.populateLogEntryTable()
 
     #Method to validate files in Splunk, it deletes files outside of the event configuration part
