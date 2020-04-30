@@ -79,7 +79,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.dirConfig.DirecConfig.close()
             self.readLogFiles(self.dirConfig.whiteFolder)
             self.readLogFiles(self.dirConfig.blueFolder)
-            self.readLogFiles(self.dirConfig.whiteFolder)
+            self.readLogFiles(self.dirConfig.redFolder)
             self.validateInSplunk()
             self.splash.stopLoading()
             self.show()
@@ -97,7 +97,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         print(filters)
         filters = {
             "startTime":self.eventConfig.endDate,
-            "endTime": "",
+            "endTime": "+10y",
             "keywords": "| delete"
         }
         self.splunker.search(indexes,filters)

@@ -8,7 +8,7 @@ import os
 import speech_recognition as sr
 import wavio
 from os import path
-from cleanser import file_cleanse
+from Data_Processing.cleanser import file_cleanse
 
 class Log_File(object):
     def __init__(self,name,folder):
