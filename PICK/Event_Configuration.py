@@ -22,7 +22,6 @@ class Event_config(object):
         ui.setupUi(self.EventConfig)
         self.eventConfigLogic()
 
-
     #Set team config to go back
     def setTeamConfig(self,tConfig):
         self.tConfig = tConfig

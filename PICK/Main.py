@@ -7,11 +7,11 @@ from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroup
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTabWidget, QTextEdit,
         QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem)
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import Qt, pyqtSlot
 
 from GUI_Subsystem.PICK_GUI import Ui_MainWindow
 from GUI_Subsystem.filter import filterPopup
-from GUI_Subsystem.EventOpen_GUI import openEvent
+from GUI_Subsystem.OpenEvent_GUI import Open_Event
 from GUI_Subsystem.icons import IconConfigDialog
 from Directory_Configuration import Directory_config
 from Event_Configuration import Event_config
@@ -31,14 +31,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.filters = filterPopup()
         self.filters.buttonBox.accepted.connect(self.filterEntries)
         self.filters.buttonBox.rejected.connect(self.closeFilter)
-        self.open = openEvent()
+
+        self.openEvent = Open_Event()
+        self.openEvent.buttonBox.accepted.connect(self.openListEvent)
+        self.openEvent.buttonBox.rejected.connect(self.closeOpenEvent)
 
         #Declare config classes variables
+
         self.dirConfig = Directory_config()
         self.eventConfig = Event_config(self.dirConfig)
         self.teamConfig = Team_config(self.eventConfig)
 
-        
         #Configure Main Buttons
         self.centWid = self.findChild(QtWidgets.QWidget,'centralwidget')
         self.filtButt = self.centWid.findChild(QtWidgets.QPushButton,'LogEntryFilterBut')
@@ -65,10 +68,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.splunker = Splunk_Class()
 
         #COnnect Directory Ingestion with button here
-        self.dirConfig.DirecConfig.findChild(QtWidgets.QPushButton, 'SaveEventBut').clicked.connect(self.startIngestion)
+        self.dirConfig.DirecConfig.findChild(QtWidgets.QPushButton, 'SaveEventBut').clicked.connect(self.saveAndStartIngestion)
+
+        #Connect open button
+        #self.openEvent.findChild(QtWidgets.QPushButton, "OpenEvent").clicked.connect(self.openListEvent)
 
         #Initialize Views
-        self.teamConfig.showTeamConfig()
+        self.show()
+        #self.teamConfig.showTeamConfig()
+
+    def saveAndStartIngestion(self):
+        id = DBManager.insert_directory(self.dirConfig.rootFolder ,self.dirConfig.whiteFolder, self.dirConfig.blueFolder, self.dirConfig.redFolder, self.eventConfig.id)
+        self.startIngestion()
         
     def startIngestion(self):
         if(self.dirConfig.checkFolders()):
@@ -79,11 +90,21 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.readLogFiles(self.dirConfig.whiteFolder)
             self.populateLogEntryTable()
 
+    def openListEvent(self):
+        if(not self.openEvent.eventList.currentRow() == -1):
+            self.eventConfig.id = self.openEvent.eventList.currentItem().data(Qt.UserRole)
+            query = DBManager.get_single_directory(self.eventConfig.id)
+            self.dirConfig.whiteFolder = query['whiteFolder']
+            self.dirConfig.blueFolder = query['blueFolder']
+            self.dirConfig.redFolder = query['redFolder']
+            self.startIngestion()
+            self.openEvent.close()
+
     #Method to show filter popup
     def showFilter(self):
-        query = DBManager.get_single_event(self.eventConfig.id)
-        #print(query)
-        self.filters.setDT(startDT = query['StartDate'], endDT = query['EndDate'])
+        if(not self.eventConfig.id == 0):
+            query = DBManager.get_single_event(self.eventConfig.id)
+            self.filters.setDT(startDT = query['StartDate'], endDT = query['EndDate'])
         self.filters.show()
     #Method to close filter popup without doing anything
     def closeFilter(self):
@@ -91,8 +112,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def showOpenEvent(self):
         query = DBManager.get_multiple_events()
-        self.open = openEvent(events= query)
-        self.open.show()
+        self.openEvent = Open_Event(events= query)
+        self.openEvent.buttonBox.accepted.connect(self.openListEvent)
+        self.openEvent.buttonBox.rejected.connect(self.closeOpenEvent)
+        self.openEvent.show()
+
+    def closeOpenEvent(self):
+        self.openEvent.close()
 
     #Method to search in splunk with filters from the filter popup
     def filterEntries(self):
