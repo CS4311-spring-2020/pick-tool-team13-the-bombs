@@ -21,6 +21,8 @@ from Splunk.Splunk import Splunk_Class
 from Data_Processing.Log_File import Log_File
 from Data_Processing.Enforcement_Action_Report import Enforcement
 from DBManager import DBManager
+from Documentation.Vector import Vector
+from Documentation.Log_Entry import Log_Entry
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
@@ -58,9 +60,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.dirConfigButt.triggered.connect(self.dirConfig.showDirectoryConfig)
         self.teamConfigButt = self.findChild(QtWidgets.QAction,'actionTeam_Configuration')
         self.teamConfigButt.triggered.connect(self.teamConfig.showTeamConfig)
+        self.addVectorButt = self.centWid.findChild(QtWidgets.QPushButton,'VectorConfigAddVectorBut')
+        self.addVectorButt.clicked.connect(self.addVector)
+
         
         #Some tables
         self.logETable = self.centWid.findChild(QtWidgets.QTableWidget,'LogEntryTable')
+        self.logETable.cellChanged.connect(self.addLogtoVector)
+        self.vectorTable = self.centWid.findChild(QtWidgets.QTableWidget,'VectorConfigTable')
+        self.vectorTable.cellChanged.connect(self.vectorEdited)
 
         #Splunk INstance
         self.splunker = Splunk_Class()
@@ -70,6 +78,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         #Initialize Views
         self.teamConfig.showTeamConfig()
+
+        #Initialize Data Structures
+        self.vectors = [] #Empty list that will be populated with vectors
         
     def startIngestion(self):
         if(self.dirConfig.checkFolders()):
@@ -246,6 +257,39 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.logETable.setItem(rowPosition,1,QTableWidgetItem(log[2]))
             self.logETable.setItem(rowPosition,2,QTableWidgetItem(log[1] +"\n"+ log[3] +"\n"+ log[4]))
             self.logETable.setItem(rowPosition,4,QTableWidgetItem("Vector 1"))
+
+    #Method that creates a Vector adding it to the list of vectors
+    def addVector(self):
+        rowPosition = self.vectorTable.rowCount()
+        self.vectorTable.insertRow(rowPosition)
+        self.vectors.append(Vector())
+
+    def vectorEdited(self):
+        col = self.vectorTable.currentColumn()
+        row = self.vectorTable.currentRow()
+        item = self.vectorTable.currentItem().text()
+        if col == 1:
+            self.vectors[row].setName(item)
+        elif col == 2:
+            self.vectors[row].setDescription(item)
+        
+    def deleteVector(self):
+        selected = self.vectorTable.selectedItems()
+        if selected:
+            for item in selected:
+                self.vectorTable.removeRow(item.row())
+                self.vectors.pop(item.row())
+
+    def addLogtoVector(self):
+        col = self.logETable.currentColumn()
+        if col != 3:
+            return
+        row = self.logETable.currentRow()
+        item = self.logETable.currentItem().text()
+        for vector in self.vectors:
+            if(vector.name == item):
+                vector.addLogEntry(Log_Entry(self.logETable.item(row,0),self.logETable.item(row,1),self.logETable.item(row,2)))
+        print(self.vectors[0].logEntries[0].number)
 
 app = QtWidgets.QApplication(sys.argv)
 
