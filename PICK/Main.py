@@ -38,10 +38,25 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.doubViewIconButt.clicked.connect(self.showIcons)
         self.eventConfigButt = self.findChild(QtWidgets.QAction,'actionEvent_Configuration_2')
         self.eventConfigButt.triggered.connect(self.eventConfig.showEventConfig)
-        self.CreatingGraph()
+        self.GraphViewAddNodeBut = self.findChild(QtWidgets.QPushButton, "GraphViewAddNodeBut")
+        self.GraphViewAddNodeBut.clicked.connect(self.addNewNode)
+        self.GraphViewDeleteNodeBut = self.findChild(QtWidgets.QPushButton, "GraphViewDeleteNodeBut")
+        self.GraphViewDeleteNodeBut.clicked.connect(self.deleteNode)
+        self.DoubleViewAddNodeBut = self.findChild(QtWidgets.QPushButton, "DoubleViewAddNodeBut")
+        self.DoubleViewAddNodeBut.clicked.connect(self.addNewNode)
+        self.DoubleViewDeleteNodeBut = self.findChild(QtWidgets.QPushButton, "DoubleViewDeleteNodeBut")
+        self.DoubleViewDeleteNodeBut.clicked.connect(self.deleteNode)
         
+        self.GraphViewGraphImg = self.centWid.findChild(QtWidgets.QGraphicsView, 'GraphViewGraphPlace')          #graphview Tab
+        self.DoubleViewGraphImg = self.centWid.findChild(QtWidgets.QGraphicsView, 'DoubleViewGraphicsPlace')    #doubleview Tab
+        self.scene  =QGraphicsScene() 
+        self.GraphViewGraphImg.setScene(self.scene)
+        self.DoubleViewGraphImg.setScene(self.scene)
+
+        self.createGraph(["Red attack","Blue defend","red attack 2", "blue defend 2"])
+
         #Initialize Views
-        self.teamConfig.showTeamConfig()
+        #self.teamConfig.showTeamConfig()
 
     #Method to show filter popup
     def showFilter(self):
@@ -53,19 +68,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         exPopup.show()
 
 
-####################################################################################### FINALLY GRAPH
-    def CreatingGraph(self):
-        self.GraphViewGraphImg = self.centWid.findChild(QtWidgets.QGraphicsView, 'GraphViewGraphPlace')
-        self.DoubleViewGraphImg = self.centWid.findChild(QtWidgets.QGraphicsView, 'DoubleViewGraphicsPlace')
-        
-        self.scene  =QGraphicsScene()
-        
-        self.GraphViewGraphImg.setScene(self.scene)
-        self.DoubleViewGraphImg.setScene(self.scene)
-        
-        
+    # Generate Graph
+    def createGraph(self, nodeList):
+        for i in range(len(nodeList)): 
+            self.createGraphHelper(nodeList[i])
+
+    def createGraphHelper(self, nodeItem):
         G = pydot.Dot(graph_type="digraph")
-        node = pydot.Node("Hello")
+        node = pydot.Node(nodeItem)
         G.add_node(node)
         
         _bytes = G.create(format='png')
@@ -75,30 +85,48 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         
         node1 = self.scene.addPixmap(image)
         node1.setFlag(QGraphicsItem.ItemIsMovable)
+        node1.setFlag(QGraphicsItem.ItemIsSelectable)
         
         from IPython.display import Image, display
 
         im = Image(G.create_png())
-        display(im)
+        #display(im)
         
+    # Add New Node to graph
+    def addNewNode(self):
+        global x 
+        x += 1
+
+        G = pydot.Dot(graph_type="digraph")
+        node = pydot.Node("Node #" + str(x))
+        G.add_node(node)
         
-#        G = pydot.Dot(graph_type="digraph")
-#        node = pydot.Node("Hello")
-#        G.add_node(node)
-#        _bytes = G.create(format='png')
-#        image = QPixmap()
-#        
-#        image.loadFromData(_bytes)
+        _bytes = G.create(format='png')
+        image = QPixmap()
         
-        #self.GraphImg.setPixmap(image)
+        image.loadFromData(_bytes)
         
+        node1 = self.scene.addPixmap(image)
+        node1.setFlag(QGraphicsItem.ItemIsMovable)
+        node1.setFlag(QGraphicsItem.ItemIsSelectable)
+        
+        from IPython.display import Image, display
 
+        im = Image(G.create_png())
+        #display(im)
 
-
-
+    # Delete Node from Graph
+    def deleteNode(self):
+        selectedNode = self.scene.selectedItems()
+        if(len(selectedNode) == 0):
+            print("Nothing selected")  
+        else:
+            self.scene.removeItem(selectedNode[0])
+        
+    
 
 app = QtWidgets.QApplication(sys.argv)
-
+x=0
 window = MainWindow()
 window.show()
 app.exec()
