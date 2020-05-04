@@ -1,18 +1,19 @@
 import sys
-import os
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroupBox, QWidget,QLineEdit,QDialogButtonBox, QLabel, QMainWindow, QAction, qApp, QPushButton, QDialog,QApplication, QCheckBox, QComboBox, QDateTimeEdit,
         QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
         QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTabWidget, QTextEdit,
-        QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem ,QSplashScreen)
+        QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem ,QSplashScreen,QGraphicsScene, QGraphicsItem)
 from PyQt5.QtGui import QIcon,QPixmap
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import Qt, pyqtSlot
+        
+from IPython.display import Image, display
 
 from GUI_Subsystem.loading_screen import LoadingScreen
 from GUI_Subsystem.PICK_GUI import Ui_MainWindow
 from GUI_Subsystem.filter import filterPopup
-from GUI_Subsystem.EventOpen_GUI import openEvent
+from GUI_Subsystem.OpenEvent_GUI import Open_Event
 from GUI_Subsystem.icons import IconConfigDialog
 from Directory_Configuration import Directory_config
 from Event_Configuration import Event_config
@@ -24,6 +25,9 @@ from DBManager import DBManager
 from Documentation.Vector import Vector
 from Documentation.Log_Entry import Log_Entry
 
+import pydot
+import os
+
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def __init__(self, *args, obj=None, **kwargs):
@@ -34,14 +38,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.filters = filterPopup()
         self.filters.buttonBox.accepted.connect(self.filterEntries)
         self.filters.buttonBox.rejected.connect(self.closeFilter)
-        self.open = openEvent()
+
+        self.openEvent = Open_Event()
+        self.openEvent.buttonBox.accepted.connect(self.openListEvent)
+        self.openEvent.buttonBox.rejected.connect(self.closeOpenEvent)
 
         #Declare config classes variables
+
         self.dirConfig = Directory_config()
         self.eventConfig = Event_config(self.dirConfig)
         self.teamConfig = Team_config(self.eventConfig)
 
-        
         #Configure Main Buttons
         self.centWid = self.findChild(QtWidgets.QWidget,'centralwidget')
         self.filtButt = self.centWid.findChild(QtWidgets.QPushButton,'LogEntryFilterBut')
@@ -74,13 +81,35 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.splunker = Splunk_Class()
 
         #COnnect Directory Ingestion with button here
-        self.dirConfig.DirecConfig.findChild(QtWidgets.QPushButton, 'SaveEventBut').clicked.connect(self.startIngestion)
+        self.dirConfig.DirecConfig.findChild(QtWidgets.QPushButton, 'SaveEventBut').clicked.connect(self.saveAndStartIngestion)
 
-        #Initialize Views
-        self.teamConfig.showTeamConfig()
+        #Connect open button
+        #self.openEvent.findChild(QtWidgets.QPushButton, "OpenEvent").clicked.connect(self.openListEvent)
+        self.GraphViewAddNodeBut = self.findChild(QtWidgets.QPushButton, "GraphViewAddNodeBut")
+        self.GraphViewAddNodeBut.clicked.connect(self.addNewNode)
+        self.GraphViewDeleteNodeBut = self.findChild(QtWidgets.QPushButton, "GraphViewDeleteNodeBut")
+        self.GraphViewDeleteNodeBut.clicked.connect(self.deleteNode)
+        self.DoubleViewAddNodeBut = self.findChild(QtWidgets.QPushButton, "DoubleViewAddNodeBut")
+        self.DoubleViewAddNodeBut.clicked.connect(self.addNewNode)
+        self.DoubleViewDeleteNodeBut = self.findChild(QtWidgets.QPushButton, "DoubleViewDeleteNodeBut")
+        self.DoubleViewDeleteNodeBut.clicked.connect(self.deleteNode)
+        
+        self.GraphViewGraphImg = self.centWid.findChild(QtWidgets.QGraphicsView, 'GraphViewGraphPlace')          #graphview Tab
+        self.DoubleViewGraphImg = self.centWid.findChild(QtWidgets.QGraphicsView, 'DoubleViewGraphicsPlace')    #doubleview Tab
+        self.scene  =QGraphicsScene() 
+        self.GraphViewGraphImg.setScene(self.scene)
+        self.DoubleViewGraphImg.setScene(self.scene)
+
+        self.createGraph(["Red attack","Blue defend","red attack 2", "blue defend 2"])
 
         #Initialize Data Structures
         self.vectors = [] #Empty list that will be populated with vectors
+        self.show()
+        #self.teamConfig.showTeamConfig()
+
+    def saveAndStartIngestion(self):
+        id = DBManager.insert_directory(self.dirConfig.rootFolder ,self.dirConfig.whiteFolder, self.dirConfig.blueFolder, self.dirConfig.redFolder, self.eventConfig.id)
+        self.startIngestion()
         
     def startIngestion(self):
         if(self.dirConfig.checkFolders()):
@@ -112,12 +141,22 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             "keywords": "| delete"
         }
         self.splunker.search(indexes,filters)
+        
+    def openListEvent(self):
+        if(not self.openEvent.eventList.currentRow() == -1):
+            self.eventConfig.id = self.openEvent.eventList.currentItem().data(Qt.UserRole)
+            query = DBManager.get_single_directory(self.eventConfig.id)
+            self.dirConfig.whiteFolder = query['whiteFolder']
+            self.dirConfig.blueFolder = query['blueFolder']
+            self.dirConfig.redFolder = query['redFolder']
+            self.startIngestion()
+            self.openEvent.close()
 
     #Method to show filter popup
     def showFilter(self):
-        query = DBManager.get_single_event(self.eventConfig.id)
-        #print(query)
-        self.filters.setDT(startDT = query['StartDate'], endDT = query['EndDate'])
+        if(not self.eventConfig.id == 0):
+            query = DBManager.get_single_event(self.eventConfig.id)
+            self.filters.setDT(startDT = query['StartDate'], endDT = query['EndDate'])
         self.filters.show()
     #Method to close filter popup without doing anything
     def closeFilter(self):
@@ -125,8 +164,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def showOpenEvent(self):
         query = DBManager.get_multiple_events()
-        self.open = openEvent(events= query)
-        self.open.show()
+        self.openEvent = Open_Event(events= query)
+        self.openEvent.buttonBox.accepted.connect(self.openListEvent)
+        self.openEvent.buttonBox.rejected.connect(self.closeOpenEvent)
+        self.openEvent.show()
+
+    def closeOpenEvent(self):
+        self.openEvent.close()
 
     #Method to search in splunk with filters from the filter popup
     def filterEntries(self):
@@ -291,7 +335,62 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 vector.addLogEntry(Log_Entry(self.logETable.item(row,0),self.logETable.item(row,1),self.logETable.item(row,2)))
         print(self.vectors[0].logEntries[0].number)
 
-app = QtWidgets.QApplication(sys.argv)
+    # Generate Graph
+    def createGraph(self, nodeList):
+        for i in range(len(nodeList)): 
+            self.createGraphHelper(nodeList[i])
 
+    def createGraphHelper(self, nodeItem):
+        G = pydot.Dot(graph_type="digraph")
+        node = pydot.Node(nodeItem)
+        G.add_node(node)
+        
+        _bytes = G.create(format='png')
+        image = QPixmap()
+        
+        image.loadFromData(_bytes)
+        
+        node1 = self.scene.addPixmap(image)
+        node1.setFlag(QGraphicsItem.ItemIsMovable)
+        node1.setFlag(QGraphicsItem.ItemIsSelectable)
+
+
+        im = Image(G.create_png())
+        #display(im)
+        
+    # Add New Node to graph
+    def addNewNode(self):
+        global x 
+        x += 1
+
+        G = pydot.Dot(graph_type="digraph")
+        node = pydot.Node("Node #" + str(x))
+        G.add_node(node)
+        
+        _bytes = G.create(format='png')
+        image = QPixmap()
+        
+        image.loadFromData(_bytes)
+        
+        node1 = self.scene.addPixmap(image)
+        node1.setFlag(QGraphicsItem.ItemIsMovable)
+        node1.setFlag(QGraphicsItem.ItemIsSelectable)
+
+
+        im = Image(G.create_png())
+        #display(im)
+
+    # Delete Node from Graph
+    def deleteNode(self):
+        selectedNode = self.scene.selectedItems()
+        if(len(selectedNode) == 0):
+            print("Nothing selected")  
+        else:
+            self.scene.removeItem(selectedNode[0])
+        
+    
+
+app = QtWidgets.QApplication(sys.argv)
+x=0
 window = MainWindow()
 app.exec()

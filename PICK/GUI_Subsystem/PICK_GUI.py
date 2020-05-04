@@ -621,20 +621,18 @@ class Ui_MainWindow(object):
         self.RelationConfigTable.verticalHeader().setSortIndicatorShown(True)
         self.verticalLayout_5.addWidget(self.RelationConfigTable)
         self.Tabs.addTab(self.RelConfig, "")
+        
         self.GraphView = QtWidgets.QWidget()
         self.GraphView.setObjectName("GraphView")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.GraphView)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.label_7 = QtWidgets.QLabel(self.GraphView)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(2)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
-        self.label_7.setSizePolicy(sizePolicy)
-        self.label_7.setScaledContents(False)
-        self.label_7.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_7.setObjectName("label_7")
-        self.gridLayout_3.addWidget(self.label_7, 1, 5, 8, 1)
+        
+        
+        self.GraphViewGraphPlace = QtWidgets.QGraphicsView(self.GraphView)
+        self.GraphViewGraphPlace.setObjectName("GraphViewGraphPlace")
+        self.gridLayout_3.addWidget(self.GraphViewGraphPlace, 2, 5, 10, 1)
+        
+        
         self.GraphViewNodesLabel = QtWidgets.QLabel(self.GraphView)
         font = QtGui.QFont()
         font.setPointSize(28)
@@ -848,15 +846,13 @@ class Ui_MainWindow(object):
         self.DoubleViewVectorLabel.setFont(font)
         self.DoubleViewVectorLabel.setObjectName("DoubleViewVectorLabel")
         self.gridLayout_4.addWidget(self.DoubleViewVectorLabel, 6, 0, 1, 1)
-        self.label_8 = QtWidgets.QLabel(self.DoubleView)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_8.sizePolicy().hasHeightForWidth())
-        self.label_8.setSizePolicy(sizePolicy)
-        self.label_8.setSizeIncrement(QtCore.QSize(0, 0))
-        self.label_8.setObjectName("label_8")
-        self.gridLayout_4.addWidget(self.label_8, 0, 3, 5, 1)
+        
+        
+        self.DoubleViewGraphicsPlace = QtWidgets.QGraphicsView(self.DoubleView)
+        self.DoubleViewGraphicsPlace.setObjectName("DoubleViewGraphicsPlace")
+        self.gridLayout_4.addWidget(self.DoubleViewGraphicsPlace, 0, 3, 6, 1)
+        
+        
         self.DoubleViewZoomInBut = QtWidgets.QPushButton(self.DoubleView)
         self.DoubleViewZoomInBut.setObjectName("DoubleViewZoomInBut")
         self.gridLayout_4.addWidget(self.DoubleViewZoomInBut, 1, 1, 1, 1)
@@ -1326,7 +1322,11 @@ class Ui_MainWindow(object):
         self.RelationConfigTable.setSortingEnabled(False)
         self.RelationConfigTable.setSortingEnabled(__sortingEnabled)
         self.Tabs.setTabText(self.Tabs.indexOf(self.RelConfig), _translate("MainWindow", "Relation Config"))
-        self.label_7.setText(_translate("MainWindow", "<html><head/><body><p><img src=\"PICK\GUI_Subsystem\graph.png\"/></p></body></html>"))
+#<<<<<<< HEAD
+        #self.label_7.setText(_translate("MainWindow", "<html><head/><body><p><img src=\":/graph/graph.png\"/></p></body></html>"))
+#=======
+#        self.label_7.setText(_translate("MainWindow", "<html><head/><body><p><img src=\"PICK\GUI_Subsystem\graph.png\"/></p></body></html>"))
+#>>>>>>> 5d6a33d29f138ded66540b244976a1cf3c9dbe16
         self.GraphViewNodesLabel.setText(_translate("MainWindow", "Nodes configuration in graphical format"))
         self.GraphViewTimeLineOption.setItemText(0, _translate("MainWindow", "Option1"))
         self.GraphViewTimeLineOption.setItemText(1, _translate("MainWindow", "Option 2"))
@@ -1400,7 +1400,11 @@ class Ui_MainWindow(object):
         self.TableViewTable.setSortingEnabled(__sortingEnabled)
         self.Tabs.setTabText(self.Tabs.indexOf(self.TableView), _translate("MainWindow", "Table View"))
         self.DoubleViewVectorLabel.setText(_translate("MainWindow", "Vector"))
-        self.label_8.setText(_translate("MainWindow", "<html><head/><body><p><img src=\"PICK\GUI_Subsystem\graph.png\"/></p></body></html>"))
+#<<<<<<< HEAD
+        #self.label_8.setText(_translate("MainWindow", "<html><head/><body><p><img src=\":/graph/graph.png\"/></p></body></html>"))
+#=======
+#        self.label_8.setText(_translate("MainWindow", "<html><head/><body><p><img src=\"PICK\GUI_Subsystem\graph.png\"/></p></body></html>"))
+#>>>>>>> 5d6a33d29f138ded66540b244976a1cf3c9dbe16
         self.DoubleViewZoomInBut.setText(_translate("MainWindow", "Zoom In"))
         self.DoubleViewIntervalOptions.setItemText(0, _translate("MainWindow", "Option1"))
         self.DoubleViewIntervalOptions.setItemText(1, _translate("MainWindow", "Option 2"))

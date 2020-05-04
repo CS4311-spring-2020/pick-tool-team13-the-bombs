@@ -13,11 +13,13 @@ from pathlib import Path
 from GUI_Subsystem.Directory_GUI import Ui_DirectoryConfig
 
 class Directory_config(object):
+    blueFolder=""
+    whiteFolder=""
+    redFolder = ""
+    rootFolder = ""
+
     def __init__(self, *args, obj=None, **kwargs):
         self.null = 0
-        self.blueFolder=""
-        self.whiteFolder=""
-        self.redFolder = ""
         self.DirecConfig = QtWidgets.QWidget()
         ui = Ui_DirectoryConfig()
         ui.setupUi(self.DirecConfig)
