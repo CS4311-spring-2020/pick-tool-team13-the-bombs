@@ -26,7 +26,6 @@ class Event_config(object):
         self.startDate = ""
         self.endDate = ""
 
-
     #Set team config to go back
     def setTeamConfig(self,tConfig):
         self.tConfig = tConfig
