@@ -65,7 +65,10 @@ class Splunk_Class():
 
         #We will get certain data from each result of the log entries in the splunk search
         for item in reader:
-            log_entries.append([item['_serial'],item['_raw'],item['_time'],item['source'],item['index']])
+            if "deleted" in item:
+                print("Deleted Items")
+            else:
+                log_entries.append([item['_serial'],item['_raw'],item['_time'],item['source'],item['index']])
 
         return log_entries
 
