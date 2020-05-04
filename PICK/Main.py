@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroup
         QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem ,QSplashScreen,QGraphicsScene, QGraphicsItem)
 from PyQt5.QtGui import QIcon,QPixmap
 from PyQt5.QtCore import Qt, pyqtSlot
-
+        
+from IPython.display import Image, display
 
 from GUI_Subsystem.loading_screen import LoadingScreen
 from GUI_Subsystem.PICK_GUI import Ui_MainWindow
@@ -333,6 +334,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             if(vector.name == item):
                 vector.addLogEntry(Log_Entry(self.logETable.item(row,0),self.logETable.item(row,1),self.logETable.item(row,2)))
         print(self.vectors[0].logEntries[0].number)
+
     # Generate Graph
     def createGraph(self, nodeList):
         for i in range(len(nodeList)): 
@@ -351,8 +353,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         node1 = self.scene.addPixmap(image)
         node1.setFlag(QGraphicsItem.ItemIsMovable)
         node1.setFlag(QGraphicsItem.ItemIsSelectable)
-        
-        from IPython.display import Image, display
+
 
         im = Image(G.create_png())
         #display(im)
@@ -374,8 +375,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         node1 = self.scene.addPixmap(image)
         node1.setFlag(QGraphicsItem.ItemIsMovable)
         node1.setFlag(QGraphicsItem.ItemIsSelectable)
-        
-        from IPython.display import Image, display
+
 
         im = Image(G.create_png())
         #display(im)
