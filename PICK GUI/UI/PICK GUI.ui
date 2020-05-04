@@ -24,7 +24,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="1" column="0" alignment="Qt::AlignRight|Qt::AlignBottom">
+    <item row="2" column="0" alignment="Qt::AlignRight|Qt::AlignBottom">
      <widget class="QLabel" name="label">
       <property name="enabled">
        <bool>true</bool>
@@ -40,7 +40,7 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="0">
+    <item row="1" column="0">
      <widget class="QTabWidget" name="Tabs">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -52,7 +52,7 @@
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;dvfas&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="LogFileConfiguration">
        <attribute name="title">
@@ -217,11 +217,11 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>40</number>
-          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>150</number>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>40</number>
           </attribute>
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>false</bool>
@@ -229,11 +229,11 @@
           <attribute name="verticalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
-          <attribute name="verticalHeaderMinimumSectionSize">
-           <number>40</number>
-          </attribute>
           <attribute name="verticalHeaderDefaultSectionSize">
            <number>50</number>
+          </attribute>
+          <attribute name="verticalHeaderMinimumSectionSize">
+           <number>40</number>
           </attribute>
           <column>
            <property name="text">
@@ -338,11 +338,11 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>50</number>
-          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>150</number>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>50</number>
           </attribute>
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
@@ -430,14 +430,14 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>25</number>
-          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>150</number>
           </attribute>
           <attribute name="horizontalHeaderHighlightSections">
            <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>25</number>
           </attribute>
           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
            <bool>true</bool>
@@ -696,14 +696,14 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>25</number>
-          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>150</number>
           </attribute>
           <attribute name="horizontalHeaderHighlightSections">
            <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>25</number>
           </attribute>
           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
            <bool>true</bool>
@@ -968,14 +968,14 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>25</number>
-          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>150</number>
           </attribute>
           <attribute name="horizontalHeaderHighlightSections">
            <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>25</number>
           </attribute>
           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
            <bool>true</bool>
@@ -1241,14 +1241,14 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>25</number>
-          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>250</number>
           </attribute>
           <attribute name="horizontalHeaderHighlightSections">
            <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>25</number>
           </attribute>
           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
            <bool>true</bool>
@@ -1442,22 +1442,67 @@
         <string>Graph View</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="5" rowspan="8">
-         <widget class="QLabel" name="label_7">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>2</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+        <item row="10" column="2">
+         <widget class="QPushButton" name="GraphViewAddRelationshipBut">
+          <property name="text">
+           <string>Add Relationship</string>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="2">
+         <widget class="QPushButton" name="GraphViewRemRelationshipBut">
+          <property name="text">
+           <string>Remove Relationship</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="3" colspan="2">
+         <widget class="QPushButton" name="GraphViewEditNodeBut">
+          <property name="text">
+           <string>Edit node</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" colspan="3">
+         <widget class="QLabel" name="GraphViewTimelineLabel">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/graph/graph.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>TimeLine Orientation</string>
           </property>
-          <property name="scaledContents">
-           <bool>false</bool>
+         </widget>
+        </item>
+        <item row="11" column="3" colspan="2">
+         <widget class="QPushButton" name="GraphViewEditRelationshipBut">
+          <property name="text">
+           <string>Edit Relationship</string>
           </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
+         </widget>
+        </item>
+        <item row="9" column="2" colspan="2">
+         <widget class="QPlainTextEdit" name="GraphViewDescriptionTextBox"/>
+        </item>
+        <item row="3" column="0" colspan="3">
+         <widget class="QComboBox" name="GraphViewTimeLineOption">
+          <item>
+           <property name="text">
+            <string>Option1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Option 2</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="2" column="4" rowspan="2">
+         <widget class="QPushButton" name="GraphViewZoomInBut">
+          <property name="text">
+           <string>Zoom In</string>
           </property>
          </widget>
         </item>
@@ -1473,89 +1518,21 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0" colspan="3">
-         <widget class="QComboBox" name="GraphViewTimeLineOption">
-          <item>
-           <property name="text">
-            <string>Option1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Option 2</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="7" column="1" colspan="2">
-         <widget class="QComboBox" name="GraphViewVectorOptions">
-          <item>
-           <property name="text">
-            <string>Option1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Option 2</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="9" column="0" colspan="2">
-         <widget class="QPushButton" name="GraphViewAddNodeBut">
-          <property name="text">
-           <string>Add Node</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="2">
-         <widget class="QPushButton" name="GraphViewAddRelationshipBut">
-          <property name="text">
-           <string>Add Relationship</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="3" colspan="2">
-         <widget class="QPushButton" name="GraphViewEditNodeBut">
-          <property name="text">
-           <string>Edit node</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0" colspan="3">
-         <widget class="QLabel" name="GraphViewGraphConfigLabel">
-          <property name="font">
-           <font>
-            <pointsize>18</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Graph Configuration</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="0" colspan="2">
-         <widget class="QPushButton" name="GraphViewDeleteNodeBut">
-          <property name="text">
-           <string>Delete Node</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="2">
-         <widget class="QPushButton" name="GraphViewRemRelationshipBut">
-          <property name="text">
-           <string>Remove Relationship</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="4">
+        <item row="6" column="4">
          <widget class="QPushButton" name="GraphViewIconConfigBut">
           <property name="text">
            <string>Icon Config</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="0" colspan="3">
+        <item row="11" column="0" colspan="2">
+         <widget class="QPushButton" name="GraphViewDeleteNodeBut">
+          <property name="text">
+           <string>Delete Node</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0" colspan="3">
          <widget class="QComboBox" name="GraphViewIntervalOptions">
           <item>
            <property name="text">
@@ -1569,45 +1546,7 @@
           </item>
          </widget>
         </item>
-        <item row="1" column="0" colspan="3">
-         <widget class="QLabel" name="GraphViewTimelineLabel">
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>TimeLine Orientation</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="4" rowspan="2">
-         <widget class="QPushButton" name="GraphViewZoomOutBut">
-          <property name="text">
-           <string>Zoom Out</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="0" colspan="2">
-         <widget class="QLabel" name="GraphViewDescriptionLabel">
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Description</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="3" colspan="2">
-         <widget class="QPushButton" name="GraphViewEditRelationshipBut">
-          <property name="text">
-           <string>Edit Relationship</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0" colspan="3">
+        <item row="4" column="0" colspan="3">
          <widget class="QLabel" name="GraphViewIntervalLabel">
           <property name="font">
            <font>
@@ -1619,7 +1558,7 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="0" rowspan="2" colspan="3">
+        <item row="7" column="0" rowspan="2" colspan="3">
          <widget class="QLabel" name="GraphViewVectorLabel">
           <property name="font">
            <font>
@@ -1631,15 +1570,60 @@
           </property>
          </widget>
         </item>
-        <item row="8" column="2" colspan="2">
-         <widget class="QPlainTextEdit" name="GraphViewDescriptionTextBox"/>
-        </item>
-        <item row="1" column="4" rowspan="2">
-         <widget class="QPushButton" name="GraphViewZoomInBut">
+        <item row="6" column="0" colspan="3">
+         <widget class="QLabel" name="GraphViewGraphConfigLabel">
+          <property name="font">
+           <font>
+            <pointsize>18</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>Zoom In</string>
+           <string>Graph Configuration</string>
           </property>
          </widget>
+        </item>
+        <item row="4" column="4" rowspan="2">
+         <widget class="QPushButton" name="GraphViewZoomOutBut">
+          <property name="text">
+           <string>Zoom Out</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1" colspan="2">
+         <widget class="QComboBox" name="GraphViewVectorOptions">
+          <item>
+           <property name="text">
+            <string>Option1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Option 2</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="10" column="0" colspan="2">
+         <widget class="QPushButton" name="GraphViewAddNodeBut">
+          <property name="text">
+           <string>Add Node</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="0" colspan="2">
+         <widget class="QLabel" name="GraphViewDescriptionLabel">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Description</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="5" rowspan="10">
+         <widget class="QGraphicsView" name="GraphViewGraphPlace"/>
         </item>
        </layout>
       </widget>
@@ -1708,14 +1692,14 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>25</number>
-          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>150</number>
           </attribute>
           <attribute name="horizontalHeaderHighlightSections">
            <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>25</number>
           </attribute>
           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
            <bool>true</bool>
@@ -1936,40 +1920,10 @@
         <string>Double View</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0">
-        <item row="6" column="0">
-         <widget class="QLabel" name="DoubleViewVectorLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
+        <item row="5" column="1">
+         <widget class="QPushButton" name="DoubleViewEditRelationshipBut">
           <property name="text">
-           <string>Vector</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3" rowspan="5">
-         <widget class="QLabel" name="label_8">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="sizeIncrement">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/graph/graph.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Edit Relationship</string>
           </property>
          </widget>
         </item>
@@ -1994,13 +1948,6 @@
           </item>
          </widget>
         </item>
-        <item row="5" column="1">
-         <widget class="QPushButton" name="DoubleViewEditRelationshipBut">
-          <property name="text">
-           <string>Edit Relationship</string>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="1">
          <widget class="QPushButton" name="DoubleViewZoomOutBut">
           <property name="text">
@@ -2020,6 +1967,38 @@
           </property>
          </widget>
         </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="DoubleViewVectorLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Vector</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="1">
+         <widget class="QPushButton" name="DoubleViewAddRelationshipBut">
+          <property name="text">
+           <string>Add Relationship</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QPushButton" name="DoubleViewIconConfigBut">
+          <property name="text">
+           <string>Icon Config</string>
+          </property>
+         </widget>
+        </item>
         <item row="8" column="0">
          <widget class="QLabel" name="DoubleViewDescriptionLabel">
           <property name="font">
@@ -2035,17 +2014,40 @@
           </property>
          </widget>
         </item>
-        <item row="10" column="1">
-         <widget class="QPushButton" name="DoubleViewAddRelationshipBut">
+        <item row="5" column="0">
+         <widget class="QLabel" name="GraphConfi">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>50</weight>
+            <italic>true</italic>
+            <bold>false</bold>
+            <kerning>true</kerning>
+           </font>
+          </property>
           <property name="text">
-           <string>Add Relationship</string>
+           <string>Graph Configuration</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
-         <widget class="QPushButton" name="DoubleViewIconConfigBut">
+        <item row="7" column="0">
+         <widget class="QComboBox" name="DoubleViewVectorOptions">
+          <item>
+           <property name="text">
+            <string>Option1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Option 2</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QPushButton" name="DoubleViewEditNodeBut">
           <property name="text">
-           <string>Icon Config</string>
+           <string>Edit node</string>
           </property>
          </widget>
         </item>
@@ -2095,14 +2097,14 @@
           <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>true</bool>
           </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>25</number>
-          </attribute>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>150</number>
           </attribute>
           <attribute name="horizontalHeaderHighlightSections">
            <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>25</number>
           </attribute>
           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
            <bool>true</bool>
@@ -2316,34 +2318,33 @@
           </item>
          </widget>
         </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="GraphConfi">
+        <item row="0" column="0">
+         <widget class="QLabel" name="DoubleViewTimelineLabel">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
-            <weight>50</weight>
-            <italic>true</italic>
-            <bold>false</bold>
-            <kerning>true</kerning>
+            <pointsize>11</pointsize>
            </font>
           </property>
           <property name="text">
-           <string>Graph Configuration</string>
+           <string>TimeLine Orientation</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="0">
-         <widget class="QComboBox" name="DoubleViewVectorOptions">
-          <item>
-           <property name="text">
-            <string>Option1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Option 2</string>
-           </property>
-          </item>
+        <item row="11" column="0">
+         <widget class="QPushButton" name="DoubleViewDeleteNodeBut">
+          <property name="text">
+           <string>Delete Node</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="0">
+         <widget class="QPlainTextEdit" name="DoubleViewDescriptionTextbox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>2</verstretch>
+           </sizepolicy>
+          </property>
          </widget>
         </item>
         <item row="1" column="0">
@@ -2367,13 +2368,6 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
-         <widget class="QPushButton" name="DoubleViewEditNodeBut">
-          <property name="text">
-           <string>Edit node</string>
-          </property>
-         </widget>
-        </item>
         <item row="10" column="0">
          <widget class="QPushButton" name="DoubleViewAddNodeBut">
           <property name="text">
@@ -2381,34 +2375,8 @@
           </property>
          </widget>
         </item>
-        <item row="9" column="0">
-         <widget class="QPlainTextEdit" name="DoubleViewDescriptionTextbox">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>2</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="DoubleViewTimelineLabel">
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>TimeLine Orientation</string>
-          </property>
-         </widget>
-        </item>
-        <item row="11" column="0">
-         <widget class="QPushButton" name="DoubleViewDeleteNodeBut">
-          <property name="text">
-           <string>Delete Node</string>
-          </property>
-         </widget>
+        <item row="0" column="3" rowspan="6">
+         <widget class="QGraphicsView" name="DoubleViewGraphicsPlace"/>
         </item>
        </layout>
       </widget>
