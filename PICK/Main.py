@@ -4,9 +4,9 @@ from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroup
         QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
         QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTabWidget, QTextEdit,
-        QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem,QGraphicsScene, QGraphicsItem)
+        QVBoxLayout, QWidget, QStyle, QDialogButtonBox, QTableWidgetItem,QGraphicsScene, QGraphicsItem, QGraphicsLineItem)
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, QLineF
 
 from GUI_Subsystem.PICK_GUI import Ui_MainWindow
 from GUI_Subsystem.filter import filterPopup
@@ -46,12 +46,20 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.DoubleViewAddNodeBut.clicked.connect(self.addNewNode)
         self.DoubleViewDeleteNodeBut = self.findChild(QtWidgets.QPushButton, "DoubleViewDeleteNodeBut")
         self.DoubleViewDeleteNodeBut.clicked.connect(self.deleteNode)
+        self.GraphViewAddRelationshipBut = self.findChild(QtWidgets.QPushButton, 'GraphViewAddRelationshipBut')
+        self.GraphViewAddRelationshipBut.clicked.connect(self.addRelationship)
+        #EXPORT BUTTONS
+        self.GraphExportPNG = self.findChild(QtWidgets.QAction, "actionPNG_2")                                  #find the export button
+        self.GraphExportPNG.triggered.connect(self.ExportGraphPNG)
+        self.GraphExportJPEG = self.findChild(QtWidgets.QAction, "actionJPEG_2")
+        self.GraphExportJPEG.triggered.connect(self.ExportGraphJPEG)
         
         self.GraphViewGraphImg = self.centWid.findChild(QtWidgets.QGraphicsView, 'GraphViewGraphPlace')          #graphview Tab
         self.DoubleViewGraphImg = self.centWid.findChild(QtWidgets.QGraphicsView, 'DoubleViewGraphicsPlace')    #doubleview Tab
         self.scene  =QGraphicsScene() 
         self.GraphViewGraphImg.setScene(self.scene)
         self.DoubleViewGraphImg.setScene(self.scene)
+
 
         self.createGraph(["Red attack","Blue defend","red attack 2", "blue defend 2"])
 
@@ -123,7 +131,32 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.scene.removeItem(selectedNode[0])
         
+
+    # Add Relationship
+    def addRelationship(self):
+        selectedNode = self.scene.selectedItems()
+        if(len(selectedNode) < 2):
+            print("Not enough nodes selected")
+        elif(len(selectedNode) > 2):
+            print("Too many nodes selected")
+        elif(len(selectedNode) == 2):
+            print(selectedNode[0].pos(), selectedNode[1].pos())
+            qitem = QGraphicsLineItem(QLineF(selectedNode[0].pos(), selectedNode[1].pos()))
+            self.scene.addItem(qitem)
     
+    def ExportGraphJPEG(self):
+       # with open("GraphEXPORTED.png", "wb") as f:
+       #     f.write(self._bytes)
+       
+       pixmap = self.GraphViewGraphImg.grab()
+       pixmap.save("GraphEXPORTED.jpeg")
+    
+    def ExportGraphPNG(self):
+       # with open("GraphEXPORTED.png", "wb") as f:
+       #     f.write(self._bytes)
+       
+       pixmap = self.GraphViewGraphImg.grab()
+       pixmap.save("GraphEXPORTED.png")
 
 app = QtWidgets.QApplication(sys.argv)
 x=0
