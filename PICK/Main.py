@@ -1,7 +1,10 @@
+
 import sys
 import os
+import pydot
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from PyQt5.QtQuick import QQuickView
 from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroupBox, QWidget,QLineEdit,QDialogButtonBox, QLabel, QMainWindow, QAction, qApp, QPushButton, QDialog,QApplication, QCheckBox, QComboBox, QDateTimeEdit,
         QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
         QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
@@ -10,7 +13,6 @@ from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroup
 from PyQt5.QtGui import QIcon,QPixmap
 from PyQt5.QtCore import Qt, pyqtSlot, pyqtSlot, QLineF
 from IPython.display import Image, display
-
 
 from GUI_Subsystem.loading_screen import LoadingScreen
 from GUI_Subsystem.PICK_GUI import Ui_MainWindow
@@ -27,7 +29,10 @@ from DBManager import DBManager
 from Documentation.Vector import Vector
 from Documentation.Log_Entry import Log_Entry
 
-import pydot
+
+def retranslateUi(MainWindow):
+    pass
+
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
@@ -113,6 +118,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         #Initialize Data Structures
         self.vectors = [] #Empty list that will be populated with vectors
+        self.setResizeMode(QQuickView.SizeRootObjectToView)
         self.show()
         #self.teamConfig.showTeamConfig()
 
@@ -420,6 +426,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
        
        pixmap = self.GraphViewGraphImg.grab()
        pixmap.save("GraphEXPORTED.png")
+
+    # Window resizeable
+    def setResizeMode(self, SizeRootObjectToView):
+        pass
+
 
 app = QtWidgets.QApplication(sys.argv)
 x=0
