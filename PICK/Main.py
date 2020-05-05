@@ -1,4 +1,6 @@
 import sys
+import os
+
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtWidgets import (QApplication,QWidget, QFormLayout,QCheckBox, QGroupBox, QWidget,QLineEdit,QDialogButtonBox, QLabel, QMainWindow, QAction, qApp, QPushButton, QDialog,QApplication, QCheckBox, QComboBox, QDateTimeEdit,
         QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
@@ -26,7 +28,6 @@ from Documentation.Vector import Vector
 from Documentation.Log_Entry import Log_Entry
 
 import pydot
-import os
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
@@ -54,7 +55,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.filtButt = self.centWid.findChild(QtWidgets.QPushButton,'LogEntryFilterBut')
         self.filtButt.clicked.connect(self.showFilter)
         self.newButt = self.findChild(QtWidgets.QAction,'actionNew')
-        self.newButt.triggered.connect(self.eventConfig.showEventConfig)
+        self.newButt.triggered.connect(self.teamConfig.showTeamConfig)
         self.openButt = self.findChild(QtWidgets.QAction,'actionOpen')
         self.openButt.triggered.connect(self.showOpenEvent)
         self.graphViewIconButt = self.centWid.findChild(QtWidgets.QPushButton, 'GraphViewIconConfigBut')
@@ -134,7 +135,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             "keywords": "| delete"
         }
         self.splunker.search(indexes,filters)
-        print(filters)
         filters = {
             "startTime":self.eventConfig.endDate,
             "endTime": "+10y",
@@ -208,7 +208,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             "endTime":endTime,
             "keywords":keywords
         }
-        print(index)
         entries = self.splunker.search(index,filters)
         self.populateEntryTable(entries)
 
@@ -333,7 +332,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         for vector in self.vectors:
             if(vector.name == item):
                 vector.addLogEntry(Log_Entry(self.logETable.item(row,0),self.logETable.item(row,1),self.logETable.item(row,2)))
-        print(self.vectors[0].logEntries[0].number)
 
     # Generate Graph
     def createGraph(self, nodeList):
