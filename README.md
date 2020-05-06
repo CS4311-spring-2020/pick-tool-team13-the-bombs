@@ -21,7 +21,8 @@ Programs and libraries needed for the tool:\
 &nbsp;&nbsp;&nbsp;&nbsp;QGraphics\
 &nbsp;&nbsp;&nbsp;&nbsp;SpeechRecognition (Including PocketSphinx and Sphinx Base)\
 &nbsp;&nbsp;&nbsp;&nbsp;Tesseract-OCR\
-&nbsp;&nbsp;&nbsp;&nbsp;pyMongo\
-	
+&nbsp;&nbsp;&nbsp;&nbsp;pyMongo
+
+\
 
 To use the program navigate to the PICK folder, and run the file "Main.py"
