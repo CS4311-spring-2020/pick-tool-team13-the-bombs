@@ -8,14 +8,20 @@ The "Root" Folder contains examples of log files, and contains the structure req
 "PICK" folder contains the current version of the program, divided according to the SDD whereas each folder contains the Classes mentioned\ in the SDD with the exception of the Configuration Subsystem.\
 \
 \
-Programs needed for the APP:\
+Programs and libraries needed for the tool:\
+
+&nbsp;&nbsp;&nbsp;&nbsp;Python3\
+&nbsp;&nbsp;&nbsp;&nbsp;pip (to install libraries)\
 &nbsp;&nbsp;&nbsp;&nbsp;Pyqt5\
+&nbsp;&nbsp;&nbsp;&nbsp;ftfy\
+&nbsp;&nbsp;&nbsp;&nbsp;unidecode\
 &nbsp;&nbsp;&nbsp;&nbsp;Splunk\
 &nbsp;&nbsp;&nbsp;&nbsp;Mongodb\
 &nbsp;&nbsp;&nbsp;&nbsp;GraphViz\
 &nbsp;&nbsp;&nbsp;&nbsp;QGraphics\
 &nbsp;&nbsp;&nbsp;&nbsp;SpeechRecognition (Including PocketSphinx and Sphinx Base)\
 &nbsp;&nbsp;&nbsp;&nbsp;Tesseract-OCR\
+&nbsp;&nbsp;&nbsp;&nbsp;pyMongo\
 	
 \
 \
