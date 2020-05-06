@@ -9,4 +9,11 @@ PICK GUI contains graphic things such as pictures or files to open in the Qt Des
 PICK Logic contains GUI files converted to Python Files and logic files, the GUI Files SHALL NOT be modified.
 Splunk folder contains files for implementing splunk
 
+Programs needed for the APP:
+	Pyqt5
+	Splunk
+	Mongodb
+	GraphViz
+	QGraphics
+	
 
