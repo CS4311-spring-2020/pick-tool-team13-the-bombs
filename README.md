@@ -8,7 +8,7 @@ The "Root" Folder contains examples of log files, and contains the structure req
 "PICK" folder contains the current version of the program, divided according to the SDD whereas each folder contains the Classes mentioned\ in the SDD with the exception of the Configuration Subsystem.\
 \
 \
-Programs and libraries needed for the tool:\
+Programs and libraries needed for the tool:
 
 &nbsp;&nbsp;&nbsp;&nbsp;Python3\
 &nbsp;&nbsp;&nbsp;&nbsp;pip (to install libraries)\
@@ -23,6 +23,6 @@ Programs and libraries needed for the tool:\
 &nbsp;&nbsp;&nbsp;&nbsp;Tesseract-OCR\
 &nbsp;&nbsp;&nbsp;&nbsp;pyMongo
 
-\
+
 
 To use the program navigate to the PICK folder, and run the file "Main.py"
