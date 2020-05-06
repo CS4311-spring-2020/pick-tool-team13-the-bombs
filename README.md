@@ -23,7 +23,5 @@ Programs and libraries needed for the tool:\
 &nbsp;&nbsp;&nbsp;&nbsp;Tesseract-OCR\
 &nbsp;&nbsp;&nbsp;&nbsp;pyMongo\
 	
-\
-\
 
 To use the program navigate to the PICK folder, and run the file "Main.py"
