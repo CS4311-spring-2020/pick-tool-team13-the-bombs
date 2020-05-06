@@ -9,7 +9,7 @@ The "Root" Folder contains examples of log files, and contains the structure req
 
 
 Programs needed for the APP:
-	Pyqt5\n
+	Pyqt5
 	Splunk
 	Mongodb
 	GraphViz
