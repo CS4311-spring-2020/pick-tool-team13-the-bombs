@@ -11,7 +11,7 @@ The "Root" Folder contains examples of log files, and contains the structure req
 Programs and libraries needed for the tool:
 
 &nbsp;&nbsp;&nbsp;&nbsp;Python3\
-&nbsp;&nbsp;&nbsp;&nbsp;pip (to install libraries)\
+&nbsp;&nbsp;&nbsp;&nbsp;pip3 (to install libraries)\
 &nbsp;&nbsp;&nbsp;&nbsp;Pyqt5\
 &nbsp;&nbsp;&nbsp;&nbsp;ftfy\
 &nbsp;&nbsp;&nbsp;&nbsp;unidecode\
