@@ -28,7 +28,7 @@ from Data_Processing.Enforcement_Action_Report import Enforcement
 from DBManager import DBManager
 from Documentation.Vector import Vector
 from Documentation.Log_Entry import Log_Entry
-
+from Visual.Real_Time_Actualization.Graph import Graph
 
 def retranslateUi(MainWindow):
     pass
@@ -39,7 +39,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, obj=None, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
+
+        #Central widget
+        self.centWid = self.findChild(QtWidgets.QWidget,'centralwidget')
         
+        #Graph Instance and necessary variables
+        self.GraphViewGraphImg = self.centWid.findChild(QtWidgets.QGraphicsView, 'GraphViewGraphPlace')          #graphview Tab
+        self.DoubleViewGraphImg = self.centWid.findChild(QtWidgets.QGraphicsView, 'DoubleViewGraphicsPlace')    #doubleview Tab
+        self.graph = Graph(self.GraphViewGraphImg,self.DoubleViewGraphImg)
+
         #Declare filter popup and set buttons
         self.filters = filterPopup()
         self.filters.buttonBox.accepted.connect(self.filterEntries)
@@ -56,7 +64,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.teamConfig = Team_config(self.eventConfig)
 
         #Configure Main Buttons
-        self.centWid = self.findChild(QtWidgets.QWidget,'centralwidget')
+
         self.filtButt = self.centWid.findChild(QtWidgets.QPushButton,'LogEntryFilterBut')
         self.filtButt.clicked.connect(self.showFilter)
         self.newButt = self.findChild(QtWidgets.QAction,'actionNew')
@@ -92,29 +100,25 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #Connect open button
         #self.openEvent.findChild(QtWidgets.QPushButton, "OpenEvent").clicked.connect(self.openListEvent)
         self.GraphViewAddNodeBut = self.findChild(QtWidgets.QPushButton, "GraphViewAddNodeBut")
-        self.GraphViewAddNodeBut.clicked.connect(self.addNewNode)
+        self.GraphViewAddNodeBut.clicked.connect(self.graph.addNewNode)
         self.GraphViewDeleteNodeBut = self.findChild(QtWidgets.QPushButton, "GraphViewDeleteNodeBut")
-        self.GraphViewDeleteNodeBut.clicked.connect(self.deleteNode)
+        self.GraphViewDeleteNodeBut.clicked.connect(self.graph.deleteNode)
         self.DoubleViewAddNodeBut = self.findChild(QtWidgets.QPushButton, "DoubleViewAddNodeBut")
-        self.DoubleViewAddNodeBut.clicked.connect(self.addNewNode)
+        self.DoubleViewAddNodeBut.clicked.connect(self.graph.addNewNode)
         self.DoubleViewDeleteNodeBut = self.findChild(QtWidgets.QPushButton, "DoubleViewDeleteNodeBut")
-        self.DoubleViewDeleteNodeBut.clicked.connect(self.deleteNode)
+        self.DoubleViewDeleteNodeBut.clicked.connect(self.graph.deleteNode)
         self.GraphViewAddRelationshipBut = self.findChild(QtWidgets.QPushButton, 'GraphViewAddRelationshipBut')
-        self.GraphViewAddRelationshipBut.clicked.connect(self.addRelationship)
+        self.GraphViewAddRelationshipBut.clicked.connect(self.graph.addRelationship)
         #EXPORT BUTTONS
         self.GraphExportPNG = self.findChild(QtWidgets.QAction, "actionPNG_2")                                  #find the export button
-        self.GraphExportPNG.triggered.connect(self.ExportGraphPNG)
+        self.GraphExportPNG.triggered.connect(self.graph.ExportGraphPNG)
         self.GraphExportJPEG = self.findChild(QtWidgets.QAction, "actionJPEG_2")
-        self.GraphExportJPEG.triggered.connect(self.ExportGraphJPEG)
+        self.GraphExportJPEG.triggered.connect(self.graph.ExportGraphJPEG)
         
-        self.GraphViewGraphImg = self.centWid.findChild(QtWidgets.QGraphicsView, 'GraphViewGraphPlace')          #graphview Tab
-        self.DoubleViewGraphImg = self.centWid.findChild(QtWidgets.QGraphicsView, 'DoubleViewGraphicsPlace')    #doubleview Tab
-        self.scene  =QGraphicsScene() 
-        self.GraphViewGraphImg.setScene(self.scene)
-        self.DoubleViewGraphImg.setScene(self.scene)
 
 
-        self.createGraph(["Red attack","Blue defend","red attack 2", "blue defend 2"])
+
+        self.graph.createGraph(["Red attack","Blue defend","red attack 2", "blue defend 2"])
 
         #Initialize Data Structures
         self.vectors = [] #Empty list that will be populated with vectors
@@ -347,85 +351,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             if(vector.name == item):
                 vector.addLogEntry(Log_Entry(self.logETable.item(row,0),self.logETable.item(row,1),self.logETable.item(row,2)))
 
-    # Generate Graph
-    def createGraph(self, nodeList):
-        for i in range(len(nodeList)): 
-            self.createGraphHelper(nodeList[i])
-
-    def createGraphHelper(self, nodeItem):
-        G = pydot.Dot(graph_type="digraph")
-        node = pydot.Node(nodeItem)
-        G.add_node(node)
-        
-        _bytes = G.create(format='png')
-        image = QPixmap()
-        
-        image.loadFromData(_bytes)
-        
-        node1 = self.scene.addPixmap(image)
-        node1.setFlag(QGraphicsItem.ItemIsMovable)
-        node1.setFlag(QGraphicsItem.ItemIsSelectable)
-
-
-        im = Image(G.create_png())
-        #display(im)
-        
-    # Add New Node to graph
-    def addNewNode(self):
-        global x 
-        x += 1
-
-        G = pydot.Dot(graph_type="digraph")
-        node = pydot.Node("Node #" + str(x))
-        G.add_node(node)
-        
-        _bytes = G.create(format='png')
-        image = QPixmap()
-        
-        image.loadFromData(_bytes)
-        
-        node1 = self.scene.addPixmap(image)
-        node1.setFlag(QGraphicsItem.ItemIsMovable)
-        node1.setFlag(QGraphicsItem.ItemIsSelectable)
-
-
-        im = Image(G.create_png())
-        #display(im)
-
-    # Delete Node from Graph
-    def deleteNode(self):
-        selectedNode = self.scene.selectedItems()
-        if(len(selectedNode) == 0):
-            print("Nothing selected")  
-        else:
-            self.scene.removeItem(selectedNode[0])
-        
-
-    # Add Relationship
-    def addRelationship(self):
-        selectedNode = self.scene.selectedItems()
-        if(len(selectedNode) < 2):
-            print("Not enough nodes selected")
-        elif(len(selectedNode) > 2):
-            print("Too many nodes selected")
-        elif(len(selectedNode) == 2):
-            print(selectedNode[0].pos(), selectedNode[1].pos())
-            qitem = QGraphicsLineItem(QLineF(selectedNode[0].pos(), selectedNode[1].pos()))
-            self.scene.addItem(qitem)
-    
-    def ExportGraphJPEG(self):
-       # with open("GraphEXPORTED.png", "wb") as f:
-       #     f.write(self._bytes)
-       
-       pixmap = self.GraphViewGraphImg.grab()
-       pixmap.save("GraphEXPORTED.jpeg")
-    
-    def ExportGraphPNG(self):
-       # with open("GraphEXPORTED.png", "wb") as f:
-       #     f.write(self._bytes)
-       
-       pixmap = self.GraphViewGraphImg.grab()
-       pixmap.save("GraphEXPORTED.png")
 
     # Window resizeable
     def setResizeMode(self, SizeRootObjectToView):
